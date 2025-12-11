@@ -1,0 +1,12 @@
+{
+  "name": "guest-in-touch-tests",
+  "version": "1.0.0",
+  "description": "Playwright tests for Guest in Touch app",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}
