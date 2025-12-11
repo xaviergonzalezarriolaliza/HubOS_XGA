@@ -1,5 +1,19 @@
 # Guest In Touch QA Tests
 
+
+## Supported Browsers & Devices
+
+Tests are automatically run on the following browsers and devices:
+
+- Chromium (Desktop Chrome)
+- Firefox (Desktop Firefox)
+- WebKit (Desktop Safari)
+- Edge (Microsoft Edge)
+- Pixel 5 (Android emulation)
+- Galaxy S9+ (Android emulation)
+- iPhone 12 (Apple iPhone emulation)
+- iPhone SE (Apple iPhone emulation)
+
 ## Running Tests
 
 To run all Playwright tests:
