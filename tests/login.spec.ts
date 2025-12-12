@@ -23,10 +23,10 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should login with correct room and surname (B)', async ({ page }) => {
-    await page.getByPlaceholder('Introduzca su habitación').fill('0440');
-    await page.getByPlaceholder('Introduzca su apellido').fill('Willem Dafoe');
-    await page.getByText('Acceder').click();
-    await expect(page.getByPlaceholder('Introduzca su habitación')).toBeHidden();
+    await page.locator('#guest_room').fill('0440');
+    await page.locator('#guest_name').fill('Willem Dafoe');
+    await page.locator('#btn_login').click();
+    await expect(page.locator('#guest_room')).toBeHidden();
   });
 
   test('should login with room number without leading zero (A)', async ({ page }) => {
@@ -37,10 +37,10 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should login with room number without leading zero (B)', async ({ page }) => {
-    await page.getByPlaceholder('Introduzca su habitación').fill('440');
-    await page.getByPlaceholder('Introduzca su apellido').fill('Willem Dafoe');
-    await page.getByText('Acceder').click();
-    await expect(page.getByPlaceholder('Introduzca su habitación')).toBeHidden();
+    await page.locator('#guest_room').fill('440');
+    await page.locator('#guest_name').fill('Willem Dafoe');
+    await page.locator('#btn_login').click();
+    await expect(page.locator('#guest_room')).toBeHidden();
   });
 
   test('should not login with incorrect room number (A)', async ({ page }) => {
@@ -51,9 +51,9 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should not login with incorrect room number (B)', async ({ page }) => {
-    await page.getByPlaceholder('Introduzca su habitación').fill('9999');
-    await page.getByPlaceholder('Introduzca su apellido').fill('Willem Dafoe');
-    await page.getByText('Acceder').click();
+    await page.locator('#guest_room').fill('9999');
+    await page.locator('#guest_name').fill('Willem Dafoe');
+    await page.locator('#btn_login').click();
     // Add assertion for error message if available
   });
 
@@ -65,9 +65,9 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should not login with incorrect surname (B)', async ({ page }) => {
-    await page.getByPlaceholder('Introduzca su habitación').fill('0440');
-    await page.getByPlaceholder('Introduzca su apellido').fill('Wrong Name');
-    await page.getByText('Acceder').click();
+    await page.locator('#guest_room').fill('0440');
+    await page.locator('#guest_name').fill('Wrong Name');
+    await page.locator('#btn_login').click();
     // Add assertion for error message if available
   });
 
@@ -77,7 +77,7 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should show error for empty fields (B)', async ({ page }) => {
-    await page.getByText('Acceder').click();
+    await page.locator('#btn_login').click();
     // Add assertion for error message if available
   });
 
@@ -89,9 +89,9 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should show error for special characters in room (B)', async ({ page }) => {
-    await page.getByPlaceholder('Introduzca su habitación').fill('@#!');
-    await page.getByPlaceholder('Introduzca su apellido').fill('Willem Dafoe');
-    await page.getByText('Acceder').click();
+    await page.locator('#guest_room').fill('@#!');
+    await page.locator('#guest_name').fill('Willem Dafoe');
+    await page.locator('#btn_login').click();
     // Add assertion for error message if available
   });
 
@@ -103,9 +103,9 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should show error for special characters in surname (B)', async ({ page }) => {
-    await page.getByPlaceholder('Introduzca su habitación').fill('0440');
-    await page.getByPlaceholder('Introduzca su apellido').fill('D@foe');
-    await page.getByText('Acceder').click();
+    await page.locator('#guest_room').fill('0440');
+    await page.locator('#guest_name').fill('D@foe');
+    await page.locator('#btn_login').click();
     // Add assertion for error message if available
   });
 
@@ -117,9 +117,9 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should show error for very long room number (B)', async ({ page }) => {
-    await page.getByPlaceholder('Introduzca su habitación').fill('0'.repeat(50));
-    await page.getByPlaceholder('Introduzca su apellido').fill('Willem Dafoe');
-    await page.getByText('Acceder').click();
+    await page.locator('#guest_room').fill('0'.repeat(50));
+    await page.locator('#guest_name').fill('Willem Dafoe');
+    await page.locator('#btn_login').click();
     // Add assertion for error message if available
   });
 
@@ -131,9 +131,9 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should show error for very long surname (B)', async ({ page }) => {
-    await page.getByPlaceholder('Introduzca su habitación').fill('0440');
-    await page.getByPlaceholder('Introduzca su apellido').fill('Willem Dafoe'.repeat(10));
-    await page.getByText('Acceder').click();
+    await page.locator('#guest_room').fill('0440');
+    await page.locator('#guest_name').fill('Willem Dafoe'.repeat(10));
+    await page.locator('#btn_login').click();
     // Add assertion for error message if available
   });
 
@@ -145,9 +145,9 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should show error for whitespace in room and surname (B)', async ({ page }) => {
-    await page.getByPlaceholder('Introduzca su habitación').fill(' 0440 ');
-    await page.getByPlaceholder('Introduzca su apellido').fill(' Willem Dafoe ');
-    await page.getByText('Acceder').click();
+    await page.locator('#guest_room').fill(' 0440 ');
+    await page.locator('#guest_name').fill(' Willem Dafoe ');
+    await page.locator('#btn_login').click();
     // Add assertion for error message if available
   });
 
@@ -158,8 +158,8 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should show error when only room is filled (B)', async ({ page }) => {
-    await page.getByPlaceholder('Introduzca su habitación').fill('0440');
-    await page.getByText('Acceder').click();
+    await page.locator('#guest_room').fill('0440');
+    await page.locator('#btn_login').click();
     // Add assertion for error message if available
   });
 
@@ -169,8 +169,8 @@ test.describe('Guest in Touch Login', () => {
     await expect(page).toHaveURL(url);
   });
   test('should show error when only surname is filled (B)', async ({ page }) => {
-    await page.getByPlaceholder('Introduzca su apellido').fill('Willem Dafoe');
-    await page.getByText('Acceder').click();
+    await page.locator('#guest_name').fill('Willem Dafoe');
+    await page.locator('#btn_login').click();
     // Add assertion for error message if available
   });
 });
