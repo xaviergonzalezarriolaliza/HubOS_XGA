@@ -1,4 +1,6 @@
+
 import { test, expect } from '@playwright/test';
+import { LoginPage } from './pages/LoginPage';
 
 const url = 'https://dev.hub-buildings.com/guest/index/login/eyJpZF9idWlsZGluZyI6IjgiLCJndWVzdF9uYW1lIjoiIiwiZ3Vlc3Rfcm9vbSI6IiIsImlkX2xhbmciOiIxIiwibGFuZ3VhZ2UiOiJFUyIsImdpdF9oZWFkZXJfaW1hZ2UiOiJodHRwczovL2Rldi5odWItYnVpbGRpbmdzLmNvbS9maWxlcy9ocHMvYnVpbGRpbmc4L2ltYWdlcy84XzIwMjIxMjAxMTAxMTAzXzYzODg3ZGI3ZWIwODMuanBlZyJ9';
 
@@ -12,13 +14,13 @@ test.describe('Guest in Touch Login', () => {
   // Try several selectors for room and surname fields
   // Go to login page before each test
   test.beforeEach(async ({ page }) => {
-    await page.goto(url);
+    const loginPage = new LoginPage(page);
+    await loginPage.goto(url);
   });
 
   test('should login with correct room and surname (A)', async ({ page }) => {
-    await page.locator('#guest_room').fill('0440');
-    await page.locator('#guest_name').fill('Willem Dafoe');
-    await page.locator('#btn_login').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginWithRoomAndName('0440', 'Willem Dafoe');
     await expect(page).not.toHaveURL(url);
     await expect(page.locator('body')).toContainText('0440');
     await expect(page.locator('body')).toContainText('Willem Dafoe');
@@ -27,24 +29,18 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should login with correct room and surname (B)', async ({ page }) => {
-    const inputs = page.locator('.fandb-form-control-login');
-    await inputs.nth(0).fill('0440');
-    await inputs.nth(1).fill('Willem Dafoe');
-    await page.locator('.btn-login').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginWithFandbInputs('0440', 'Willem Dafoe');
     await expect(page).not.toHaveURL(url);
-    // Assert room number is present in the form
-    await expect(page.locator('.fandb-form')).toContainText('0440');
-    // Assert guest name is present in the form
-    await expect(page.locator('.fandb-form')).toContainText('Willem Dafoe');
-    // Assert hotel name is present in the first .hotel-name heading
-    await expect(page.locator('.hotel-name').first()).toContainText('Hotel Demo Hub');
+    await expect(loginPage.fandbForm).toContainText('0440');
+    await expect(loginPage.fandbForm).toContainText('Willem Dafoe');
+    await expect(loginPage.hotelName).toContainText('Hotel Demo Hub');
     // Do not check .notyf-announcer visibility; it is always visible even on success
   });
 
   test('should login with room number without leading zero (A)', async ({ page }) => {
-    await page.locator('#guest_room').fill('440');
-    await page.locator('#guest_name').fill('Willem Dafoe');
-    await page.locator('#btn_login').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginWithRoomAndName('440', 'Willem Dafoe');
     await expect(page).not.toHaveURL(url);
     await expect(page.locator('body')).toContainText('440');
     await expect(page.locator('body')).toContainText('Willem Dafoe');
@@ -53,30 +49,26 @@ test.describe('Guest in Touch Login', () => {
   });
 
   test('should login with room number without leading zero (B)', async ({ page }) => {
-    const inputs = page.locator('.fandb-form-control-login');
-    await inputs.nth(0).fill('440');
-    await inputs.nth(1).fill('Willem Dafoe');
-    await page.locator('.btn-login').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginWithFandbInputs('440', 'Willem Dafoe');
     await expect(page).not.toHaveURL(url);
-    await expect(page.locator('.fandb-form')).toContainText('440');
-    await expect(page.locator('.fandb-form')).toContainText('Willem Dafoe');
-    await expect(page.locator('.hotel-name').first()).toContainText('Hotel Demo Hub');
+    await expect(loginPage.fandbForm).toContainText('440');
+    await expect(loginPage.fandbForm).toContainText('Willem Dafoe');
+    await expect(loginPage.hotelName).toContainText('Hotel Demo Hub');
     // Do not check .notyf-announcer visibility; it is always visible even on success
   });
 
   test('should not login with incorrect room number (A)', async ({ page }) => {
-    await page.locator('#guest_room').fill('9999');
-    await page.locator('#guest_name').fill('Willem Dafoe');
-    await page.locator('#btn_login').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginWithRoomAndName('9999', 'Willem Dafoe');
     await expect(page).toHaveURL(url);
   });
 
   test('should not login with incorrect room number (B)', async ({ page }) => {
-    await page.locator('#guest_room').fill('9999');
-    await page.locator('#guest_name').fill('Willem Dafoe');
-    await page.locator('#btn_login').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginWithRoomAndName('9999', 'Willem Dafoe');
     // Expect error
-    await expect(page.locator('.notyf-announcer')).toContainText(/no.*res.*:/i);
+    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test('should not login with incorrect surname (A)', async ({ page }) => {

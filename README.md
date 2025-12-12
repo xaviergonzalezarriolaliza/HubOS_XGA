@@ -1,3 +1,17 @@
+# Page Object Model (POM) Refactor (2025-12-12)
+
+The test suite has been refactored to use the Page Object Model (POM) design pattern. All login actions and selectors are now encapsulated in a `LoginPage` class (`tests/pages/LoginPage.ts`), and test cases use this page object for interactions. This improves maintainability, readability, and scalability of the test code.
+
+All Playwright login tests passed successfully after this refactor, confirming the new structure is robust and reliable.
+
+**Latest POM-based test run:**
+
+216 tests passed on all browsers/devices (2025-12-12, 21:40 UTC)
+
+To view the detailed HTML report for this run, open:
+
+playwright-report/report_2025-12-12_21-40-52/index.html
+
 ### Test Results Table (Compact)
 
 | Test Name                                                        | Chromium | Firefox | WebKit | Edge | Pixel 5 | Galaxy S9+ | iPhone 12 | iPhone SE |
