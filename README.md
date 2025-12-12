@@ -1,3 +1,11 @@
+# Selector Strategy Variants (A/B Tests)
+
+For each login scenario, there are A and B test variants:
+- **A variants** use id-based selectors (e.g., `#guest_room`, `#guest_name`, `#btn_login`).
+- **B variants** use class-based selectors (e.g., `.fandb-form-control-login`, `.btn-login`).
+
+This dual approach ensures that both selector strategies are robust and reliable across all supported browsers and devices. It helps catch UI or selector regressions early, and future-proofs the test suite in case the application changes its form layout or selector strategy. Keeping both variants is intentional for maximum coverage and confidence.
+
 # Page Object Model (POM) Refactor (2025-12-12)
 
 The test suite has been refactored to use the Page Object Model (POM) design pattern. All login actions and selectors are now encapsulated in a `LoginPage` class (`tests/pages/LoginPage.ts`), and test cases use this page object for interactions. This improves maintainability, readability, and scalability of the test code.
