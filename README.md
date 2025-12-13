@@ -1,3 +1,56 @@
+# HubOS_XGA Playwright Test Suite
+
+## Overview
+This repository contains end-to-end Playwright tests for the HubOS Guest in Touch login functionality. The tests are designed to ensure robust coverage of all login scenarios, including A/B UI variants, edge cases, and error handling.
+
+## What and Why We Are Testing
+- **Login with correct room number and surname**: Verifies successful login for valid credentials.
+- **Login with room number without leading zero**: Ensures the system handles room numbers with or without leading zeros.
+- **Login with incorrect room number or surname**: Confirms that invalid credentials are rejected and appropriate error messages are shown.
+- **Login with empty fields**: Checks that required fields are enforced.
+- **Special characters, long input, and whitespace**: Validates input sanitization and error handling for edge cases.
+- **A/B Coverage**: Each scenario is tested using both the standard and F&B (Food & Beverage) login forms to ensure UI consistency and functional parity.
+
+## Last Test Run Summary
+- **Date**: December 13, 2025
+- **Branch**: main
+- **Command**: `npx playwright test`
+- **Result**: All 224 tests passed successfully.
+- **Reports**: Playwright HTML reports are generated in the `playwright-report/` directory. To view the latest report, run:
+  ```
+  npx playwright show-report
+  ```
+
+## Repository Location
+- **GitHub**: https://github.com/xaviergonzalezarriolaliza/HubOS_XGA
+
+## Getting Started
+1. **Clone the repository:**
+	```
+	git clone https://github.com/xaviergonzalezarriolaliza/HubOS_XGA.git
+	cd HubOS_XGA
+	```
+2. **Install dependencies:**
+	```
+	npm install
+	```
+3. **Run the tests:**
+	```
+	npx playwright test
+	```
+4. **View the test report:**
+	```
+	npx playwright show-report
+	```
+	The HTML report will open in your browser. You can also find historical reports in the `playwright-report/` directory.
+
+## Notes
+- The test suite uses the Page Object Model for maintainability and clarity.
+- Assertion comments are included only on the first assertion in each test for readability.
+- All tests are designed to be idempotent and cover both positive and negative login scenarios.
+
+---
+For any questions or contributions, please open an issue or pull request on the repository.
 # Latest Test Suite Update (2025-12-13)
 
 ## Summary of Recent Changes
