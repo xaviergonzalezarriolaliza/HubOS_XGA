@@ -238,6 +238,20 @@ npx playwright test --headed
 
 HTML reports are saved automatically in the `playwright-report` folder with a date-hour subfolder for each run.
 
+
+# Continuous Integration (CI) with GitHub Actions
+
+This repository uses [GitHub Actions](https://github.com/features/actions) to automatically run all Playwright tests on every push to any branch. The workflow is defined in [.github/workflows/playwright.yml](.github/workflows/playwright.yml).
+
+**What the workflow does:**
+- Checks out the repository code
+- Sets up Node.js 20.x
+- Installs dependencies and Playwright browsers
+- Runs all Playwright tests
+- Uploads the Playwright HTML report as a workflow artifact
+
+You can view the status of recent test runs in the **Actions** tab of the GitHub repository.
+
 ## Project Structure
 - `tests/` — Contains all test cases
 - `playwright.config.ts` — Playwright configuration
