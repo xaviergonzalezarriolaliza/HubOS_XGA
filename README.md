@@ -44,6 +44,11 @@ This repository contains end-to-end Playwright tests for the HubOS Guest in Touc
 	```
 	The HTML report will open in your browser. You can also find historical reports in the `playwright-report/` directory.
 
+
+## Security Note
+
+**Warning:** It is currently possible to log in with either room number `440` or `0440` by entering only part of the guest's name (e.g., just `Will` or `Daf` instead of the full name `Willem Dafoe`). This is not desired behavior and is a proof of a significant security risk and potential data breach, as unauthorized users could gain access with incomplete credentials. Please review and address this vulnerability as a priority.
+
 ## Notes
 - The test suite uses the Page Object Model for maintainability and clarity.
 - Assertion comments are included only on the first assertion in each test for readability.

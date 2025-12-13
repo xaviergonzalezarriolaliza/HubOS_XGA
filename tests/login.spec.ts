@@ -20,9 +20,9 @@ test.describe('Guest in Touch Login', () => {
   test('should login with correct room and surname (A)', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName('0440', 'Willem Dafoe');
-    await expect(page.locator('body')).toContainText('0440');                                 // assertions
-    await expect(page.locator('body')).toContainText('Willem Dafoe');
-    await expect(page.locator('body')).toContainText('Hotel Demo Hub');
+    await expect(loginPage.fandbForm).toContainText('0440');
+    await expect(loginPage.fandbForm).toContainText('Willem Dafoe');
+    await expect(loginPage.hotelName).toContainText('Hotel Demo Hub');
   });
 
   test('should login with correct room and surname (B)', async ({ page }) => {
@@ -47,9 +47,9 @@ test.describe('Guest in Touch Login', () => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithFandbInputs('440', 'Willem Dafoe');
     await expect(page).not.toHaveURL(url);                                                    // assertions
-    await expect(page.locator('.fandb-form')).toContainText('440');
-    await expect(page.locator('.fandb-form')).toContainText('Willem Dafoe');
-    await expect(page.locator('.hotel-name').first()).toContainText('Hotel Demo Hub');
+    await expect(loginPage.fandbForm).toContainText('440');
+    await expect(loginPage.fandbForm).toContainText('Willem Dafoe');
+    await expect(loginPage.hotelName).toContainText('Hotel Demo Hub');
   });
 
   test('should not login with incorrect room number (A)', async ({ page }) => {
@@ -221,4 +221,25 @@ test.describe('Guest in Touch Login', () => {
     await expect(loginPage.notyfAnnouncer).toContainText('Willem Dafoe'); // assertion
     await expect(loginPage.notyfAnnouncer).toContainText('00440');        // assertion 
   });
+
+  
+  // --- SECURITY PROOF TESTS
+test('should (not) allow login with partial name for room 440 (security proof)', async ({ page }) => {
+  // SECURITY PROOF: This test demonstrates that partial name login is currently possible, but it should NOT be allowed.
+  // If this test fails in the future, it means the vulnerability has been fixed (which is correct).
+  const loginPage = new LoginPage(page);
+  await loginPage.loginWithRoomAndName('440', 'Will');
+  await expect(loginPage.fandbForm).toContainText('440');
+  await expect(loginPage.fandbForm).toContainText('Willem Dafoe');
+});
+
+test('should (not) allow login with partial name for room 0440 (security proof)', async ({ page }) => {
+  // SECURITY PROOF: This test demonstrates that partial name login is currently possible, but it should NOT be allowed.
+  // If this test fails in the future, it means the vulnerability has been fixed (which is correct).
+  const loginPage = new LoginPage(page);
+  await loginPage.loginWithRoomAndName('0440', 'Daf');
+  await expect(loginPage.fandbForm).toContainText('0440');
+  await expect(loginPage.fandbForm).toContainText('Willem Dafoe');
+});
+
 });
