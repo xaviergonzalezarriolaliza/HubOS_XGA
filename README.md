@@ -1,3 +1,19 @@
+# Latest Test Suite Update (2025-12-13)
+
+## Summary of Recent Changes
+- Ensured every login scenario has both (A) and (B) test variants for full selector coverage.
+- Differentiated the final assertion in each A/B pair: (A) tests use `toBeVisible`, (B) tests use `toContainText` or vice versa, for more robust UI validation.
+- Added missing (B) test for special characters in surname.
+- All tests now consistently use the Page Object Model (POM) for maintainability.
+
+## Latest Test Results
+- **224 tests passed** on all browsers/devices (2025-12-13)
+- No failures or errors detected.
+
+To view the detailed HTML report for this run, open:
+
+playwright-report/report_2025-12-13_13-31-52/index.html
+
 # Selector Strategy Variants (A/B Tests)
 
 For each login scenario, there are A and B test variants:

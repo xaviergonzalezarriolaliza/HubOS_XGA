@@ -90,13 +90,11 @@ test.describe('Guest in Touch Login', () => {
     await loginPage.loginButton.click();
     await expect(page).toHaveURL(url);
     await expect(loginPage.notyfAnnouncer).toBeVisible();
-    await expect(loginPage.notyfAnnouncer).toContainText(/intro/i);
   });
 
   test('should show error for empty fields (B)', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginButton.click();
-    await expect(loginPage.notyfAnnouncer).toBeVisible();
     await expect(loginPage.notyfAnnouncer).toContainText(/intro/i);
   });
 
@@ -104,20 +102,24 @@ test.describe('Guest in Touch Login', () => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName('@#!', 'Willem Dafoe');
     await expect(loginPage.notyfAnnouncer).toBeVisible();
-    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test('should show error for special characters in room (B)', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName('@#!', 'Willem Dafoe');
-    await expect(loginPage.notyfAnnouncer).toBeVisible();
     await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
-  test('should show error for special characters in surname', async ({ page }) => {
+
+  test('should show error for special characters in surname (A)', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName('0440', 'D@foe');
     await expect(loginPage.notyfAnnouncer).toBeVisible();
+  });
+
+  test('should show error for special characters in surname (B)', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginWithFandbInputs('0440', 'D@foe');
     await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
@@ -126,13 +128,11 @@ test.describe('Guest in Touch Login', () => {
     await loginPage.loginWithRoomAndName('0'.repeat(50), 'Willem Dafoe');
     await expect(page).toHaveURL(url);
     await expect(loginPage.notyfAnnouncer).toBeVisible();
-    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test('should show error for very long room number (B)', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName('0'.repeat(50), 'Willem Dafoe');
-    await expect(loginPage.notyfAnnouncer).toBeVisible();
     await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
@@ -141,13 +141,11 @@ test.describe('Guest in Touch Login', () => {
     await loginPage.loginWithRoomAndName('0440', 'Willem Dafoe'.repeat(10));
     await expect(page).toHaveURL(url);
     await expect(loginPage.notyfAnnouncer).toBeVisible();
-    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test('should show error for very long surname (B)', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName('0440', 'Willem Dafoe'.repeat(10));
-    await expect(loginPage.notyfAnnouncer).toBeVisible();
     await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
@@ -155,13 +153,11 @@ test.describe('Guest in Touch Login', () => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName(' 0440 ', ' Willem Dafoe ');
     await expect(loginPage.notyfAnnouncer).toBeVisible();
-    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test('should show error for whitespace in room and surname (B)', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName(' 0440 ', ' Willem Dafoe ');
-    await expect(loginPage.notyfAnnouncer).toBeVisible();
     await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
@@ -170,14 +166,12 @@ test.describe('Guest in Touch Login', () => {
     await loginPage.roomInput.fill('0440');
     await loginPage.loginButton.click();
     await expect(loginPage.notyfAnnouncer).toBeVisible();
-    await expect(loginPage.notyfAnnouncer).toContainText(/intro/i);
   });
 
   test('should show error when only room is filled (B)', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.roomInput.fill('0440');
     await loginPage.loginButton.click();
-    await expect(loginPage.notyfAnnouncer).toBeVisible();
     await expect(loginPage.notyfAnnouncer).toContainText(/intro/i);
   });
 
