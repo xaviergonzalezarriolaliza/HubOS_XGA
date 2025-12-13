@@ -23,7 +23,6 @@ test.describe('Guest in Touch Login', () => {
     await expect(page.locator('body')).toContainText('0440');
     await expect(page.locator('body')).toContainText('Willem Dafoe');
     await expect(page.locator('body')).toContainText('Hotel Demo Hub');
-    // Do not check .notyf-announcer visibility; it is always visible even on success
   });
 
   test('should login with correct room and surname (B)', async ({ page }) => {
@@ -49,7 +48,6 @@ test.describe('Guest in Touch Login', () => {
     await expect(page.locator('body')).toContainText('440');
     await expect(page.locator('body')).toContainText('Willem Dafoe');
     await expect(page.locator('body')).toContainText('Hotel Demo Hub');
-    // Do not check .notyf-announcer visibility; it is always visible even on success
   });
 
   test('should login with room number without leading zero (B)', async ({ page }) => {
@@ -61,14 +59,13 @@ test.describe('Guest in Touch Login', () => {
     await expect(page.locator('.fandb-form')).toContainText('440');
     await expect(page.locator('.fandb-form')).toContainText('Willem Dafoe');
     await expect(page.locator('.hotel-name').first()).toContainText('Hotel Demo Hub');
-    // Do not check .notyf-announcer visibility; it is always visible even on success
   });
 
   test('should not login with incorrect room number (A)', async ({ page }) => {
     await page.locator('#guest_room').fill('9999');
     await page.locator('#guest_name').fill('Willem Dafoe');
     await page.locator('#btn_login').click();
-    await expect(page).toHaveURL(url);
+    await expect(page).toHaveURL(url); // <-- indicates login fail
   });
 
   test('should not login with incorrect room number (B)', async ({ page }) => {
@@ -97,7 +94,7 @@ test.describe('Guest in Touch Login', () => {
 
   test('should show error for empty fields (A)', async ({ page }) => {
     await page.locator('#btn_login').click();
-    await expect(page).toHaveURL(url);
+    await expect(page).toHaveURL(url); // <-- indicates login fail
     // Expect error
     await expect(page.locator('body > div.notyf-announcer')).toBeVisible();
     await expect(page.locator('body > div.notyf-announcer')).toContainText(/intro/i);
@@ -141,7 +138,7 @@ test.describe('Guest in Touch Login', () => {
     await page.locator('#guest_room').fill('0'.repeat(50));
     await page.locator('#guest_name').fill('Willem Dafoe');
     await page.locator('#btn_login').click();
-    await expect(page).toHaveURL(url);
+    await expect(page).toHaveURL(url); // <-- indicates login fail
     await expect(page.locator('.notyf-announcer')).toBeVisible();
     await expect(page.locator('.notyf-announcer')).toContainText(/no.*res.*:/i);
   });
@@ -158,7 +155,7 @@ test.describe('Guest in Touch Login', () => {
     await page.locator('#guest_room').fill('0440');
     await page.locator('#guest_name').fill('Willem Dafoe'.repeat(10));
     await page.locator('#btn_login').click();
-    await expect(page).toHaveURL(url);
+    await expect(page).toHaveURL(url); // <-- indicates login fail
     await expect(page.locator('.notyf-announcer')).toBeVisible();
     await expect(page.locator('.notyf-announcer')).toContainText(/no.*res.*:/i);
   });
@@ -208,7 +205,7 @@ test.describe('Guest in Touch Login', () => {
   test('should show error when only surname is filled (A)', async ({ page }) => {
     await page.locator('#guest_name').fill('Willem Dafoe');
     await page.locator('#btn_login').click();
-    await expect(page).toHaveURL(url);
+    await expect(page).toHaveURL(url); // <-- indicates login fail
   });
 
   test('should show error when only surname is filled (B)', async ({ page }) => {
@@ -232,7 +229,7 @@ test.describe('Guest in Touch Login', () => {
     await inputs.nth(0).fill('04400');
     await inputs.nth(1).fill('Willem Dafoe');
     await page.locator('.btn-login').click();
-    await expect(page).toHaveURL(url);
+    await expect(page).toHaveURL(url); // <-- indicates login fail
     await expect(page.locator('.notyf-announcer')).toContainText(/no.*res.*:/i);
     await expect(page.locator('.notyf-announcer')).toContainText('Willem Dafoe');
     await expect(page.locator('.notyf-announcer')).toContainText('04400');
