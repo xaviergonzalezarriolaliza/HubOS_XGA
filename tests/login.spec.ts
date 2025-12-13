@@ -75,7 +75,7 @@ test.describe('Guest in Touch Login', () => {
 
   test('should not login with incorrect surname (B)', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.loginWithFandbInputs('0440', 'Green Dwarf');
+    await loginPage.loginWithFandbInputs('0440', 'Green Dwarfff');
     await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);                // confirm error msg
   });
 
