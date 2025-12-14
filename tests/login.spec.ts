@@ -96,7 +96,7 @@ test.describe("Guest in Touch Login", () => {
   test("should not login with incorrect room number (A)", async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName("9999", "Dafoe");
-    await expect(page).toHaveURL(url); // assertion
+    await expect(page).toHaveURL(url); // error, page url not reloaded, same address
   });
 
   test("should not login with incorrect room number (B)", async ({ page }) => {
