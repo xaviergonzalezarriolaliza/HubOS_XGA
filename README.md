@@ -65,8 +65,8 @@ For any questions or contributions, please open an issue or pull request on the 
 - All tests now consistently use the Page Object Model (POM) for maintainability.
 
 ## Latest Test Results
-- **224 tests passed** on all browsers/devices (2025-12-13)
-- No failures or errors detected.
+- **256 tests passed** on all browsers/devices (2025-12-14)
+- No failures or errors detected. Added A/B chat feature tests (see below).
 
 To view the detailed HTML report for this run, open:
 
@@ -118,6 +118,8 @@ playwright-report/report_2025-12-12_21-40-52/index.html
 | should show error for very long surname (B)                      | PASS     | PASS    | PASS   | PASS | PASS    | PASS       | PASS      | PASS      |
 | should show error for whitespace in room and surname (A)         | PASS     | PASS    | PASS   | PASS | PASS    | PASS       | PASS      | PASS      |
 | should show error for whitespace in room and surname (B)         | PASS     | PASS    | PASS   | PASS | PASS    | PASS       | PASS      | PASS      |
+| should login and open chat (A)                                    | PASS     | PASS    | PASS   | PASS | PASS    | PASS       | PASS      | PASS      |
+| should login and open chat (B)                                    | PASS     | PASS    | PASS   | PASS | PASS    | PASS       | PASS      | PASS      |
 | should show error when only room is filled (A)                   | PASS     | PASS    | PASS   | PASS | PASS    | PASS       | PASS      | PASS      |
 | should show error when only room is filled (B)                   | PASS     | PASS    | PASS   | PASS | PASS    | PASS       | PASS      | PASS      |
 | should show error when only surname is filled (A)                | PASS     | PASS    | PASS   | PASS | PASS    | PASS       | PASS      | PASS      |

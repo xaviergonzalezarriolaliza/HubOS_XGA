@@ -1,3 +1,8 @@
+// Xavier Gonzalez Arriola                                                                                  2025-12-14
+// Playwright test run: 256 tests passed (2025-12-14)
+// =========================================================================================================
+// HubOS QA Engineer Homework XGA
+
 import { test, expect } from '@playwright/test';
 import { LoginPage } from './pages/LoginPage';
 
@@ -33,6 +38,33 @@ test.describe('Guest in Touch Login', () => {
     await expect(loginPage.fandbForm).toContainText('Willem Dafoe');
     await expect(loginPage.hotelName).toContainText('Hotel Demo Hub');
   });
+
+    test('should login and open chat (A)', async ({ page, context }) => {
+      const loginPage = new LoginPage(page);
+      await loginPage.loginWithRoomAndName('0440', 'Willem Dafoe');
+      // Wait for main menu
+      await expect(loginPage.fandbForm).toContainText('0440');
+      // Click the 'Hablamos?' chat element (h2 inside .gradient) and wait for new tab
+      const [chatPage] = await Promise.all([
+        context.waitForEvent('page'),
+        page.locator('div.gradient h2.title', { hasText: 'Hablamos?' }).click(),
+      ]);
+      await chatPage.waitForLoadState('domcontentloaded');
+      // Check for <h3> element with class '_9vd5 _9scb _9scr' containing "Alex Hub OS" in the new tab
+      await expect(chatPage.locator('h3._9vd5._9scb._9scr')).toContainText('Alex Hub OS');
+    });
+
+    test('should login and open chat (B)', async ({ page, context }) => {
+      const loginPage = new LoginPage(page);
+      await loginPage.loginWithFandbInputs('0440', 'Willem Dafoe');
+      await expect(loginPage.fandbForm).toContainText('0440');
+      const [chatPage] = await Promise.all([
+        context.waitForEvent('page'),
+        page.locator('div.gradient h2.title', { hasText: 'Hablamos?' }).click(),
+      ]);
+      await chatPage.waitForLoadState('domcontentloaded');
+      await expect(chatPage.locator('h3._9vd5._9scb._9scr')).toContainText('Alex Hub OS');
+    });
 
   test('should login with room number without leading zero (A)', async ({ page }) => {
     const loginPage = new LoginPage(page);
@@ -70,7 +102,6 @@ test.describe('Guest in Touch Login', () => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName('0440', 'Follet Verd');
     await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);                  // confirm error msg 
-
   });
 
   test('should not login with incorrect surname (B)', async ({ page }) => {
@@ -92,7 +123,7 @@ test.describe('Guest in Touch Login', () => {
     await loginPage.loginButton.click();
     await expect(loginPage.notyfAnnouncer).toContainText(/intro/i); // confirm error msg
   });
-
+        // await loginPage.loginWithRoomAndName('0440', 'Willem Dafoe'); // Removed stray await statement causing syntax error
   test('should show error for special characters in room (A)', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName('@#!', 'Willem Dafoe');
