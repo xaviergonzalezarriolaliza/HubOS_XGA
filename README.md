@@ -13,26 +13,28 @@ This repository contains end-to-end Playwright tests for the HubOS Guest in Touc
 
 
 
+	npx playwright show-report playwright-report\report_2025-12-14_16-53-08
+	```
+
 ## Last Test Run Summary
 
 ### December 14, 2025
 - **Date**: December 14, 2025
 - **Branch**: main
 - **Command**: `npx playwright test`
-- **Result**: **256/256 tests passed** on all browsers/devices (0 failed, 0 skipped)
-- **Report**: [playwright-report/report_2025-12-14_15-37-35/index.html](playwright-report/report_2025-12-14_15-37-35/index.html)
-	```
-	npx playwright show-report
-	```
+- **Result**: **304/304 tests passed** on all browsers/devices (0 failed, 0 skipped)
+- **Report**: [playwright-report/report_2025-12-14_16-53-08/index.html](playwright-report/report_2025-12-14_16-53-08/index.html)
 
 #### Recent Reports
+- [2025-12-14: 304 tests passed](playwright-report/report_2025-12-14_16-53-08/index.html)
+- [2025-12-14: 304 tests passed](playwright-report/report_2025-12-14_16-37-08/index.html)
 - [2025-12-14: 256 tests passed](playwright-report/report_2025-12-14_15-37-35/index.html)
 - [2025-12-13: 224 tests passed](playwright-report/report_2025-12-13_13-31-52/index.html)
 - [2025-12-12: 216 tests passed](playwright-report/report_2025-12-12_21-40-52/index.html)
 
 > **Test count and results:**
 > - Each suite run executes all scenarios across 8 browsers/devices.
-> - The number above reflects the total test cases (e.g., 256 = 32 scenarios × 8 platforms).
+> - The number above reflects the total test cases (e.g., 304 = 38 scenarios × 8 platforms).
 > - All tests must pass for a green report. Failures or skips will be shown here.
 
 To view any report, open the corresponding HTML file in the `playwright-report/` directory or use the command above.
