@@ -12,26 +12,30 @@ This repository contains end-to-end Playwright tests for the HubOS Guest in Touc
 - **A/B Coverage**: Each scenario is tested using both the standard and F&B (Food & Beverage) login forms to ensure UI consistency and functional parity.
 
 
+
 ## Last Test Run Summary
+
 ### December 14, 2025
 - **Date**: December 14, 2025
-- **Branch**: feature/playwright-login-tests
+- **Branch**: main
 - **Command**: `npx playwright test`
-- **Result**: All tests passed successfully (see below for details).
-- **Reports**: Playwright HTML report for this run: [playwright-report/report_2025-12-14_15-37-35/index.html](playwright-report/report_2025-12-14_15-37-35/index.html)
+- **Result**: **256/256 tests passed** on all browsers/devices (0 failed, 0 skipped)
+- **Report**: [playwright-report/report_2025-12-14_15-37-35/index.html](playwright-report/report_2025-12-14_15-37-35/index.html)
 	```
 	npx playwright show-report
 	```
 
-### December 13, 2025
-- **Date**: December 13, 2025
-- **Branch**: main
-- **Command**: `npx playwright test`
-- **Result**: All 224 tests passed successfully.
-- **Reports**: Playwright HTML reports are generated in the `playwright-report/` directory. To view the latest report, run:
-	```
-	npx playwright show-report
-	```
+#### Recent Reports
+- [2025-12-14: 256 tests passed](playwright-report/report_2025-12-14_15-37-35/index.html)
+- [2025-12-13: 224 tests passed](playwright-report/report_2025-12-13_13-31-52/index.html)
+- [2025-12-12: 216 tests passed](playwright-report/report_2025-12-12_21-40-52/index.html)
+
+> **Test count and results:**
+> - Each suite run executes all scenarios across 8 browsers/devices.
+> - The number above reflects the total test cases (e.g., 256 = 32 scenarios × 8 platforms).
+> - All tests must pass for a green report. Failures or skips will be shown here.
+
+To view any report, open the corresponding HTML file in the `playwright-report/` directory or use the command above.
 
 ## Repository Location
 - **GitHub**: https://github.com/xaviergonzalezarriolaliza/HubOS_XGA
