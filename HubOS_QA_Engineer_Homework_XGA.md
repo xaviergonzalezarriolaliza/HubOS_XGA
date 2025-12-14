@@ -13,10 +13,10 @@
 
 ## Test Execution Summary (2025-12-14)
 
-- **Total tests:** 256
-- **Passed:** 256
+- **Total tests:** 304
+- **Passed:** 304
 - **Failed:** 0
-- **Playwright HTML report:** [playwright-report/report_2025-12-14_12-10-47/index.html](playwright-report/report_2025-12-14_12-10-47/index.html)
+- **Playwright HTML report:** [playwright-report/report_2025-12-14_16-37-08/index.html](playwright-report/report_2025-12-14_16-37-08/index.html)
 
 All tests passed successfully in the final run. See the HTML report for detailed results and screenshots.
 
@@ -92,10 +92,10 @@ We use a POM for maintainability and clarity. The `LoginPage` class encapsulates
 
 ## Selected Test Run Reports
 
-- [Sample Test Run 1](playwright-report/report_2025-12-13_16-23-54/index.html)
-- [Sample Test Run 2](playwright-report/report_2025-12-13_19-41-01/index.html)
-- [Sample Test Run 3](playwright-report/report_2025-12-14_00-02-30/index.html)
-- [Latest Full Suite with Chat Tests](playwright-report/index.html)
+- [2025-12-14: 304 tests passed](playwright-report/report_2025-12-14_16-37-08/index.html)
+- [2025-12-14: 256 tests passed](playwright-report/report_2025-12-14_15-37-35/index.html)
+- [2025-12-13: 224 tests passed](playwright-report/report_2025-12-13_13-31-52/index.html)
+- [2025-12-12: 216 tests passed](playwright-report/report_2025-12-12_21-40-52/index.html)
 
 Open these HTML files locally for detailed results and screenshots.
 
@@ -103,7 +103,7 @@ Open these HTML files locally for detailed results and screenshots.
 
 ## Conclusion
 
-All requirements are fully satisfied, with additional edge, chat feature, and security tests provided. The test suite is robust, maintainable, and ready for review. All 256 tests, including chat A/B, passed on all browsers/devices (2025-12-14).
+All requirements are fully satisfied, with additional edge, chat feature, and security tests provided. The test suite is robust, maintainable, and ready for review. All 304 tests, including chat A/B and new scenarios, passed on all browsers/devices (2025-12-14).
 
 ---
 
