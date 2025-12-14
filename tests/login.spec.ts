@@ -109,13 +109,13 @@ test.describe("Guest in Touch Login", () => {
 
   test("should not login with incorrect surname (A)", async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName("0440", "Smith");
+    await loginPage.loginWithRoomAndName("0440", "Green Dwarf");
     await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // confirm error msg
   });
 
   test("should not login with incorrect surname (B)", async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.loginWithFandbInputs("0440", "Smith");
+    await loginPage.loginWithFandbInputs("0440", "Follet Verd");
     await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // confirm error msg
   });
 

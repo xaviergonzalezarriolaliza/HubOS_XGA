@@ -1,7 +1,3 @@
-
-
-
-
 **Xavier Gonzalez Arriola** ----- 2025-12-14
 
 [GitHub Repository: xaviergonzalezarriolaliza/HubOS_XGA](https://github.com/xaviergonzalezarriolaliza/HubOS_XGA)
