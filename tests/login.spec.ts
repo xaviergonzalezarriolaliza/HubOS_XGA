@@ -307,4 +307,55 @@ test.describe("Guest in Touch Login", () => {
     await expect(loginPage.fandbForm).toContainText("0440");
     await expect(loginPage.fandbForm).toContainText("Willem Dafoe");
   });
+
+    test('should login with full name Willem Dafoe (0440) (A)', async ({ page }) => {
+      const loginPage = new LoginPage(page);
+      await loginPage.loginWithRoomAndName('0440', 'Willem Dafoe');
+      await expect(loginPage.fandbForm).toContainText('0440');
+      await expect(loginPage.fandbForm).toContainText('Willem Dafoe');
+      await expect(loginPage.hotelName).toContainText('Hotel Demo Hub');
+    });
+
+    test('should login with full name Willem Dafoe (0440) (B)', async ({ page }) => {
+      const loginPage = new LoginPage(page);
+      await loginPage.loginWithFandbInputs('0440', 'Willem Dafoe');
+      await expect(page).not.toHaveURL(url);
+      await expect(loginPage.fandbForm).toContainText('0440');
+      await expect(loginPage.fandbForm).toContainText('Willem Dafoe');
+      await expect(loginPage.hotelName).toContainText('Hotel Demo Hub');
+    });
+
+    test('should login with full name Willem Dafoe (440) (A)', async ({ page }) => {
+      const loginPage = new LoginPage(page);
+      await loginPage.loginWithRoomAndName('440', 'Willem Dafoe');
+      await expect(page).not.toHaveURL(url);
+      await expect(page.locator('body')).toContainText('440');
+      await expect(page.locator('body')).toContainText('Willem Dafoe');
+      await expect(page.locator('body')).toContainText('Hotel Demo Hub');
+    });
+
+    test('should login with full name Willem Dafoe (440) (B)', async ({ page }) => {
+      const loginPage = new LoginPage(page);
+      await loginPage.loginWithFandbInputs('440', 'Willem Dafoe');
+      await expect(page).not.toHaveURL(url);
+      await expect(loginPage.fandbForm).toContainText('440');
+      await expect(loginPage.fandbForm).toContainText('Willem Dafoe');
+      await expect(loginPage.hotelName).toContainText('Hotel Demo Hub');
+    });
+  test('should login with full name Willem Dafoe (0440)', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginWithRoomAndName('0440', 'Willem Dafoe');
+    await expect(loginPage.fandbForm).toContainText('0440');
+    await expect(loginPage.fandbForm).toContainText('Willem Dafoe');
+    await expect(loginPage.hotelName).toContainText('Hotel Demo Hub');
+  });
+
+  test('should login with full name Willem Dafoe (440)', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginWithRoomAndName('440', 'Willem Dafoe');
+    await expect(page).not.toHaveURL(url);
+    await expect(page.locator('body')).toContainText('440');
+    await expect(page.locator('body')).toContainText('Willem Dafoe');
+    await expect(page.locator('body')).toContainText('Hotel Demo Hub');
+  });
 });
