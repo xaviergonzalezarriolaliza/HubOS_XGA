@@ -1,5 +1,9 @@
 # HubOS_XGA Playwright Test Suite
 
+## Credentials & Environment Variables
+
+Sensitive credentials (such as login details) should **never** be committed to git. Store them in a `.env` file in the project root. This file is already included in `.gitignore` and will not be tracked by git.
+
 ## Overview
 This repository contains end-to-end Playwright tests for the HubOS Guest in Touch login functionality. The tests are designed to ensure robust coverage of all login scenarios, including A/B UI variants, edge cases, and error handling.
 
