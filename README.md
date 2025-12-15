@@ -18,10 +18,6 @@ This repository contains end-to-end Playwright tests for the HubOS Guest in Touc
 		```
 		This will open the report in your browser, where you can review all test results and details.
 
-- **PDF Reports:**
-	- To generate a PDF version of the test report, open the HTML report as described above, then use your browser's "Print" function and select "Save as PDF".
-	- The PDF can be saved to your desired location for sharing or archiving.
-
 All test results and reports are located in the `playwright-report/` directory.
 
 ## What and Why We Are Testing
