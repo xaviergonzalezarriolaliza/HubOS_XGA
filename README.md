@@ -5,7 +5,24 @@
 Sensitive credentials (such as login details) should **never** be committed to git. Store them in a `.env` file in the project root. This file is already included in `.gitignore` and will not be tracked by git.
 
 ## Overview
+
 This repository contains end-to-end Playwright tests for the HubOS Guest in Touch login functionality. The tests are designed to ensure robust coverage of all login scenarios, including A/B UI variants, edge cases, and error handling.
+
+## Test Results and Reports
+
+- **HTML Test Reports:**
+	- After running tests with `npx playwright test`, an HTML report is generated in the `playwright-report/` directory.
+	- To view the latest report, run:
+		```
+		npx playwright show-report
+		```
+		This will open the report in your browser, where you can review all test results and details.
+
+- **PDF Reports:**
+	- To generate a PDF version of the test report, open the HTML report as described above, then use your browser's "Print" function and select "Save as PDF".
+	- The PDF can be saved to your desired location for sharing or archiving.
+
+All test results and reports are located in the `playwright-report/` directory.
 
 ## What and Why We Are Testing
 - **Login with correct room number and surname**: Verifies successful login for valid credentials.
