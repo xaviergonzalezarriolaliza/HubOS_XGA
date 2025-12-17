@@ -65,12 +65,26 @@ jobs:
           echo "Report files (up to depth 3):"
           find playwright-report -maxdepth 3 -type f -print || true
 
+      - name: Zip Playwright report (if present)
+        if: always()
+        run: |
+          if [ -d "playwright-report" ]; then
+            echo "Zipping playwright-report to playwright-report.zip"
+            rm -f playwright-report.zip || true
+            zip -r playwright-report.zip playwright-report || true
+            echo "Zip created:"
+            ls -la playwright-report.zip || true
+          else
+            echo "No playwright-report folder found; skipping zip."
+          fi
+
       - name: Upload Playwright report artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          # include nested report folders and files explicitly
+          # prefer the zipped report for a single-file artifact, but also include the folder as fallback
           path: |
+            playwright-report.zip
             playwright-report
             playwright-report/**
