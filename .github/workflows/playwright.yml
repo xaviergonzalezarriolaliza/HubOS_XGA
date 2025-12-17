@@ -57,10 +57,6 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
-      - name: Upload Playwright report artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        # show report contents to help debug missing-artifact issues
       - name: Show Playwright report files
         if: always()
         run: |
