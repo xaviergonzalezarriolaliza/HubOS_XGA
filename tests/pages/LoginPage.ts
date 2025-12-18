@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class LoginPage {
   readonly page: Page;
@@ -32,8 +32,17 @@ export class LoginPage {
   }
 
   async loginWithFandbInputs(room: string, name: string) {
-    await this.fandbInputs.nth(0).fill(room);
-    await this.fandbInputs.nth(1).fill(name);
-    await this.page.locator('.btn-login').click();
+    const count = await this.fandbInputs.count();
+    await expect(this.fandbInputs).toHaveCount(2);
+    await this.fandbInputs.first().fill(room);                                         // nth(0)
+    await expect(this.fandbInputs.first()).toHaveId('guest_room')                      // id
+    await expect(this.fandbInputs.first()).toHaveValue(room);                          // verify value room
+    await expect(this.page.locator('#guest_room')).toHaveValue(room);                  // with direct locator
+    await this.fandbInputs.last().fill(name);                                          // nth(1)
+    await expect(this.fandbInputs.last()).toHaveId('guest_name');                      // id
+    await expect(this.fandbInputs.last()).toHaveValue(name);                           // verify value name 
+    await expect(this.page.locator('#guest_name')).toHaveValue(name);                  // with direct locator
+    await this.loginButton.click();
   }
 }
+
