@@ -18,8 +18,7 @@ const INCORRECT_LOGIN = process.env.INCORRECT_LOGIN;
 const INCORRECT_LOGIN2 = process.env.INCORRECT_LOGIN2;
 const WRONG_ROOM2 = process.env.WRONG_ROOM2;
 const DEMOHUB = process.env.DEMOHUB;
-// Use provided BASE_URL or fall back to localhost for local runs
-const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL;
 
 // Fail fast if required env vars are missing — avoids embedding hardcoded values in source
 const missing: string[] = [];
@@ -34,6 +33,7 @@ if (!INCORRECT_LOGIN) missing.push('INCORRECT_LOGIN');
 if (!INCORRECT_LOGIN2) missing.push('INCORRECT_LOGIN2');
 if (!WRONG_ROOM2) missing.push('WRONG_ROOM2');
 if (!DEMOHUB) missing.push('DEMOHUB');
+if (!BASE_URL) missing.push('BASE_URL');
 
 if (missing.length) {
   throw new Error(`Missing required env vars: ${missing.join(', ')}. Add them to .env`);
@@ -393,3 +393,4 @@ test.describe("Guest in Touch Login", () => {
     await expect(page.locator('body')).toContainText(DEMOHUB);
   });
 });
+git CustomElementRegistry

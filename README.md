@@ -1,7 +1,5 @@
 # HubOS_XGA Playwright Test Suite
 
-> Recent fix (2025-12-19): stabilized `loginWithFandbInputs` in `tests/pages/LoginPage.ts` to avoid strict-mode visibility failures (per-input visibility checks + load-state wait). See [test-results/last-run-summary.md](test-results/last-run-summary.md) for details and the passing run.
-
 ## Credentials & Environment Variables
 
 Sensitive credentials (such as login details) should **never** be committed to git. Store them in a `.env` file in the project root. This file is already included in `.gitignore` and will not be tracked by git.
