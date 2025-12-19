@@ -6,6 +6,8 @@ const dateStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate
 
 export default defineConfig({
   reporter: [['html', { outputFolder: `playwright-report/report_${dateStr}`, open: 'never' }]],
+  // Ensure Playwright writes traces/screenshots into a CI-uploadable folder
+  outputDir: `test-results/report_${dateStr}`,
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : undefined,
   use: {
