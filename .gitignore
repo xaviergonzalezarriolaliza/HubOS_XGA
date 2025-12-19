@@ -2,3 +2,5 @@
 node_modules/
 
 # Ignore environment variable files
+playwright-report/
+test-results/
