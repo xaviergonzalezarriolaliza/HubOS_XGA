@@ -32,7 +32,8 @@ export class LoginPage {
   }
 
   async loginWithFandbInputs(room: string, name: string) {
-    const count = await this.fandbInputs.count();
+    await expect(this.fandbInputs.first()).toBeVisible();
+    await expect(this.fandbInputs.last()).toBeVisible();
     await expect(this.fandbInputs).toHaveCount(2);
     await this.fandbInputs.first().fill(room);                                         // nth(0)
     await expect(this.fandbInputs.first()).toHaveId('guest_room')                      // id
@@ -43,6 +44,7 @@ export class LoginPage {
     await expect(this.fandbInputs.last()).toHaveValue(name);                           // verify value name 
     await expect(this.page.locator('#guest_name')).toHaveValue(name);                  // with direct locator
     await this.loginButton.click();
+    await this.page.waitForLoadState('domcontentloaded');
   }
 }
 
