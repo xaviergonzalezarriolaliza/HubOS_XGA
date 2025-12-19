@@ -36,6 +36,13 @@ All test results and reports are located in the `playwright-report/` directory.
 ## Last Test Run Summary
 
 
+### December 19, 2025
+- **Date**: December 19, 2025
+- **Branch**: main
+- **Command**: `npx playwright test`
+- **Result**: **304/304 tests passed** on all browsers/devices (0 failed, 0 skipped)
+- **Report**: [playwright-report/report_2025-12-19_17-05-37/index.html](playwright-report/report_2025-12-19_17-05-37/index.html)
+
 ### December 15, 2025
 - **Date**: December 15, 2025
 - **Branch**: main
@@ -61,13 +68,6 @@ All test results and reports are located in the `playwright-report/` directory.
  - [2025-12-19: 304 tests passed (17:05:37)](playwright-report/report_2025-12-19_17-05-37/index.html)
  - [2025-12-19: 304 tests passed (17:02:46)](playwright-report/report_2025-12-19_17-02-46/index.html)
  - [2025-12-19: 304 tests passed (15:36:34)](playwright-report/report_2025-12-19_15-36-34/index.html)
-
-### December 19, 2025
-- **Date**: December 19, 2025
-- **Branch**: main
-- **Command**: `npx playwright test`
-- **Result**: **304/304 tests passed** on all browsers/devices (0 failed, 0 skipped)
-- **Report**: [playwright-report/report_2025-12-19_17-05-37/index.html](playwright-report/report_2025-12-19_17-05-37/index.html)
 
 > **Test count and results:**
 > - Each suite run executes all scenarios across 8 browsers/devices.
@@ -294,12 +294,6 @@ To run tests in headed mode (browser UI visible):
 
 ```
 npx playwright test --headed
-```
-
-To run tests with a concise console list reporter (compact output suitable for CI and terminals):
-
-```
-npx playwright test --reporter=list
 ```
 
 ## Test Reports
