@@ -77,7 +77,8 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.loginWithRoomAndName(ROOM, CORRECT_LOGIN);
     // Wait for main menu and the room number to appear (longer timeout for CI)
     await page.waitForLoadState('networkidle');
-    await expect(page.locator(`text=${ROOM}`)).toBeVisible({ timeout: 15000 });
+    // Scope the room lookup to the F&B form to avoid multiple matches across the page
+    await expect(loginPage.fandbForm.locator(`text=${ROOM}`)).toBeVisible({ timeout: 15000 });
     const [chatPage] = await Promise.all([
       context.waitForEvent("page"),
       // For simplicity, we are testing with Spanish for now...
