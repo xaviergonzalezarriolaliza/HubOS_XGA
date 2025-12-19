@@ -1,4 +1,5 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator, expect, BrowserContext } from '@playwright/test';
+import { ChatPage } from './ChatPage';
 
 export class LoginPage {
   readonly page: Page;
@@ -45,6 +46,8 @@ export class LoginPage {
     await expect(this.page.locator('#guest_name')).toHaveValue(name);                  // with direct locator
     await this.loginButton.click();
     await this.page.waitForLoadState('domcontentloaded');
+    // Ensure the room heading is visible after login
+    await this.waitForRoom(room);
   }
 
   /**
@@ -56,6 +59,33 @@ export class LoginPage {
     const roomHeading = this.fandbForm.locator('h4.client-room', { hasText: room }).first();
     await expect(roomHeading).toBeVisible({ timeout });
     return roomHeading;
+  }
+
+  /**
+   * Clicks the chat entry point on the page and returns a `ChatPage` for the
+   * newly opened chat window/tab. Centralizes the click selector and the
+   * context.waitForEvent pairing to avoid duplicating the locator in tests.
+   */
+  async openChat(context: BrowserContext) {
+    const [chatPage] = await Promise.all([
+      context.waitForEvent('page'),
+      this.page.locator('div.gradient h2.title', { hasText: 'Hablamos?' }).click(),
+    ]);
+    await chatPage.waitForLoadState('domcontentloaded');
+    return new ChatPage(chatPage);
+  }
+
+  /**
+   * High-level assertion helper verifying that the F&B form shows the
+   * provided room and optional guest name, and that the hotel name is visible.
+   */
+  async assertLoggedIn(room: string, name?: string, timeout = 15000) {
+    await this.waitForRoom(room, timeout);
+    await expect(this.hotelName).toBeVisible({ timeout });
+    if (name) {
+      await expect(this.fandbForm).toContainText(name, { timeout });
+    }
+    await expect(this.fandbForm).toContainText(room, { timeout });
   }
 }
 

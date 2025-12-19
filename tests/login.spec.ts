@@ -75,18 +75,11 @@ test.describe("Guest in Touch Login", () => {
   test("should login and open chat (A)", async ({ page, context }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName(ROOM, CORRECT_LOGIN);
-    // Wait for main menu and the room number to appear (longer timeout for CI)
-    await page.waitForLoadState('networkidle');
-    // Wait for the room heading inside the F&B form using the page-object helper
-    // to avoid strict-mode multiple-match errors and centralize the timeout.
-    const roomHeading = await loginPage.waitForRoom(ROOM, 15000);
-    const [chatPage] = await Promise.all([
-      context.waitForEvent("page"),
-      // For simplicity, we are testing with Spanish for now...
-      page.locator("div.gradient h2.title", { hasText: "Hablamos?" }).click()
-    ]);
-    await chatPage.waitForLoadState("domcontentloaded");
-    await expect(chatPage.locator("h3._9vd5._9scb._9scr")).toContainText("Alex Hub OS");
+    // Wait for login to take effect and assert logged-in state via POM helper
+    await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN, 15000);
+    // Open chat using page-object helper that returns a ChatPage
+    const chatPage = await loginPage.openChat(context);
+    await chatPage.assertAgentName("Alex Hub OS");
   });
 
   test("should login and open chat (B)", async ({ page, context }) => {
