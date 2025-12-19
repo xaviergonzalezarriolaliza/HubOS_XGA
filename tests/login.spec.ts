@@ -393,4 +393,3 @@ test.describe("Guest in Touch Login", () => {
     await expect(page.locator('body')).toContainText(DEMOHUB);
   });
 });
-git CustomElementRegistry
