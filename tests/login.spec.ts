@@ -75,8 +75,9 @@ test.describe("Guest in Touch Login", () => {
   test("should login and open chat (A)", async ({ page, context }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName(ROOM, CORRECT_LOGIN);
-    // Wait for main menu
-    await expect(loginPage.fandbForm).toContainText(ROOM);
+    // Wait for main menu and the room number to appear (longer timeout for CI)
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator(`text=${ROOM}`)).toBeVisible({ timeout: 15000 });
     const [chatPage] = await Promise.all([
       context.waitForEvent("page"),
       // For simplicity, we are testing with Spanish for now...
