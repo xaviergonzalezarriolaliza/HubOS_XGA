@@ -11,8 +11,10 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : undefined,
   use: {
-    trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
+    // Capture full traces and screenshots for every run so CI uploads
+    // contain useful artifacts for debugging and reporting.
+    trace: 'on',
+    screenshot: 'on',
     navigationTimeout: 30000,
   },
   projects: [
