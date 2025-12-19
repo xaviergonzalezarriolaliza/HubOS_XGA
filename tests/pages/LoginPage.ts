@@ -32,7 +32,7 @@ export class LoginPage {
     await this.loginButton.click();
   }
 
-  async loginWithFandbInputs(room: string, name: string) {
+  async loginWithFandbInputs(room: string, name: string, assertRoom = false) {
     await expect(this.fandbInputs.first()).toBeVisible();
     await expect(this.fandbInputs.last()).toBeVisible();
     await expect(this.fandbInputs).toHaveCount(2);
@@ -46,8 +46,12 @@ export class LoginPage {
     await expect(this.page.locator('#guest_name')).toHaveValue(name);                  // with direct locator
     await this.loginButton.click();
     await this.page.waitForLoadState('domcontentloaded');
-    // Ensure the room heading is visible after login
-    await this.waitForRoom(room);
+    // Only assert the room heading when caller requests it. Some tests
+    // intentionally trigger failed logins and should not expect the room
+    // heading to appear.
+    if (assertRoom) {
+      await this.waitForRoom(room);
+    }
   }
 
   /**
