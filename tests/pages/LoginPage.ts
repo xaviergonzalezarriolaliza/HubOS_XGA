@@ -46,5 +46,16 @@ export class LoginPage {
     await this.loginButton.click();
     await this.page.waitForLoadState('domcontentloaded');
   }
+
+  /**
+   * Waits for the room heading inside the F&B form to be visible and returns its locator.
+   * This centralizes the scoped lookup and timeout used by tests to avoid strict-mode
+   * multiple-match errors when the same room appears in multiple page regions.
+   */
+  async waitForRoom(room: string, timeout = 15000) {
+    const roomHeading = this.fandbForm.locator('h4.client-room', { hasText: room }).first();
+    await expect(roomHeading).toBeVisible({ timeout });
+    return roomHeading;
+  }
 }
 
