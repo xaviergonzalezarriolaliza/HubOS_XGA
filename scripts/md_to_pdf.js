@@ -20,7 +20,8 @@ const puppeteer = require('puppeteer');
 <title>HubOS QA Engineer Homework</title>
 <style>
   body{font-family: Arial, Helvetica, sans-serif; max-width:850px; margin:0 auto; padding:28px; color:#222}
-  img{max-width:100%;height:auto}
+  /* Reduce embedded screenshot dimensions to 25% for the PDF */
+  img{max-width:25%;height:auto}
   pre, code{background:#f6f8fa;padding:6px;border-radius:4px}
   table{border-collapse:collapse}
   table, th, td{border:1px solid #ddd;padding:6px}
