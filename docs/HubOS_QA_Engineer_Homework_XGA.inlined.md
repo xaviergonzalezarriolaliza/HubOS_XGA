@@ -103,8 +103,8 @@ This document explains how the provided Playwright test suite fully satisfies th
 
 | Requirement | Test(s) | Description |
 |-------------|---------|-------------|
-| Login with correct room and surname (with leading zero) | should login with correct room and surname (A), (B) | Validates standard login with '0440' and 'Willem Dafoe' |
-| Login with room number without leading zero | should login with room number without leading zero (A), (B) | Validates new feature: login with '440' and 'Willem Dafoe' |
+| Login with correct room and surname (with leading zero) | should login with correct room and surname (A), (B) | Validates standard login with '0440' and 'Daf,afo,foe' |
+| Login with room number without leading zero | should login with room number without leading zero (A), (B) | Validates new feature: login with '440' and 'Daf,afo,foe' |
 | Regression: incorrect room | should not login with incorrect room number (A), (B) | Ensures login fails for invalid room |
 | Regression: incorrect surname | should not login with incorrect surname (A), (B) | Ensures login fails for invalid surname |
 | Empty fields | should show error for empty fields (A), (B) | Ensures error is shown if fields are empty |
@@ -117,30 +117,30 @@ This document explains how the provided Playwright test suite fully satisfies th
 
 | Test Name | Input Room | Input Name | Expected Result |
 |-----------|------------|------------|----------------|
-| should login with correct room and surname (A) | 0440 | Willem Dafoe | Success, main menu shown |
-| should login with correct room and surname (B) | 0440 | Willem Dafoe | Success, main menu shown |
-| should login with room number without leading zero (A) | 440 | Willem Dafoe | Success, main menu shown |
-| should login with room number without leading zero (B) | 440 | Willem Dafoe | Success, main menu shown |
-| should not login with incorrect room number (A) | 9999 | Willem Dafoe | Error, stay on login |
+| should login with correct room and surname (A) | 0440 | Daf,afo,foe | Success, main menu shown |
+| should login with correct room and surname (B) | 0440 | Daf,afo,foe | Success, main menu shown |
+| should login with room number without leading zero (A) | 440 | Daf,afo,foe | Success, main menu shown |
+| should login with room number without leading zero (B) | 440 | Daf,afo,foe | Success, main menu shown |
+| should not login with incorrect room number (A) | 9999 | Daf,afo,foe | Error, stay on login |
 | should not login with incorrect surname (A) | 0440 | Follet Verd | Error, stay on login |
 | should show error for empty fields (A) |  |  | Error, stay on login |
-| should login and open chat (A) | 0440 | Willem Dafoe | Success, chat opens in new tab, 'Alex Hub OS' visible |
-| should login and open chat (B) | 0440 | Willem Dafoe | Success, chat opens in new tab, 'Alex Hub OS' visible |
+| should login and open chat (A) | 0440 | Daf,afo,foe | Success, chat opens in new tab, 'Alex Hub OS' visible |
+| should login and open chat (B) | 0440 | Daf,afo,foe | Success, chat opens in new tab, 'Alex Hub OS' visible |
 
 ---
 
 ## Additional Edge and Security Tests
 - **Chat Feature (A/B):**
-  - Login: '0440', Name: 'Willem Dafoe', click 'Hablamos?' → New tab opens, 'Alex Hub OS' visible (A and B variants)
+  - Login: '0440', Name: 'Daf,afo,foe', click 'Hablamos?' → New tab opens, 'Alex Hub OS' visible (A and B variants)
 
 - **Special Characters:**
-  - Room: '@#!', Name: 'Willem Dafoe' → Error
+  - Room: '@#!', Name: 'Daf,afo,foe' → Error
   - Room: '0440', Name: 'D@foe' → Error
 - **Long Inputs:**
-  - Room: '0' * 50, Name: 'Willem Dafoe' → Error
-  - Room: '0440', Name: 'Willem Dafoe' * 10 → Error
+  - Room: '0' * 50, Name: 'Daf,afo,foe' → Error
+  - Room: '0440', Name: 'Daf,afo,foe' * 10 → Error
 - **Whitespace:**
-  - Room: ' 0440 ', Name: ' Willem Dafoe ' → Error
+  - Room: ' 0440 ', Name: ' Daf,afo,foe ' → Error
 - **Partial Name (Security Proof):**
   - Room: '440', Name: 'Will' → Currently allows login (should not)
   - Room: '0440', Name: 'Daf' → Currently allows login (should not)
@@ -159,7 +159,7 @@ We use a POM for maintainability and clarity. The `LoginPage` class encapsulates
   - Login only succeeds with exact room and surname (with or without leading zero).
   - All invalid or malformed inputs are rejected with a clear error message.
 - **Should NOT happen:**
-  - Login with partial names (e.g., 'Will' for 'Willem Dafoe') should not succeed (currently, it does—security issue).
+  - Login with partial names (e.g., 'Will' for 'Daf,afo,foe') should not succeed (currently, it does—security issue).
   - Login with extra/double zeros or special characters should not succeed.
 
 ---
