@@ -90,8 +90,8 @@ test.describe("Guest in Touch Login", () => {
 
   test("should login and open chat (B)", async ({ page, context }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.loginWithFandbInputs(ROOM, CORRECT_LOGIN);
-    await expect(loginPage.fandbForm).toContainText(ROOM);
+    await loginPage.loginWithFandbInputs(ROOM, CORRECT_LOGIN, true);
+    await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN, 15000);
     const [chatPage] = await Promise.all([
       context.waitForEvent("page"),
             // For simplicity, we are testing with Spanish for now...
@@ -118,11 +118,8 @@ test.describe("Guest in Touch Login", () => {
     page,
   }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.loginWithFandbInputs(ROOM2, CORRECT_LOGIN);
-    await expect(page).not.toHaveURL(url);
-    await expect(loginPage.fandbForm).toContainText(ROOM2);
-    await expect(loginPage.fandbForm).toContainText(CORRECT_LOGIN);
-    await expect(loginPage.hotelName).toContainText(DEMOHUB);
+    await loginPage.loginWithFandbInputs(ROOM2, CORRECT_LOGIN, true);
+    await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN, 15000);
   });
 
   test("should not login with incorrect room number (A)", async ({ page }) => {
@@ -424,21 +421,13 @@ test.describe("Guest in Touch Login", () => {
       await lp.fillRoom(ROOM2);
       await lp.fillName(CORRECT_LOGIN4);
       await lp.submitLogin(ROOM2, true);
-      await expect(page).not.toHaveURL(url);
-      // Recheck that login is successful and the correct room, name, and hotel are displayed
-      await expect(page.locator('body')).toContainText(ROOM2);
-      await expect(page.locator('body')).toContainText(CORRECT_LOGIN4);
-      await expect(page.locator('body')).toContainText(DEMOHUB);
+      await lp.assertLoggedIn(ROOM2, CORRECT_LOGIN4, 15000);
     });
 
     test('should login with full name Willem Dafoe (440) (B)', async ({ page }) => {
       const loginPage = new LoginPage(page);
-      await loginPage.loginWithFandbInputs(ROOM2, CORRECT_LOGIN4);
-      await expect(page).not.toHaveURL(url);
-      // Recheck that login is successful and the correct room, name, and hotel are displayed
-      await expect(loginPage.fandbForm).toContainText(ROOM2);
-      await expect(loginPage.fandbForm).toContainText(CORRECT_LOGIN4);
-      await expect(loginPage.hotelName).toContainText(DEMOHUB);
+      await loginPage.loginWithFandbInputs(ROOM2, CORRECT_LOGIN4, true);
+      await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN4, 15000);
     });
   test('should login with full name Willem Dafoe (0440)', async ({ page }) => {
     const loginPage = new LoginPage(page);

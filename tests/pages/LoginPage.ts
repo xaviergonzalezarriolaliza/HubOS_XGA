@@ -89,6 +89,14 @@ export class LoginPage {
   }
 
   /**
+   * Backwards-compatible alias used by tests: wait for the F&B form to display the
+   * provided room. This centralizes any future selector changes in one place.
+   */
+  async waitForFandbToShow(room: string, timeout = 15000) {
+    return this.waitForRoom(room, timeout);
+  }
+
+  /**
    * Clicks the chat entry point on the page and returns a `ChatPage` for the
    * newly opened chat window/tab. Centralizes the click selector and the
    * context.waitForEvent pairing to avoid duplicating the locator in tests.
