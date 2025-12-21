@@ -10,7 +10,7 @@
 **Latest run summary (report: playwright-report/report_2025-12-21_17-08-56/index.html, CI run 20413844932)**
 
 - **Total tests:** 336 — **Passed:** 336, **Failed:** 0 (no flaky failures recorded).
-- **Browsers / devices:** Chromium, Firefox, WebKit (roughly equal distribution; ~112 tests per browser).
+- **Browsers / devices:** Chromium, Firefox, WebKit across desktop and mobile emulation (roughly equal distribution; ~112 tests per browser). Mobile profiles exercised include Android (Pixel / Galaxy emulation) and iPhone (Mobile Safari emulation).
 - **Wall time (approx):** ~18 minutes total; average test duration ~3–4s.
 - **Artifacts:** full HTML report and raw traces available in `playwright-report/report_2025-12-21_17-08-56/` and `test-results/report_2025-12-21_17-08-56/`.
 
