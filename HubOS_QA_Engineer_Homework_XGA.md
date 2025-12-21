@@ -7,14 +7,78 @@
 
 # HubOS QA Engineer Homework XGA
 
-## Test Execution Summary (2025-12-14)
+**Latest run summary (report: playwright-report/report_2025-12-21_17-08-56/index.html, CI run 20413844932)**
 
-- **Total tests:** 304
-- **Passed:** 304
-- **Failed:** 0
-- **Playwright HTML report:** [playwright-report/report_2025-12-14_16-37-08/index.html](playwright-report/report_2025-12-14_16-37-08/index.html)
+- **Total tests:** 336 — **Passed:** 336, **Failed:** 0 (no flaky failures recorded).
+- **Browsers / devices:** Chromium, Firefox, WebKit (roughly equal distribution; ~112 tests per browser).
+- **Wall time (approx):** ~18 minutes total; average test duration ~3–4s.
+- **Artifacts:** full HTML report and raw traces available in `playwright-report/report_2025-12-21_17-08-56/` and `test-results/report_2025-12-21_17-08-56/`.
 
-All tests passed successfully in the final run. See the HTML report for detailed results and screenshots.
+ 
+
+## Top 5 Significant Screenshots (for PDF)
+
+These screenshots are representative images from recent runs. When the PDF is generated, the images below help reviewers quickly see the UI elements and selectors used in the tests.
+
+- **Login inputs (room & name)** — `playwright-report/data/c5a63091c84b46ac0df67e5b9cd13bd081a278cf.png`
+  - Test(s): should login with correct room and surname (A/B)
+  - Key locators/roles: `#guest_room`, `#guest_name`, `#btn_login`
+
+- **F&B alternate form layout** — `playwright-report/data/f71ae65d482fdffd1dc770e298eb252e47724077.png`
+  - Test(s): should login with correct room and surname (B)
+  - Key locators: `.fandb-form-control-login`, `.btn-login`, role=`button`
+
+- **Validation / notification (empty fields)** — `playwright-report/data/d4083499a387fbf4e904d9103fbdfa3ab50f0893.png`
+  - Test(s): should show error for empty fields (A/B)
+  - Key locators/roles: `#notification`, `role=alert`
+
+- **Chat opened confirmation (post-login)** — `playwright-report/data/5648a809cbe47e8152ff710b5d2be53526405761.png`
+  - Test(s): should login and open chat (A/B)
+  - Key locators: `Hablamos?` button/link; new tab title contains `Alex Hub OS`
+
+- **Reservation error screenshot** — `playwright-report/data/cc5631e724eb8330d3fc69573f66b77a6040ff8c.png`
+  - Test(s): should not login with incorrect room number (A/B)
+  - Key locators: `#notification`, assertion uses `toContainText` for reservation-related text
+
+Include these images in the PDF by referencing the `playwright-report/data/` paths for the run you choose to export.
+
+## Most Recent 5 Reports (links)
+
+- [Run 20413844932 — HTML report (artifact)](https://github.com/xaviergonzalezarriolaliza/HubOS_XGA/actions/runs/20413844932/artifacts/4937671520)
+- [Run 20413492572 — HTML report (artifact)](https://github.com/xaviergonzalezarriolaliza/HubOS_XGA/actions/runs/20413492572/artifacts/4937578417)
+- [2025-12-19: 304 tests passed](playwright-report/report_2025-12-19_17-05-37/index.html)
+- [2025-12-15: 304 tests passed](playwright-report/report_2025-12-15_13-13-29/index.html)
+- [2025-12-14: 304 tests passed](playwright-report/report_2025-12-14_16-53-08/index.html)
+
+## Latest Test Report — grouped by title (selected scenarios)
+
+- **Guest in Touch Login**
+  - should login with correct room and surname (A)
+  - should login with correct room and surname (B)
+  - should login with room number without leading zero (A/B)
+  - should not login with incorrect room number (A/B)
+  - should show error for empty fields (A/B)
+
+- **Chat / Post-login**
+  - should login and open chat (A/B)
+
+- **Edge & Security**
+  - should (not) allow login with partial name (security proof)
+  - should show error for very long room number (A/B)
+
+
+## Latest Changes (2025-12-21)
+
+- **CI (GitHub Actions):** Playwright workflow updated to generate and upload the HTML report folder (`playwright-report/`) and the raw `test-results` artifact for each run.
+- **Tests:** Login tests in `tests/login.spec.ts` were migrated to use the `LoginPage` POM (`tests/pages/LoginPage.ts`) and brittle `page.locator('body')` assertions were replaced with `LoginPage.assertLoggedIn(...)` helpers to reduce flakiness on mobile/WebKit.
+- **Commit:** `2295f8f` pushed to `main` (follow-up commit to replace remaining body-level assertions with POM assertions).
+- **Verification:** Local smoke runs for the updated tests passed; CI runs now produce HTML reports and upload artifacts.
+
+**Latest CI HTML Reports (artifacts)**
+
+- Run 20413844932 — HTML report artifact: https://github.com/xaviergonzalezarriolaliza/HubOS_XGA/actions/runs/20413844932/artifacts/4937671520
+- Run 20413492572 — HTML report artifact: https://github.com/xaviergonzalezarriolaliza/HubOS_XGA/actions/runs/20413492572/artifacts/4937578417
+
 
 ## Overview
 This document explains how the provided Playwright test suite fully satisfies the requirements for the HubOS QA Engineer Homework. It also describes the Page Object Model (POM) used, details additional edge and security tests, and provides links to selected test run reports.
