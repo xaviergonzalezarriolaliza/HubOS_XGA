@@ -3,3 +3,9 @@ node_modules/
 
 # Ignore environment variable files
 test-results/
+
+# Playwright report outputs and temporary reports
+playwright-report/
+tmp_playwright_report*/
+tmp_playwright_report_*/
+tmp_playwright_report_new/
