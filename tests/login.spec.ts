@@ -197,17 +197,21 @@ test.describe("Guest in Touch Login", () => {
   test("should show error for special characters in surname (A)", async ({
     page,
   }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName(ROOM, "D@foe");
-      await expect(loginPage.notyfAnnouncer).toBeVisible(); // Assert error message: no reservation for surname with special characters
+    const lp = new LoginPage(page);
+    await lp.fillRoom(ROOM);
+    await lp.fillName("D@foe");
+    await lp.submitLogin(ROOM, false);
+    await expect(lp.notyfAnnouncer).toBeVisible();
   });
 
   test("should show error for special characters in surname (B)", async ({
     page,
   }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginWithFandbInputs(ROOM, "D@foe");
-      await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // Assert error message: no reservation for surname with special characters
+    const lp = new LoginPage(page);
+    await lp.fillRoom(ROOM);
+    await lp.fillName("D@foe");
+    await lp.submitLogin(ROOM, false);
+    await expect(lp.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test("should show error for very long room number (A)", async ({ page }) => {
@@ -224,6 +228,25 @@ test.describe("Guest in Touch Login", () => {
       await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // Assert error message: no reservation for very long room number
   });
 
+  // --- migrated to POM helpers ---
+  test("should show error for very long room number (A) [POM]", async ({ page }) => {
+    const lp = new LoginPage(page);
+    await lp.fillRoom("0".repeat(50));
+    await lp.fillName(CORRECT_LOGIN4);
+    await lp.submitLogin("0".repeat(50), false);
+    await expect(page).toHaveURL(url);
+    await expect(lp.notyfAnnouncer).toBeVisible();
+    await expect(lp.notyfAnnouncer).toContainText(/no.*res.*:/i);
+  });
+
+  test("should show error for very long room number (B) [POM]", async ({ page }) => {
+    const lp = new LoginPage(page);
+    await lp.fillRoom("0".repeat(50));
+    await lp.fillName(CORRECT_LOGIN4);
+    await lp.submitLogin("0".repeat(50), false);
+    await expect(lp.notyfAnnouncer).toContainText(/no.*res.*:/i);
+  });
+
   test("should show error for very long surname (A)", async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.loginWithRoomAndName(ROOM, (CORRECT_LOGIN4).repeat(100));
@@ -238,6 +261,28 @@ test.describe("Guest in Touch Login", () => {
     await expect(page).toHaveURL(url); // Assert that URL remains unchanged for very long surname
     await expect(loginPage.notyfAnnouncer).toBeVisible(); // Assert error message is visible for very long surname
     await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // Assert error message: no reservation for very long surname
+  });
+
+  test("should show error for very long surname (A) [POM]", async ({ page }) => {
+    const lp = new LoginPage(page);
+    const longName = (CORRECT_LOGIN4).repeat(100);
+    await lp.fillRoom(ROOM);
+    await lp.fillName(longName);
+    await lp.submitLogin(ROOM, false);
+    await expect(page).toHaveURL(url);
+    await expect(lp.notyfAnnouncer).toBeVisible();
+    await expect(lp.notyfAnnouncer).toContainText(/no.*res.*:/i);
+  });
+
+  test("should show error for very long surname (B) [POM]", async ({ page }) => {
+    const lp = new LoginPage(page);
+    const longName = (CORRECT_LOGIN4).repeat(1000);
+    await lp.fillRoom(ROOM);
+    await lp.fillName(longName);
+    await lp.submitLogin(ROOM, false);
+    await expect(page).toHaveURL(url);
+    await expect(lp.notyfAnnouncer).toBeVisible();
+    await expect(lp.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test("should show error for whitespace in room and surname (A)", async ({
