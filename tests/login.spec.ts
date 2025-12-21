@@ -212,8 +212,8 @@ test.describe("Guest in Touch Login", () => {
 
   test("should show error for very long room number (B)", async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName("0".repeat(50), CORRECT_LOGIN4);
-      await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // Assert error message: no reservation for very long room number
+    await loginPage.loginWithFandbInputs("0".repeat(50), CORRECT_LOGIN4);
+    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   // --- migrated to POM helpers ---
@@ -245,10 +245,11 @@ test.describe("Guest in Touch Login", () => {
 
   test("should show error for very long surname (B)", async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName(ROOM, (CORRECT_LOGIN4).repeat(1000)); // pushing to the max *1000, if we go up to 1000000 it is already failing, but we do not expect it
-    await expect(page).toHaveURL(url); // Assert that URL remains unchanged for very long surname
-    await expect(loginPage.notyfAnnouncer).toBeVisible(); // Assert error message is visible for very long surname
-    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // Assert error message: no reservation for very long surname
+    const veryLong = (CORRECT_LOGIN4).repeat(1000);
+    await loginPage.loginWithFandbInputs(ROOM, veryLong);
+    await expect(page).toHaveURL(url);
+    await expect(loginPage.notyfAnnouncer).toBeVisible();
+    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test("should show error for very long surname (A) [POM]", async ({ page }) => {
@@ -285,8 +286,8 @@ test.describe("Guest in Touch Login", () => {
     page,
   }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName(` ${ROOM} `, ` ${CORRECT_LOGIN4} `);
-      await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // Assert error message: no reservation for room and surname with whitespace
+    await loginPage.loginWithFandbInputs(` ${ROOM} `, ` ${CORRECT_LOGIN4} `);
+    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test("should show error when only room is filled (A)", async ({ page }) => {
