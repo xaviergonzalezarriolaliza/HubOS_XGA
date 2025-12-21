@@ -288,15 +288,15 @@ test.describe("Guest in Touch Login", () => {
 
   test("should show error when only room is filled (A)", async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.roomInput.fill(ROOM);
-    await loginPage.loginButton.click();
-    await expect(loginPage.notyfAnnouncer).toBeVisible(); // Assert error message: missing surname
+    const lp = new LoginPage(page);
+    await lp.fillRoom(ROOM);
+    await lp.submitLogin(ROOM, false);
+    await expect(lp.notyfAnnouncer).toBeVisible(); // Assert error message: missing surname
   });
 
   test("should show error when only room is filled (B)", async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.roomInput.fill(ROOM);
-    await loginPage.loginButton.click();
+    await loginPage.loginWithFandbInputs(ROOM, "");
     await expect(loginPage.notyfAnnouncer).toContainText(/intro/i); // Assert error message: missing surname
   });
 
@@ -304,8 +304,9 @@ test.describe("Guest in Touch Login", () => {
     page,
   }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.nameInput.fill(CORRECT_LOGIN4);
-    await loginPage.loginButton.click();
+    const lp = new LoginPage(page);
+    await lp.fillName(CORRECT_LOGIN4);
+    await lp.submitLogin(undefined, false);
     await expect(page).toHaveURL(url); // Assert that URL remains unchanged if only surname is filled
   });
 
@@ -313,8 +314,7 @@ test.describe("Guest in Touch Login", () => {
     page,
   }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.nameInput.fill(CORRECT_LOGIN4);
-    await loginPage.loginButton.click();
+    await loginPage.loginWithFandbInputs("", CORRECT_LOGIN4);
     await expect(loginPage.notyfAnnouncer).toBeVisible(); // Assert error message: missing room number
     await expect(loginPage.notyfAnnouncer).toContainText(/intro/i); // Assert error message: missing room number
   });
