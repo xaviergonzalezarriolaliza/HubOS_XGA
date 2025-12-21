@@ -57,19 +57,25 @@ test.describe("Guest in Touch Login", () => {
 
   test("should login with correct room and surname (A)", async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName(ROOM, CORRECT_LOGIN);
-    await expect(loginPage.fandbForm).toContainText(ROOM);
-    await expect(loginPage.fandbForm).toContainText(CORRECT_LOGIN);
-    await expect(loginPage.hotelName).toContainText(DEMOHUB);
+    // Use POM helpers: fill inputs and submit
+    const lp = new LoginPage(page);
+    await lp.fillRoom(ROOM);
+    await lp.fillName(CORRECT_LOGIN);
+    await lp.submitLogin(ROOM, true);
+    await expect(lp.fandbForm).toContainText(ROOM);
+    await expect(lp.fandbForm).toContainText(CORRECT_LOGIN);
+    await expect(lp.hotelName).toContainText(DEMOHUB);
   });
 
   test("should login with correct room and surname (B)", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginWithFandbInputs(ROOM, CORRECT_LOGIN);
+    const lp = new LoginPage(page);
+    await lp.fillRoom(ROOM);
+    await lp.fillName(CORRECT_LOGIN);
+    await lp.submitLogin(ROOM, true);
     await expect(page).not.toHaveURL(url); // Assert that URL changes after successful login
-    await expect(loginPage.fandbForm).toContainText(ROOM);
-    await expect(loginPage.fandbForm).toContainText(CORRECT_LOGIN);
-    await expect(loginPage.hotelName).toContainText(DEMOHUB);
+    await expect(lp.fandbForm).toContainText(ROOM);
+    await expect(lp.fandbForm).toContainText(CORRECT_LOGIN);
+    await expect(lp.hotelName).toContainText(DEMOHUB);
   });
 
   test("should login and open chat (A)", async ({ page, context }) => {
