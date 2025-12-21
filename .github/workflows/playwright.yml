@@ -55,7 +55,7 @@ jobs:
           echo 'BASE_URL="https://dev.hub-buildings.com/guest/index/login/eyJpZF9idWlsZGluZyI6IjgiLCJndWVzdF9uYW1lIjoiIiwiZ3Vlc3Rfcm9vbSI6IiIsImlkX2xhbmciOiIxIiwibGFuZ3VhZ2UiOiJFUyIsImdpdF9oZWFkZXJfaW1hZ2UiOiJodHRwczovL2Rldi5odWItYnVpbGRpbmdzLmNvbS9maWxlcy9ocHMvYnVpbGRpbmc4L2ltYWdlcy84XzIwMjIxMjAxMTAxMTAzXzYzODg3ZGI3ZWIwODMuanBlZyJ9"' >> .env
 
       - name: Run Playwright tests
-        run: npx playwright test --reporter=list --workers=2
+        run: npx playwright test --reporter=list,html --workers=2
 
       - name: Show Playwright report files
         if: always()
