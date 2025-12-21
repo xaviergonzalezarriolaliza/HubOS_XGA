@@ -1,5 +1,6 @@
 import { Page, Locator, expect, BrowserContext } from '@playwright/test';
 import { ChatPage } from './ChatPage';
+import { waitForLocatorVisible } from '../libs/waits';
 
 export class LoginPage {
   readonly page: Page;
@@ -30,6 +31,28 @@ export class LoginPage {
     await this.roomInput.fill(room);
     await this.nameInput.fill(name);
     await this.loginButton.click();
+  }
+
+  // Minimal POM helpers: fill inputs and submit. Backward-compatible with existing helpers.
+  async fillRoom(room: string) {
+    await this.roomInput.fill(room);
+  }
+
+  async fillName(name: string) {
+    await this.nameInput.fill(name);
+  }
+
+  /**
+   * Submit the login form. Optionally assert the room heading appears when `assertRoom` is true
+   * and `room` is provided.
+   */
+  async submitLogin(room?: string, assertRoom = false) {
+    await waitForLocatorVisible(this.loginButton);
+    await this.loginButton.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    if (assertRoom && room) {
+      await this.waitForRoom(room);
+    }
   }
 
   async loginWithFandbInputs(room: string, name: string, assertRoom = false) {
