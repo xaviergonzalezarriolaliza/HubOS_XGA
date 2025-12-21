@@ -62,9 +62,9 @@ test.describe("Guest in Touch Login", () => {
     await lp.fillRoom(ROOM);
     await lp.fillName(CORRECT_LOGIN);
     await lp.submitLogin(ROOM, true);
-    await expect(lp.fandbForm).toContainText(ROOM);
-    await expect(lp.fandbForm).toContainText(CORRECT_LOGIN);
-    await expect(lp.hotelName).toContainText(DEMOHUB);
+    await expect(lp.fandbForm).toContainText(ROOM);                               // 0440      
+    await expect(lp.fandbForm).toContainText(CORRECT_LOGIN);                      // Dafoe
+    await expect(lp.hotelName).toContainText(DEMOHUB);                            // "Hotel Demo Hub"
   });
 
   test("should login with correct room and surname (B)", async ({ page }) => {
@@ -109,9 +109,7 @@ test.describe("Guest in Touch Login", () => {
     await lp.fillName(CORRECT_LOGIN);
     await lp.submitLogin(ROOM2, true);
     await expect(page).not.toHaveURL(url);
-    await expect(page.locator("body")).toContainText(ROOM2);
-    await expect(page.locator("body")).toContainText(CORRECT_LOGIN);
-    await expect(page.locator("body")).toContainText(DEMOHUB);
+    await lp.assertLoggedIn(ROOM2, CORRECT_LOGIN, 15000);
   });
 
   test("should login with room number without leading zero (B)", async ({
@@ -443,8 +441,6 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.loginWithRoomAndName(ROOM2, CORRECT_LOGIN4);
     await expect(page).not.toHaveURL(url);
     // Recheck that login is successful and the correct room, name, and hotel are displayed
-    await expect(page.locator('body')).toContainText(ROOM2);
-    await expect(page.locator('body')).toContainText(CORRECT_LOGIN4);
-    await expect(page.locator('body')).toContainText(DEMOHUB);
+    await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN4, 15000);
   });
 });
