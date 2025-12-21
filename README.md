@@ -102,7 +102,7 @@ To view any report, open the corresponding HTML file in the `playwright-report/`
 
 ## Security Note
 
-**Warning:** It is currently possible to log in with either room number `440` or `0440` by entering only part of the guest's name (e.g., just `Will` or `Daf` instead of the full name `Willem Dafoe`). This is not desired behavior and is a proof of a significant security risk and potential data breach, as unauthorized users could gain access with incomplete credentials. Please review and address this vulnerability as a priority.
+**Warning:** It is currently possible to log in with either room number `440` or `0440` by entering only part of the guest's name (e.g., just `Will` or `Daf` instead of the full name `Daf`). This is not desired behavior and is a proof of a significant security risk and potential data breach, as unauthorized users could gain access with incomplete credentials. Please review and address this vulnerability as a priority.
 
 ## Notes
 - The test suite uses the Page Object Model for maintainability and clarity.
@@ -111,6 +111,18 @@ To view any report, open the corresponding HTML file in the `playwright-report/`
 
 ---
 For any questions or contributions, please open an issue or pull request on the repository.
+# Latest Changes (2025-12-21)
+
+- **CI (GitHub Actions)**: Playwright reporter updated to produce the HTML report folder (`playwright-report/`) and upload it as an artifact. CI now uploads both the HTML report and the raw `test-results` artifact for each run.
+- **Tests**: Migrated login tests in `tests/login.spec.ts` to use the `LoginPage` Page Object Model (`tests/pages/LoginPage.ts`) and replaced brittle `page.locator('body')` assertions with `LoginPage.assertLoggedIn(...)` helpers to reduce flakiness.
+- **Commit:** `2295f8f` pushed to `main` (small follow-up to replace remaining body-level assertions with POM assertions).
+- **Verification:** Local smoke runs for the updated tests passed; subsequent CI runs produced HTML reports and uploaded artifacts.
+
+**Latest CI HTML Reports (artifacts)**
+
+- Run 20413844932 — HTML report artifact: https://github.com/xaviergonzalezarriolaliza/HubOS_XGA/actions/runs/20413844932/artifacts/4937671520
+- Run 20413492572 — HTML report artifact: https://github.com/xaviergonzalezarriolaliza/HubOS_XGA/actions/runs/20413492572/artifacts/4937578417
+
 # Latest Test Suite Update (2025-12-13)
 
 ## Summary of Recent Changes
@@ -313,6 +325,57 @@ This repository uses [GitHub Actions](https://github.com/features/actions) to au
 - Uploads the Playwright HTML report as a workflow artifact
 
 You can view the status of recent test runs in the **Actions** tab of the GitHub repository.
+
+## Top 5 Significant Screenshots
+
+Below are five representative screenshots from recent runs (paths point into `playwright-report/data/`). Each image shows an important step in the login flow, and the selectors/roles used to identify the element under test.
+
+- **Login form (room & name inputs)** — `playwright-report/data/c5a63091c84b46ac0df67e5b9cd13bd081a278cf.png`
+	- Test(s): should login with correct room and surname (A/B)
+	- Locators: `#guest_room`, `#guest_name`, `#btn_login` (ids); fallback class: `.fandb-form-control-login`
+
+- **F&B form (alternate layout)** — `playwright-report/data/f71ae65d482fdffd1dc770e298eb252e47724077.png`
+	- Test(s): should login with correct room and surname (B)
+	- Locators: `.fandb-form-control-login`, `.btn-login`, role: `button`
+
+- **Validation notification (empty fields)** — `playwright-report/data/d4083499a387fbf4e904d9103fbdfa3ab50f0893.png`
+	- Test(s): should show error for empty fields (A/B)
+	- Locators: `#notification` (id), `role=alert` or text matching `/no.*res.*:/i`
+
+- **Chat opened (post-login)** — `playwright-report/data/5648a809cbe47e8152ff710b5d2be53526405761.png`
+	- Test(s): should login and open chat (A/B)
+	- Locators: link/button `Hablamos?`, new tab title contains `Alex Hub OS`
+
+- **Reservation error (invalid room)** — `playwright-report/data/cc5631e724eb8330d3fc69573f66b77a6040ff8c.png`
+	- Test(s): should not login with incorrect room number (A/B)
+	- Locators: error area `#notification`, assertion uses `toContainText` on reservation id/name
+
+Note: the PNG filenames above correspond to screenshot assets produced by Playwright and are stored under `playwright-report/data/` in each run's report folder. Replace paths with the exact run folder if you want run-specific images (e.g., `playwright-report/report_2025-12-19_17-05-37/data/<file>.png`).
+
+## Most Recent 5 Reports
+
+- [Run 20413844932 — HTML report (artifact)](https://github.com/xaviergonzalezarriolaliza/HubOS_XGA/actions/runs/20413844932/artifacts/4937671520)
+- [Run 20413492572 — HTML report (artifact)](https://github.com/xaviergonzalezarriolaliza/HubOS_XGA/actions/runs/20413492572/artifacts/4937578417)
+- [2025-12-19: 304 tests passed](playwright-report/report_2025-12-19_17-05-37/index.html)
+- [2025-12-15: 304 tests passed](playwright-report/report_2025-12-15_13-13-29/index.html)
+- [2025-12-14: 304 tests passed](playwright-report/report_2025-12-14_16-53-08/index.html)
+
+## Latest Test Report — grouped by title (selected scenarios)
+
+- **Guest in Touch Login**
+	- should login with correct room and surname (A)
+	- should login with correct room and surname (B)
+	- should login with room number without leading zero (A/B)
+	- should not login with incorrect room number (A/B)
+	- should show error for empty fields (A/B)
+
+- **Chat / Post-login**
+	- should login and open chat (A/B)
+
+- **Edge & Security checks**
+	- should (not) allow login with partial name (security proof)
+	- should show error for very long room number (A/B)
+
 
 ## Project Structure
 - `tests/` — Contains all test cases
