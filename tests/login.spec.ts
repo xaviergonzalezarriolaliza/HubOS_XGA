@@ -104,9 +104,11 @@ test.describe("Guest in Touch Login", () => {
   test("should login with room number without leading zero (A)", async ({
     page,
   }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName(ROOM2, CORRECT_LOGIN);
-    await expect(page).not.toHaveURL(url); // Assert that URL changes after successful login
+    const lp = new LoginPage(page);
+    await lp.fillRoom(ROOM2);
+    await lp.fillName(CORRECT_LOGIN);
+    await lp.submitLogin(ROOM2, true);
+    await expect(page).not.toHaveURL(url);
     await expect(page.locator("body")).toContainText(ROOM2);
     await expect(page.locator("body")).toContainText(CORRECT_LOGIN);
     await expect(page.locator("body")).toContainText(DEMOHUB);
@@ -115,38 +117,47 @@ test.describe("Guest in Touch Login", () => {
   test("should login with room number without leading zero (B)", async ({
     page,
   }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginWithFandbInputs(ROOM2, CORRECT_LOGIN);
-    await expect(page).not.toHaveURL(url); // Assert that URL changes after successful login
-    await expect(loginPage.fandbForm).toContainText(ROOM2);
-    await expect(loginPage.fandbForm).toContainText(CORRECT_LOGIN);
-    await expect(loginPage.hotelName).toContainText(DEMOHUB);
+    const lp = new LoginPage(page);
+    await lp.fillRoom(ROOM2);
+    await lp.fillName(CORRECT_LOGIN);
+    await lp.submitLogin(ROOM2, true);
+    await expect(page).not.toHaveURL(url);
+    await expect(lp.fandbForm).toContainText(ROOM2);
+    await expect(lp.fandbForm).toContainText(CORRECT_LOGIN);
+    await expect(lp.hotelName).toContainText(DEMOHUB);
   });
 
   test("should not login with incorrect room number (A)", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName(WRONG_ROOM2, CORRECT_LOGIN);
-    await expect(page).toHaveURL(url); // Assert that URL remains unchanged if login fails
+    const lp = new LoginPage(page);
+    await lp.fillRoom(WRONG_ROOM2);
+    await lp.fillName(CORRECT_LOGIN);
+    await lp.submitLogin(WRONG_ROOM2, false);
+    await expect(page).toHaveURL(url);
   });
 
   test("should not login with incorrect room number (B)", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName(WRONG_ROOM2, CORRECT_LOGIN);
-    // Expect error message for invalid room number
-    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // Assert error message for invalid room
-    await expect(page).toHaveURL(url); // Assert that URL remains unchanged if login fails
+    const lp = new LoginPage(page);
+    await lp.fillRoom(WRONG_ROOM2);
+    await lp.fillName(CORRECT_LOGIN);
+    await lp.submitLogin(WRONG_ROOM2, false);
+    await expect(lp.notyfAnnouncer).toContainText(/no.*res.*:/i);
+    await expect(page).toHaveURL(url);
   });
 
   test("should not login with incorrect surname (A)", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName(ROOM, INCORRECT_LOGIN2);
-    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // Assert error message: no reservation for that surname
+    const lp = new LoginPage(page);
+    await lp.fillRoom(ROOM);
+    await lp.fillName(INCORRECT_LOGIN2);
+    await lp.submitLogin(ROOM, false);
+    await expect(lp.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test("should not login with incorrect surname (B)", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginWithFandbInputs(ROOM, INCORRECT_LOGIN);
-    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // Assert error message: no reservation for that surname
+    const lp = new LoginPage(page);
+    await lp.fillRoom(ROOM);
+    await lp.fillName(INCORRECT_LOGIN);
+    await lp.submitLogin(ROOM, false);
+    await expect(lp.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test("should show error for empty fields (A)", async ({ page }) => {
@@ -166,17 +177,21 @@ test.describe("Guest in Touch Login", () => {
   test("should show error for special characters in room (A)", async ({
     page,
   }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName("@#!", CORRECT_LOGIN4);
-      await expect(loginPage.notyfAnnouncer).toBeVisible(); // Assert error message: no reservation for room with special characters
+    const lp = new LoginPage(page);
+    await lp.fillRoom("@#!");
+    await lp.fillName(CORRECT_LOGIN4);
+    await lp.submitLogin("@#!", false);
+    await expect(lp.notyfAnnouncer).toBeVisible();
   });
 
   test("should show error for special characters in room (B)", async ({
     page,
   }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginWithRoomAndName("@#!", CORRECT_LOGIN4);
-      await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i); // Assert error message: no reservation for room with special characters
+    const lp = new LoginPage(page);
+    await lp.fillRoom("@#!");
+    await lp.fillName(CORRECT_LOGIN4);
+    await lp.submitLogin("@#!", false);
+    await expect(lp.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test("should show error for special characters in surname (A)", async ({
