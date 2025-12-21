@@ -228,11 +228,9 @@ test.describe("Guest in Touch Login", () => {
   });
 
   test("should show error for very long room number (B) [POM]", async ({ page }) => {
-    const lp = new LoginPage(page);
-    await lp.fillRoom("0".repeat(50));
-    await lp.fillName(CORRECT_LOGIN4);
-    await lp.submitLogin("0".repeat(50), false);
-    await expect(lp.notyfAnnouncer).toContainText(/no.*res.*:/i);
+    const loginPage = new LoginPage(page);
+    await loginPage.loginWithFandbInputs("0".repeat(50), CORRECT_LOGIN4);
+    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test("should show error for very long surname (A)", async ({ page }) => {
@@ -264,14 +262,12 @@ test.describe("Guest in Touch Login", () => {
   });
 
   test("should show error for very long surname (B) [POM]", async ({ page }) => {
-    const lp = new LoginPage(page);
+    const loginPage = new LoginPage(page);
     const longName = (CORRECT_LOGIN4).repeat(1000);
-    await lp.fillRoom(ROOM);
-    await lp.fillName(longName);
-    await lp.submitLogin(ROOM, false);
+    await loginPage.loginWithFandbInputs(ROOM, longName);
     await expect(page).toHaveURL(url);
-    await expect(lp.notyfAnnouncer).toBeVisible();
-    await expect(lp.notyfAnnouncer).toContainText(/no.*res.*:/i);
+    await expect(loginPage.notyfAnnouncer).toBeVisible();
+    await expect(loginPage.notyfAnnouncer).toContainText(/no.*res.*:/i);
   });
 
   test("should show error for whitespace in room and surname (A)", async ({
