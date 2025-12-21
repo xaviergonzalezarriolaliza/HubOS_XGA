@@ -23,22 +23,32 @@ These screenshots are representative images from recent runs. When the PDF is ge
 - **Login inputs (room & name)** — `playwright-report/data/c5a63091c84b46ac0df67e5b9cd13bd081a278cf.png`
   - Test(s): should login with correct room and surname (A/B)
   - Key locators/roles: `#guest_room`, `#guest_name`, `#btn_login`
+  
+  ![Login inputs](playwright-report/data/c5a63091c84b46ac0df67e5b9cd13bd081a278cf.png)
 
 - **F&B alternate form layout** — `playwright-report/data/f71ae65d482fdffd1dc770e298eb252e47724077.png`
   - Test(s): should login with correct room and surname (B)
   - Key locators: `.fandb-form-control-login`, `.btn-login`, role=`button`
 
+  ![F&B alternate form layout](playwright-report/data/f71ae65d482fdffd1dc770e298eb252e47724077.png)
+
 - **Validation / notification (empty fields)** — `playwright-report/data/d4083499a387fbf4e904d9103fbdfa3ab50f0893.png`
   - Test(s): should show error for empty fields (A/B)
   - Key locators/roles: `#notification`, `role=alert`
+
+  ![Validation notification](playwright-report/data/d4083499a387fbf4e904d9103fbdfa3ab50f0893.png)
 
 - **Chat opened confirmation (post-login)** — `playwright-report/data/5648a809cbe47e8152ff710b5d2be53526405761.png`
   - Test(s): should login and open chat (A/B)
   - Key locators: `Hablamos?` button/link; new tab title contains `Alex Hub OS`
 
+  ![Chat opened confirmation](playwright-report/data/5648a809cbe47e8152ff710b5d2be53526405761.png)
+
 - **Reservation error screenshot** — `playwright-report/data/cc5631e724eb8330d3fc69573f66b77a6040ff8c.png`
   - Test(s): should not login with incorrect room number (A/B)
   - Key locators: `#notification`, assertion uses `toContainText` for reservation-related text
+
+  ![Reservation error screenshot](playwright-report/data/cc5631e724eb8330d3fc69573f66b77a6040ff8c.png)
 
 Include these images in the PDF by referencing the `playwright-report/data/` paths for the run you choose to export.
 
