@@ -39,6 +39,9 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      - name: Install zip
+        run: sudo apt-get update && sudo apt-get install -y zip
+
       - name: Set up environment variables for Playwright
         run: |
           echo 'CORRECT_LOGIN="Dafoe"' >> .env
@@ -65,19 +68,21 @@ jobs:
           echo "Report files (up to depth 3):"
           find playwright-report -maxdepth 3 -type f -print || true
 
-      - name: Upload Playwright report artifact
+      - name: Compress test reports
         if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report
-          if-no-files-found: warn
+        run: |
+          mkdir -p tmp_upload
+          # Zip the Playwright HTML report but exclude very large transient folders
+          zip -r tmp_upload/playwright-report.zip playwright-report -x "playwright-report/tmp_artifact/*" "playwright-report/**/data/**" || true
+          # Include test-results if present
+          if [ -d test-results ]; then zip -r tmp_upload/test-results.zip test-results || true; fi
 
-      - name: Upload Playwright test-results artifact
+      - name: Upload combined test artifacts (zipped)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-test-results
-          path: test-results
+          name: playwright-report-archive
+          path: tmp_upload
+          retention-days: 7
           if-no-files-found: warn
           
