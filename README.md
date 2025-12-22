@@ -99,6 +99,28 @@ To view any report, open the corresponding HTML file in the `playwright-report/`
 	```
 	The HTML report will open in your browser. You can also find historical reports in the `playwright-report/` directory.
 
+## Available npm scripts
+
+This project exposes convenient npm scripts in `package.json` to run tests and generate artifacts. Examples:
+
+```bash
+# run all tests (headless)
+npm run test:all
+
+# run all tests (headed)
+npm run test:all:headed
+
+# run full matrix (headless then headed)
+npm run test:matrix
+
+# run per-browser/device (examples)
+npm run test:chromium
+npm run test:webkit:headed
+
+# generate the PPTX document from screenshots
+npm run generate:pptx
+```
+
 
 ## Security Note
 

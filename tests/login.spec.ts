@@ -50,9 +50,10 @@ const url = BASE_URL;
 test.describe("Guest in Touch Login", () => {
   // Try several selectors for room and surname fields
   // Go to login page before each test
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }, testInfo) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto(url);
+    console.log(`RUNNING: ${testInfo.title}`);
   });
 
   test("should login with correct room and surname (A)", async ({ page }) => {
@@ -443,4 +444,9 @@ test.describe("Guest in Touch Login", () => {
     // Recheck that login is successful and the correct room, name, and hotel are displayed
     await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN4, 15000);
   });
+
+  test.afterEach(async ({}, testInfo) => {
+    console.log(`RESULT:  ${testInfo.title} — ${testInfo.status}`);
+  });
+
 });

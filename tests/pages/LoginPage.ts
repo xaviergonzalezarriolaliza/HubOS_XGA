@@ -49,7 +49,13 @@ export class LoginPage {
   async submitLogin(room?: string, assertRoom = false) {
     await waitForLocatorVisible(this.loginButton);
     await this.loginButton.click();
-    await this.page.waitForLoadState('domcontentloaded');
+    // If the caller requested `assertRoom`, the subsequent `waitForRoom`
+    // will cover waiting for the UI. Only perform the explicit load
+    // wait when the caller does not request that assertion to avoid
+    // redundant waiting.
+    if (!assertRoom) {
+      await this.page.waitForLoadState('domcontentloaded');
+    }
     if (assertRoom && room) {
       await this.waitForRoom(room);
     }
@@ -68,7 +74,12 @@ export class LoginPage {
     await expect(this.fandbInputs.last()).toHaveValue(name);                           // verify value name 
     await expect(this.page.locator('#guest_name')).toHaveValue(name);                  // with direct locator
     await this.loginButton.click();
-    await this.page.waitForLoadState('domcontentloaded');
+    // When `assertRoom` is true the following `waitForRoom` covers
+    // waiting for the F&B form to appear; skip the explicit load
+    // state wait in that case to reduce redundant waiting.
+    if (!assertRoom) {
+      await this.page.waitForLoadState('domcontentloaded');
+    }
     // Only assert the room heading when caller requests it. Some tests
     // intentionally trigger failed logins and should not expect the room
     // heading to appear.

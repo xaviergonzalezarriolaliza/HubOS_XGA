@@ -4,6 +4,10 @@ const now = new Date();
 const pad = (n: number) => n.toString().padStart(2, '0');
 const dateStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
 
+// Detect headed mode by checking CLI args passed to the Playwright runner.
+// Playwright forwards CLI flags so `--headed` will appear in process.argv.
+const isHeaded = process.argv.includes('--headed');
+
 export default defineConfig({
   reporter: [['html', { outputFolder: `playwright-report/report_${dateStr}`, open: 'never' }]],
   // Ensure Playwright writes traces/screenshots into a CI-uploadable folder
@@ -15,7 +19,8 @@ export default defineConfig({
     // contain useful artifacts for debugging and reporting.
     trace: 'on',
     screenshot: 'on',
-    navigationTimeout: 30000,
+    navigationTimeout: isHeaded ? 60000 : 30000,
+    launchOptions: isHeaded ? { slowMo: 50 } : {},
   },
   projects: [
     {
