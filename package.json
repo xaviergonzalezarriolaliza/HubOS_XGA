@@ -6,6 +6,7 @@
   "scripts": {
     "test": "npx playwright test",
     "generate:pptx": "node scripts/generate_pptx.js",
+    "generate:pdf": "node scripts/generate_pdf.js",
     "test:all": "npx playwright test",
     "test:all:headed": "npx playwright test --headed --timeout=60000 --workers=1",
     "test:headed:extended": "npx playwright test --headed --timeout=120000 --workers=1",

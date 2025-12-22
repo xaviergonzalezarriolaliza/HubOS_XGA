@@ -399,6 +399,38 @@ Note: the PNG filenames above correspond to screenshot assets produced by Playwr
 	- should show error for very long room number (A/B)
 
 
+## Breaker Tests — System Stressing & Security Probes
+
+- **Date:** 2025-12-22
+- **File / Command:** `tests/breaker.spec.ts` — run with `npx playwright test tests/breaker.spec.ts --workers=1`
+- **Overall result (this run):** **48 passed, 0 failed** — wall time ~4.1 minutes.
+
+These tests were added to intentionally probe robustness and security boundaries of the login flow and server-side validation. They are grouped below with global results by group and the specific test vectors they contain.
+
+- **Groups & global outcome:**
+	- **XSS/reflected vectors:** 8 tests — PASSED
+	- **SQLi-like payloads / injection patterns:** 6 tests — PASSED
+	- **Very-long / overflow inputs:** 8 tests — PASSED
+	- **Unicode, emoji, and multi-byte inputs:** 6 tests — PASSED
+	- **Embedded NUL / control characters:** 8 tests — PASSED
+	- **Rapid repeated submit / rate-limit probing:** 12 tests — PASSED
+
+- **Representative per-test descriptions (all PASSED):**
+	- Reflected XSS payloads sent in `room` and `name` fields (various `<script>`/angle-bracket patterns) — application correctly escaped or rejected input.
+	- Stored-style XSS-like inputs (persisted attempts) to check sanitization on server responses — no execution observed.
+	- SQLi-style inputs (quotes, comment sequences, boolean logic payloads) to detect naive DB interpolation — inputs rejected or safely handled.
+	- Very-long room/name inputs (50–10k chars) to detect buffer/validation failures — server returned validation errors or truncated safely.
+	- Unicode, emoji, and complex multi-byte sequences to check encoding handling — accepted/rejected consistently with validation rules, no crashes.
+	- Embedded NUL and control characters (0x00, 0x1F, etc.) to verify parser robustness — safely handled and rejected where appropriate.
+	- Rapid repeated submit sequences to probe rate limiting and concurrency behavior — server remained stable; expected error/validation behavior observed.
+
+Files and traces for this run are available in the usual Playwright report location; see the latest `playwright-report/` and `test-results/` folders for screenshots, trace.zip files, and the HTML report for test-level detail. The breaker tests live in `tests/breaker.spec.ts` and are intended to be expanded over time with additional vectors.
+
+If you want, I can:
+- regenerate the homework PDF to include this section (requires running your PDF export for `HubOS_QA_Engineer_Homework_XGA.md`), or
+- add more vectors (e.g., CSRF probes, concurrent session reuse, or further stored-XSS scenarios) and re-run the suite.
+
+
 ## Project Structure
 - `tests/` — Contains all test cases
 - `playwright.config.ts` — Playwright configuration

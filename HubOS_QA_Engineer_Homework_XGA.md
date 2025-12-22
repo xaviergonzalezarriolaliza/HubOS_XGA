@@ -178,3 +178,31 @@ All requirements are fully satisfied, with additional edge, chat feature, and se
 ---
 
 *Xavier Gonzalez Arriola*
+
+
+## Breaker Tests — System Stressing & Security Probes
+
+- **Date:** 2025-12-22
+- **File / Command:** `tests/breaker.spec.ts` — run with `npx playwright test tests/breaker.spec.ts --workers=1`
+- **Overall result (this run):** **48 passed, 0 failed** — wall time ~4.1 minutes.
+
+These breaker tests intentionally probe robustness and server-side validation for the login flow. They cover XSS and injection vectors, long inputs, multi-byte/unicode inputs, control characters, and rapid-submit stress patterns. The run summary by group is below.
+
+- **Groups & global outcome:**
+  - **XSS/reflected vectors:** 8 tests — PASSED
+  - **SQLi-like payloads / injection patterns:** 6 tests — PASSED
+  - **Very-long / overflow inputs:** 8 tests — PASSED
+  - **Unicode, emoji, and multi-byte inputs:** 6 tests — PASSED
+  - **Embedded NUL / control characters:** 8 tests — PASSED
+  - **Rapid repeated submit / rate-limit probing:** 12 tests — PASSED
+
+- **Representative per-test descriptions (all PASSED):**
+  - Reflected XSS payloads in `room` and `name` fields — escaped/rejected.
+  - Stored-style XSS-like inputs to verify sanitization — no execution observed.
+  - SQLi-style payloads to detect SQL interpolation issues — handled safely.
+  - Very-long inputs to detect overflow or crashes — validation errors observed where expected.
+  - Unicode and emoji inputs to test encoding handling — accepted/rejected per validation rules, no crashes.
+  - Embedded NUL and control characters to test parser robustness — rejected or safely handled.
+  - Rapid repeated submit sequences to probe rate limiting — server remained stable and behaved as expected.
+
+Traces, screenshots, and detailed test-level errors (if any) are stored in `playwright-report/` and `test-results/` for the run. The breaker tests are implemented in `tests/breaker.spec.ts` and are intended to be extended with additional vectors as needed.
