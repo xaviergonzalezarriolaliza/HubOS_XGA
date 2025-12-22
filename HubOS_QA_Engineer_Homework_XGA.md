@@ -76,6 +76,57 @@ Include these images in the PDF by referencing the `playwright-report/data/` pat
   - should (not) allow login with partial name (security proof)
   - should show error for very long room number (A/B)
 
+---
+
+## Full test suite (42 scenarios)
+
+Below are the 42 test scenarios implemented in `tests/login.spec.ts` with a short intent summary for each.
+
+1. should login with correct room and surname (A) — id-based selector login successful.
+2. should login with correct room and surname (B) — class/F&B selector login successful.
+3. should login and open chat (A) — login (A) then open chat and assert agent name.
+4. should login and open chat (B) — login (B) then open chat and assert agent name.
+5. should login with room number without leading zero (A) — login without leading zero (A).
+6. should login with room number without leading zero (B) — login without leading zero (B).
+7. should not login with incorrect room number (A) — reject wrong room (A).
+8. should not login with incorrect room number (B) — reject wrong room (B).
+9. should not login with incorrect surname (A) — reject wrong surname (A).
+10. should not login with incorrect surname (B) — reject wrong surname (B).
+11. should show error for empty fields (A) — submit empty inputs; assert notification (A).
+12. should show error for empty fields (B) — same as 11 (B).
+13. should show error for special characters in room (A) — reject special chars in room (A).
+14. should show error for special characters in room (B) — reject special chars in room (B).
+15. should show error for special characters in surname (A) — reject special chars in surname (A).
+16. should show error for special characters in surname (B) — reject special chars in surname (B).
+17. should show error for very long room number (A) — very long room rejected (A).
+18. should show error for very long room number (B) — very long room rejected (B).
+19. should show error for very long room number (A) [POM] — POM duplicate of 17.
+20. should show error for very long room number (B) [POM] — POM duplicate of 18.
+21. should show error for very long surname (A) — very long surname rejected (A).
+22. should show error for very long surname (B) — very long surname rejected (B).
+23. should show error for very long surname (A) [POM] — POM duplicate of 21.
+24. should show error for very long surname (B) [POM] — POM duplicate of 22.
+25. should show error for whitespace in room and surname (A) — whitespace-padded inputs handled (A).
+26. should show error for whitespace in room and surname (B) — whitespace-padded inputs handled (B).
+27. should show error when only room is filled (A) — missing surname error (A).
+28. should show error when only room is filled (B) — missing surname error (B).
+29. should show error when only surname is filled (A) — missing room error (A).
+30. should show error when only surname is filled (B) — missing room error (B).
+31. should not login with extra trailing zero in room number (A) — trailing-zero room rejected (A).
+32. should not login with extra trailing zero in room number (B) — trailing-zero room rejected (B).
+33. should not login with double leading zero in room number (A) — double-leading-zero rejected (A).
+34. should not login with double leading zero in room number (B) — double-leading-zero rejected (B).
+35. should (not) allow login with partial name for room 440 (security proof) — demonstrates partial-name vulnerability (440).
+36. should (not) allow login with partial name for room 0440 (security proof) — demonstrates partial-name vulnerability (0440).
+37. should login with full name Willem Dafoe (0440) (A) — positive full-name login (A).
+38. should login with full name Willem Dafoe (0440) (B) — positive full-name login (B).
+39. should login with full name Willem Dafoe (440) (A) — positive full-name login without leading zero (A).
+40. should login with full name Willem Dafoe (440) (B) — positive full-name login without leading zero (B).
+41. should login with full name Willem Dafoe (0440) — repeat/sanity check for full-name 0440.
+42. should login with full name Willem Dafoe (440) — repeat/sanity check for full-name 440.
+
+When run across 8 browsers/devices this yields ~336 test executions (42 × 8). Detailed per-run traces and screenshots are in `playwright-report/`.
+
 
 ## Latest Changes (2025-12-21)
 
