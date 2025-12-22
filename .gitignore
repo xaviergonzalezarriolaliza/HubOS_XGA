@@ -10,3 +10,4 @@ tmp_playwright_report*/
 tmp_playwright_report_*/
 tmp_playwright_report_new/
 tmp_artifact/
+.tmp/
