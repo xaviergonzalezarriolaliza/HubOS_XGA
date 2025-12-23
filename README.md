@@ -50,6 +50,9 @@ All test results and reports are located in the `playwright-report/` directory.
 - **Result**: **352/352 tests passed** on all browsers/devices (0 failed, 0 skipped)
 - **Report (HTML)**: [playwright-report/report_2025-12-23_00-22-42/index.html](playwright-report/report_2025-12-23_00-22-42/index.html)
 - **Report (PDF)**: [playwright-report/report_2025-12-23_00-22-42/report.pdf](playwright-report/report_2025-12-23_00-22-42/report.pdf)
+ - **Duration (approx.)**: 12.0 minutes
+ - **Report folder**: `playwright-report/report_2025-12-23_00-22-42`
+ - **Local PDF Summary**: [docs/LATEST_REPORT_SUMMARY.pdf](docs/LATEST_REPORT_SUMMARY.pdf)
 
 ### December 15, 2025
 - **Date**: December 15, 2025
