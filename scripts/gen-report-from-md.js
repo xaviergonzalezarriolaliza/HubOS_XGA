@@ -28,6 +28,10 @@ async function main() {
         table { border-collapse: collapse; width: 100% }
         table, th, td { border: 1px solid #ddd }
         th, td { padding: 6px 8px }
+        /* Scale screenshots and images to 15% for compact PDF */
+        img { max-width: 15% !important; height: auto !important; display: inline-block }
+        /* Allow larger images that are explicitly flagged with .fullsize */
+        img.fullsize { max-width: 100% !important }
       </style>
     </head>
     <body>
