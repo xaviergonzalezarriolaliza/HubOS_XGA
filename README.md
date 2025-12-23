@@ -50,6 +50,8 @@ Note: API download links require repository access and an authentication token. 
 - **Report (HTML)**: [playwright-report/report_2025-12-23_00-22-42/index.html](playwright-report/report_2025-12-23_00-22-42/index.html)
 - **Duration (approx.)**: 12.0 minutes
 - **Report folder**: `playwright-report/report_2025-12-23_00-22-42`
+ - **Report (PDF)**: [docs/HubOS_QA_Engineer_Homework_XGA.pdf](docs/HubOS_QA_Engineer_Homework_XGA.pdf)
+ - **Report (test-results)**: [test-results/report_2025-12-23_19-21-02](test-results/report_2025-12-23_19-21-02)
 
 
 ### December 19, 2025
