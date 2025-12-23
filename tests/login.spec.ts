@@ -19,6 +19,7 @@ const DEMOHUB = process.env.DEMOHUB;
 const BASE_URL = process.env.BASE_URL;
 const PARTIAL_LOGIN = process.env.PARTIAL_LOGIN;
 const PARTIAL_LOGIN2 = process.env.PARTIAL_LOGIN2;
+const PARTIAL_LOGIN3 = process.env.PARTIAL_LOGIN3;
 
 // Fail fast if required env vars are missing — avoids embedding hardcoded values in source
 const missing: string[] = [];
@@ -36,6 +37,7 @@ if (!DEMOHUB) missing.push('DEMOHUB');
 if (!BASE_URL) missing.push('BASE_URL');
 if (!PARTIAL_LOGIN) missing.push('PARTIAL_LOGIN');
 if (!PARTIAL_LOGIN2) missing.push('PARTIAL_LOGIN2');
+if (!PARTIAL_LOGIN3) missing.push('PARTIAL_LOGIN3');
 
 if (missing.length) {
   throw new Error(`Missing required env vars: ${missing.join(', ')}. Add them to .env`);
@@ -269,7 +271,7 @@ test.describe("Guest in Touch Login", () => {
   }) => {
     // Security proof: This test currently passes due to a vulnerability. If it fails in the future, the vulnerability has been fixed (expected behavior).
     await loginPage.login({ room: ROOM, name: CORRECT_LOGIN3, mode: 'standard' });
-    await loginPage.assertLoggedIn(ROOM, PARTIAL_LOGIN2, 15000, 'fandb');
+    await loginPage.assertLoggedIn(ROOM, PARTIAL_LOGIN3, 15000, 'fandb');
   });
 
     test('should login with full name Willem Dafoe (0440) (A)', async ({ page }) => {
