@@ -293,7 +293,7 @@ test.describe("Guest in Touch Login", () => {
 
     test('should login with full name Willem Dafoe (440) (B)', async ({ page }) => {
       await loginPage.login({ room: ROOM2, name: CORRECT_LOGIN4, mode: 'fandb', assertRoom: true });
-      await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN4, 15000, 'fandb');
+      await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN, 15000, 'fandb');
     });
   test('should login with full name Willem Dafoe (0440)', async ({ page }) => {
     await loginPage.login({ room: ROOM, name: CORRECT_LOGIN4, mode: 'fandb' });
