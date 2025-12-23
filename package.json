@@ -8,6 +8,7 @@
     "generate:pptx": "node scripts/generate_pptx.js",
     "generate:pdf": "node scripts/generate_pdf.js",
     "generate:report:pdf": "node scripts/report_to_pdf.js",
+    "generate:pdf:from-md": "node scripts/gen-report-from-md.js",
     "test:all": "npx playwright test --reporter=list",
     "test:all:headed": "npx playwright test --reporter=list --headed --timeout=60000 --workers=1",
     "test:headed:extended": "npx playwright test --reporter=list --headed --timeout=120000 --workers=1",
