@@ -1,5 +1,7 @@
 name: Playwright Tests
 
+name: Playwright Tests
+
 on:
   push:
     branches:
@@ -14,21 +16,23 @@ jobs:
 
       - name: Write .env
         run: |
-          echo 'CORRECT_LOGIN="Dafoe"' >> .env
-          echo 'CORRECT_LOGIN2="Will"' >> .env
-          echo 'CORRECT_LOGIN3="Daf"' >> .env
-          echo 'CORRECT_LOGIN4="Willem Dafoe"' >> .env
-          echo 'INCORRECT_LOGIN="Follet Verd"' >> .env
-          echo 'INCORRECT_LOGIN2="Green Dwarf"' >> .env
-          echo 'ROOM="0440"' >> .env
-          echo 'ROOM2="440"' >> .env
-          echo 'WRONG_ROOM="00440"' >> .env
-          echo 'WRONG_ROOM2="9999"' >> .env
-          echo 'DEMOHUB="Hotel Demo Hub"' >> .env
-          echo 'BASE_URL="https://dev.hub-buildings.com/guest/index/login/eyJpZF9idWlsZGluZyI6IjgiLCJndWVzdF9uYW1lIjoiIiwiZ3Vlc3Rfcm9vbSI6IiIsImlkX2xhbmciOiIxIiwibGFuZ3VhZ2UiOiJFUyIsImdpdF9oZWFkZXJfaW1hZ2UiOiJodHRwczovL2Rldi5odWItYnVpbGRpbmdzLmNvbS9maWxlcy9ocHMvYnVpbGRpbmc4L2ltYWdlcy84XzIwMjIxMjAxMTAxMTAzXzYzODg3ZGI3ZWIwODMuanBlZyJ9"' >> .env
-          echo 'PARTIAL_LOGIN="Daf"' >> .env
-          echo 'PARTIAL_LOGIN2="Wil"' >> .env
-          echo 'PARTIAL_LOGIN3="Par3"' >> .env
+          cat > .env <<'EOF'
+CORRECT_LOGIN="Dafoe"
+CORRECT_LOGIN2="Will"
+CORRECT_LOGIN3="Daf"
+CORRECT_LOGIN4="Willem Dafoe"
+INCORRECT_LOGIN="Follet Verd"
+INCORRECT_LOGIN2="Green Dwarf"
+ROOM="0440"
+ROOM2="440"
+WRONG_ROOM="00440"
+WRONG_ROOM2="9999"
+DEMOHUB="Hotel Demo Hub"
+BASE_URL="https://dev.hub-buildings.com/guest/index/login/eyJpZF9idWlsZGluZyI6IjgiLCJndWVzdF9uYW1lIjoiIiwiZ3Vlc3Rfcm9vbSI6IiIsImlkX2xhbmciOiIxIiwibGFuZ3VhZ2UiOiJFUyIsImdpdF9oZWFkZXJfaW1hZ2UiOiJodHRwczovL2Rldi5odWItYnVpbGRpbmdzLmNvbS9maWxlcy9ocHMvYnVpbGRpbmc4L2ltYWdlcy84XzIwMjIxMjAxMTAxMTAzXzYzODg3ZGI3ZWIwODMuanBlZyJ9"
+PARTIAL_LOGIN="Daf"
+PARTIAL_LOGIN2="Wil"
+PARTIAL_LOGIN3="Par3"
+EOF
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -69,10 +73,6 @@ jobs:
           name: playwright-test-results
           path: test-results
           if-no-files-found: warn
-name: Playwright Tests
-
-on:
-  push:
     branches:
       - '**'
 
@@ -100,7 +100,7 @@ jobs:
           echo 'BASE_URL="https://dev.hub-buildings.com/guest/index/login/eyJpZF9idWlsZGluZyI6IjgiLCJndWVzdF9uYW1lIjoiIiwiZ3Vlc3Rfcm9vbSI6IiIsImlkX2xhbmciOiIxIiwibGFuZ3VhZ2UiOiJFUyIsImdpdF9oZWFkZXJfaW1hZ2UiOiJodHRwczovL2Rldi5odWItYnVpbGRpbmdzLmNvbS9maWxlcy9ocHMvYnVpbGRpbmc4L2ltYWdlcy84XzIwMjIxMjAxMTAxMTAzXzYzODg3ZGI3ZWIwODMuanBlZyJ9"' >> .env
           echo 'PARTIAL_LOGIN="Daf"' >> .env
           echo 'PARTIAL_LOGIN2="Wil"' >> .env
-          echo 'PARTIAL_LOGIN3="Par3"' >> .env
+          echo 'PARTIAL_LOGIN3="foe"' >> .env
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
