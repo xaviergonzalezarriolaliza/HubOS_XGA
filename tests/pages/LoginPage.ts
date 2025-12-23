@@ -28,9 +28,29 @@ export class LoginPage {
   }
 
   async loginWithRoomAndName(room: string, name: string) {
-    await this.roomInput.fill(room);
-    await this.nameInput.fill(name);
-    await this.loginButton.click();
+    // Delegate to the unified `login` helper for the standard flow so
+    // all login entry points funnel through a single method.
+    await this.login({ room, name, mode: 'standard' });
+  }
+
+  /**
+   * General-purpose login helper that unifies the different login flows.
+   * - `useFandb`: whether to use the F&B inputs variant (keeps existing assertions).
+   * - `assertRoom`: when true, waits for the room heading after login.
+   * This is a non-breaking convenience wrapper so tests and other helpers
+   * can call a single method for most login cases.
+   */
+  async login(
+    options: { room?: string; name?: string; mode?: 'fandb' | 'standard'; assertRoom?: boolean } = {}
+  ) {
+    const { room = '', name = '', mode = 'standard', assertRoom = false } = options;
+    if (mode === 'fandb') {
+      await this.loginWithFandbInputs(room, name, assertRoom);
+      return;
+    }
+    await this.fillRoom(room);
+    await this.fillName(name);
+    await this.submitLogin(room || undefined, assertRoom);
   }
 
   // Minimal POM helpers: fill inputs and submit. Backward-compatible with existing helpers.
@@ -62,6 +82,14 @@ export class LoginPage {
   }
 
   async loginWithFandbInputs(room: string, name: string, assertRoom = false) {
+    // Backwards-compatible wrapper — delegate to the centralized F&B
+    // implementation to keep behavior consistent.
+    return this._doFandbLogin(room, name, assertRoom);
+  }
+
+  // Centralized F&B login implementation used by both `login` (mode='fandb')
+  // and the backward-compatible `loginWithFandbInputs` wrapper.
+  private async _doFandbLogin(room: string, name: string, assertRoom = false) {
     await expect(this.fandbInputs.first()).toBeVisible();
     await expect(this.fandbInputs.last()).toBeVisible();
     await expect(this.fandbInputs).toHaveCount(2);
@@ -122,16 +150,73 @@ export class LoginPage {
   }
 
   /**
-   * High-level assertion helper verifying that the F&B form shows the
-   * provided room and optional guest name, and that the hotel name is visible.
+   * High-level assertion helper verifying that the UI shows the provided
+   * room and optional guest name. By default it asserts the F&B (fandb)
+   * view, but callers can pass `mode: 'standard'` to check the global
+   * post-login UI selectors instead.
+   *
+   * Backwards compatible: previous calls with (room, name, timeout)
+   * continue to work because `mode` is the optional fourth parameter.
    */
-  async assertLoggedIn(room: string, name?: string, timeout = 15000) {
-    await this.waitForRoom(room, timeout);
+  async assertLoggedIn(
+    room: string,
+    name?: string,
+    timeout = 15000,
+    mode: 'fandb' | 'standard' = 'fandb'
+  ) {
+    if (mode === 'fandb') {
+      await this.waitForRoom(room, timeout);
+      await expect(this.hotelName).toBeVisible({ timeout });
+      if (name) {
+        await expect(this.fandbForm).toContainText(name, { timeout });
+      }
+      await expect(this.fandbForm).toContainText(room, { timeout });
+      return;
+    }
+
+    // Standard view: use global locators instead of the F&B scoped form.
+    const roomLocator = this.page.locator('h4.client-room', { hasText: room }).first();
+    const nameLocator = this.page.locator('h4.client-name', { hasText: name || '' }).first();
+    await expect(roomLocator).toBeVisible({ timeout });
     await expect(this.hotelName).toBeVisible({ timeout });
     if (name) {
-      await expect(this.fandbForm).toContainText(name, { timeout });
+      await expect(nameLocator).toBeVisible({ timeout });
     }
-    await expect(this.fandbForm).toContainText(room, { timeout });
+  }
+
+  // --- Notification helpers (notyf) ---
+  /**
+   * Wait for the global notyf announcer to become visible and return its locator.
+   */
+  async waitForNotification(timeout = 5000) {
+    await expect(this.notyfAnnouncer).toBeVisible({ timeout });
+    return this.notyfAnnouncer;
+  }
+
+  /**
+   * Assert that the notyf announcer contains the provided text or regex.
+   */
+  async assertNotificationContains(expected: string | RegExp, timeout = 5000) {
+    await this.waitForNotification(timeout);
+    await expect(this.notyfAnnouncer).toContainText(expected, { timeout });
+  }
+
+  /**
+   * Assert the notyf announcer is visible.
+   */
+  async assertNotificationVisible(timeout = 5000) {
+    await expect(this.notyfAnnouncer).toBeVisible({ timeout });
+  }
+
+  /**
+   * Assert that the notyf announcer contains all provided strings/regexes.
+   * Waits once for visibility, then checks each expected value.
+   */
+  async assertNotificationContainsAll(expected: Array<string | RegExp>, timeout = 5000) {
+    await this.waitForNotification(timeout);
+    for (const e of expected) {
+      await expect(this.notyfAnnouncer).toContainText(e, { timeout });
+    }
   }
 }
 
