@@ -88,17 +88,8 @@ jobs:
           STORAGE_QUOTA_MB=${ARTIFACT_STORAGE_QUOTA_MB:-50000}
           echo "Using storage quota (MB): $STORAGE_QUOTA_MB"
           curl -s -H "Authorization: token $GITHUB_TOKEN" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/artifacts?per_page=100" > artifacts.json || true
-          REPO_ARTIFACTS_KB=$(python - <<'PY'
-import json,sys
-try:
-    j=json.load(open('artifacts.json'))
-except Exception:
-    print(0)
-    sys.exit(0)
-items=j.get('artifacts',[])
-print(sum(a.get('size_in_bytes',0) for a in items)//1024)
-PY
-)
+            REPO_ARTIFACTS_KB=$(node -e "const fs=require('fs');try{const j=JSON.parse(fs.readFileSync('artifacts.json'));const items=j.artifacts||[];const sum=items.reduce((s,a)=>s+(a.size_in_bytes||0),0);console.log(Math.floor(sum/1024));}catch(e){console.log(0);}"
+            )
           echo "REPO_ARTIFACTS_KB=$REPO_ARTIFACTS_KB" >> $GITHUB_ENV
           REPORT_SIZE_KB=${REPORT_SIZE_KB:-0}
           AVAILABLE_KB=$((STORAGE_QUOTA_MB*1024 - REPO_ARTIFACTS_KB))
