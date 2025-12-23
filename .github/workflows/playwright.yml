@@ -39,21 +39,6 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Set up environment variables for Playwright
-        run: |
-          echo 'CORRECT_LOGIN="Dafoe"' >> .env
-          echo 'CORRECT_LOGIN2="Will"' >> .env
-          echo 'CORRECT_LOGIN3="Daf"' >> .env
-          echo 'CORRECT_LOGIN4="Willem Dafoe"' >> .env
-          echo 'INCORRECT_LOGIN="Follet Verd"' >> .env
-          echo 'INCORRECT_LOGIN2="Green Dwarf"' >> .env
-          echo 'ROOM="0440"' >> .env
-          echo 'ROOM2="440"' >> .env
-          echo 'WRONG_ROOM="00440"' >> .env
-          echo 'WRONG_ROOM2="9999"' >> .env
-          echo 'DEMOHUB="Hotel Demo Hub"' >> .env
-          echo 'BASE_URL="https://dev.hub-buildings.com/guest/index/login/eyJpZF9idWlsZGluZyI6IjgiLCJndWVzdF9uYW1lIjoiIiwiZ3Vlc3Rfcm9vbSI6IiIsImlkX2xhbmciOiIxIiwibGFuZ3VhZ2UiOiJFUyIsImdpdF9oZWFkZXJfaW1hZ2UiOiJodHRwczovL2Rldi5odWItYnVpbGRpbmdzLmNvbS9maWxlcy9ocHMvYnVpbGRpbmc4L2ltYWdlcy84XzIwMjIxMjAxMTAxMTAzXzYzODg3ZGI3ZWIwODMuanBlZyJ9"' >> .env
-
       - name: Run Playwright tests
         run: npx playwright test --reporter=list,html --workers=2
 
