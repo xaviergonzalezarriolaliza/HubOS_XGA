@@ -4,37 +4,38 @@
   "description": "Playwright tests for Guest in Touch app",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test",
+    "test": "npx playwright test --reporter=list",
     "generate:pptx": "node scripts/generate_pptx.js",
     "generate:pdf": "node scripts/generate_pdf.js",
-    "test:all": "npx playwright test",
-    "test:all:headed": "npx playwright test --headed --timeout=60000 --workers=1",
-    "test:headed:extended": "npx playwright test --headed --timeout=120000 --workers=1",
+    "generate:report:pdf": "node scripts/report_to_pdf.js",
+    "test:all": "npx playwright test --reporter=list",
+    "test:all:headed": "npx playwright test --reporter=list --headed --timeout=60000 --workers=1",
+    "test:headed:extended": "npx playwright test --reporter=list --headed --timeout=120000 --workers=1",
     "test:matrix": "npm run test:all && npm run test:all:headed",
 
-    "test:chromium": "npx playwright test --project=\"Chromium\"",
-    "test:chromium:headed": "npx playwright test --project=\"Chromium\" --headed --timeout=60000 --workers=1",
+    "test:chromium": "npx playwright test --reporter=list --project=\"Chromium\"",
+    "test:chromium:headed": "npx playwright test --reporter=list --project=\"Chromium\" --headed --timeout=60000 --workers=1",
 
-    "test:firefox": "npx playwright test --project=\"Firefox\"",
-    "test:firefox:headed": "npx playwright test --project=\"Firefox\" --headed --timeout=60000 --workers=1",
+    "test:firefox": "npx playwright test --reporter=list --project=\"Firefox\"",
+    "test:firefox:headed": "npx playwright test --reporter=list --project=\"Firefox\" --headed --timeout=60000 --workers=1",
 
-    "test:webkit": "npx playwright test --project=\"WebKit\"",
-    "test:webkit:headed": "npx playwright test --project=\"WebKit\" --headed --timeout=60000 --workers=1",
+    "test:webkit": "npx playwright test --reporter=list --project=\"WebKit\"",
+    "test:webkit:headed": "npx playwright test --reporter=list --project=\"WebKit\" --headed --timeout=60000 --workers=1",
 
-    "test:edge": "npx playwright test --project=\"Edge\"",
-    "test:edge:headed": "npx playwright test --project=\"Edge\" --headed --timeout=60000 --workers=1",
+    "test:edge": "npx playwright test --reporter=list --project=\"Edge\"",
+    "test:edge:headed": "npx playwright test --reporter=list --project=\"Edge\" --headed --timeout=60000 --workers=1",
 
-    "test:pixel5": "npx playwright test --project=\"Pixel 5 (Android)\"",
-    "test:pixel5:headed": "npx playwright test --project=\"Pixel 5 (Android)\" --headed --timeout=60000 --workers=1",
+    "test:pixel5": "npx playwright test --reporter=list --project=\"Pixel 5 (Android)\"",
+    "test:pixel5:headed": "npx playwright test --reporter=list --project=\"Pixel 5 (Android)\" --headed --timeout=60000 --workers=1",
 
-    "test:galaxys9": "npx playwright test --project=\"Galaxy S9+ (Android)\"",
-    "test:galaxys9:headed": "npx playwright test --project=\"Galaxy S9+ (Android)\" --headed --timeout=60000 --workers=1",
+    "test:galaxys9": "npx playwright test --reporter=list --project=\"Galaxy S9+ (Android)\"",
+    "test:galaxys9:headed": "npx playwright test --reporter=list --project=\"Galaxy S9+ (Android)\" --headed --timeout=60000 --workers=1",
 
-    "test:iphone12": "npx playwright test --project=\"iPhone 12\"",
-    "test:iphone12:headed": "npx playwright test --project=\"iPhone 12\" --headed --timeout=60000 --workers=1",
+    "test:iphone12": "npx playwright test --reporter=list --project=\"iPhone 12\"",
+    "test:iphone12:headed": "npx playwright test --reporter=list --project=\"iPhone 12\" --headed --timeout=60000 --workers=1",
 
-    "test:iphonese": "npx playwright test --project=\"iPhone SE\"",
-    "test:iphonese:headed": "npx playwright test --project=\"iPhone SE\" --headed --timeout=60000 --workers=1"
+    "test:iphonese": "npx playwright test --reporter=list --project=\"iPhone SE\"",
+    "test:iphonese:headed": "npx playwright test --reporter=list --project=\"iPhone SE\" --headed --timeout=60000 --workers=1"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",
