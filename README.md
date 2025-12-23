@@ -59,7 +59,7 @@ All test results and reports are located in the `playwright-report/` directory.
 - **Command**: `npx playwright test --reporter=list --workers=4`
 - **Result**: **352/352 tests passed** on all browsers/devices (0 failed, 0 skipped)
 - **Report (HTML)**: [playwright-report/report_2025-12-23_00-22-42/index.html](playwright-report/report_2025-12-23_00-22-42/index.html)
-- **Report (PDF)**: [playwright-report/report_2025-12-23_00-22-42/report.pdf](playwright-report/report_2025-12-23_00-22-42/report.pdf)
+- **Report (PDF)**: Not committed to this repository (open the HTML report or download CI artifact instead)
  - **Duration (approx.)**: 12.0 minutes
  - **Report folder**: `playwright-report/report_2025-12-23_00-22-42`
 
