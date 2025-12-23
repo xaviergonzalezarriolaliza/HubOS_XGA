@@ -231,9 +231,7 @@ test.describe("Guest in Touch Login", () => {
     const loginPage = new LoginPage(page);
     await loginPage.login({ room: ROOM + "0", name: CORRECT_LOGIN4, mode: 'fandb' });
     await expect(page).toHaveURL(url); // Assert that URL remains unchanged for room with extra trailing zero
-    await loginPage.assertNotificationContains(/no.*res.*:/i); // Assert error message: no reservation for room with extra trailing zero
-    await loginPage.assertNotificationContains(CORRECT_LOGIN4); // Assert error message: no reservation for room with extra trailing zero
-    await loginPage.assertNotificationContains(ROOM + "0"); // Assert error message: no reservation for room with extra trailing zero
+    await loginPage.assertNotificationContainsAll([/no.*res.*:/i, CORRECT_LOGIN4, ROOM + "0"]); // Assert error message: no reservation for room with extra trailing zero
   });
 
   test("should not login with double leading zero in room number (A)", async ({
@@ -241,9 +239,7 @@ test.describe("Guest in Touch Login", () => {
   }) => {
     await loginPage.login({ room: WRONG_ROOM, name: CORRECT_LOGIN4, mode: 'standard' });
     await expect(page).toHaveURL(url); // Assert that URL remains unchanged for room with double leading zero
-    await loginPage.assertNotificationContains(/no.*res.*:/i); // Assert error message: no reservation for room with double leading zero
-    await loginPage.assertNotificationContains(CORRECT_LOGIN4); // Assert error message: no reservation for room with double leading zero
-    await loginPage.assertNotificationContains(WRONG_ROOM); // Assert error message: no reservation for room with double leading zero
+    await loginPage.assertNotificationContainsAll([/no.*res.*:/i, CORRECT_LOGIN4, WRONG_ROOM]); // Assert error message: no reservation for room with double leading zero
   });
 
   test("should not login with double leading zero in room number (B)", async ({
@@ -252,9 +248,7 @@ test.describe("Guest in Touch Login", () => {
     const loginPage = new LoginPage(page);
     await loginPage.login({ room: WRONG_ROOM, name: CORRECT_LOGIN4, mode: 'fandb' });
     await expect(page).toHaveURL(url); // Assert that URL remains unchanged for room with double leading zero
-    await loginPage.assertNotificationContains(/no.*res.*:/i); // Assert error message: no reservation for room with double leading zero
-    await loginPage.assertNotificationContains(CORRECT_LOGIN4); // Assert error message: no reservation for room with double leading zero
-    await loginPage.assertNotificationContains(WRONG_ROOM); // Assert error message: no reservation for room with double leading zero
+    await loginPage.assertNotificationContainsAll([/no.*res.*:/i, CORRECT_LOGIN4, WRONG_ROOM]); // Assert error message: no reservation for room with double leading zero
   });
 
   // --- SECURITY PROOF TESTS
