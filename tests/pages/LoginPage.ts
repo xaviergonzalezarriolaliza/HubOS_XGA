@@ -21,6 +21,7 @@ export class LoginPage {
     this.fandbForm = page.locator('.fandb-form');
     this.hotelName = page.locator('.hotel-name').first();
     this.notyfAnnouncer = page.locator('.notyf-announcer');
+    
   }
 
   async goto(url: string) {
@@ -30,7 +31,6 @@ export class LoginPage {
   async loginWithRoomAndName(room: string, name: string) {
     // Delegate to the unified `login` helper for the standard flow so
     // all login entry points funnel through a single method.
-    await this.login({ room, name, mode: 'standard' });
   }
 
   /**
