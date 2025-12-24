@@ -274,27 +274,28 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.assertLoggedIn(ROOM, PARTIAL_LOGIN3, 15000, 'fandb');
   });
 
-    test('should login with full name Willem Dafoe (0440) (A)', async ({ page }) => {
-      await loginPage.login({ room: ROOM, name: CORRECT_LOGIN4, mode: 'standard' });
-      await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN4, 15000);
-    });
+  test('should login with full name Willem Dafoe (0440) (A)', async ({ page }) => {
+    await loginPage.login({ room: ROOM, name: CORRECT_LOGIN4, mode: 'standard' });
+    await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN4, 15000);
+  });
 
-    test('should login with full name Willem Dafoe (0440) (B)', async ({ page }) => {
-      await loginPage.login({ room: ROOM, name: CORRECT_LOGIN4, mode: 'fandb' });
-      await expect(page).not.toHaveURL(url);
-      // Recheck that login is successful and the correct room, name, and hotel are displayed
-      await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN4, 15000, 'fandb');
-    });
+  test('should login with full name Willem Dafoe (0440) (B)', async ({ page }) => {
+    await loginPage.login({ room: ROOM, name: CORRECT_LOGIN4, mode: 'fandb' });
+    await expect(page).not.toHaveURL(url);
+    // Recheck that login is successful and the correct room, name, and hotel are displayed
+    await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN4, 15000, 'fandb');
+  });
 
-    test('should login with full name Willem Dafoe (440) (A)', async ({ page }) => {
-      await loginPage.login({ room: ROOM2, name: CORRECT_LOGIN4, mode: 'standard' });
-      await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN4, 15000);
-    });
+  test('should login with full name Willem Dafoe (440) (A)', async ({ page }) => {
+    await loginPage.login({ room: ROOM2, name: CORRECT_LOGIN4, mode: 'standard' });
+    await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN4, 15000);
+  });
 
-    test('should login with full name Willem Dafoe (440) (B)', async ({ page }) => {
-      await loginPage.login({ room: ROOM2, name: CORRECT_LOGIN4, mode: 'fandb', assertRoom: true });
-      await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN, 15000, 'fandb');
-    });
+  test('should login with full name Willem Dafoe (440) (B)', async ({ page }) => {
+    await loginPage.login({ room: ROOM2, name: CORRECT_LOGIN4, mode: 'fandb', assertRoom: true });
+    await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN, 15000, 'fandb');
+  });
+
   test('should login with full name Willem Dafoe (0440)', async ({ page }) => {
     await loginPage.login({ room: ROOM, name: CORRECT_LOGIN4, mode: 'fandb' });
     // Recheck that login is successful and the correct room, name, and hotel are displayed
