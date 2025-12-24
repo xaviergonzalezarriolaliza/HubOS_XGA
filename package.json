@@ -36,7 +36,8 @@
     "test:iphone12:headed": "npx playwright test --reporter=list --project=\"iPhone 12\" --headed --timeout=60000 --workers=1",
 
     "test:iphonese": "npx playwright test --reporter=list --project=\"iPhone SE\"",
-    "test:iphonese:headed": "npx playwright test --reporter=list --project=\"iPhone SE\" --headed --timeout=60000 --workers=1"
+    "test:iphonese:headed": "npx playwright test --reporter=list --project=\"iPhone SE\" --headed --timeout=60000 --workers=1",
+    "codegen": "npx playwright codegen"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",
