@@ -9,9 +9,9 @@ const dateStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate
 const isHeaded = process.argv.includes('--headed');
 
 export default defineConfig({
-  // Include TypeScript and Python tests, but exclude helper folders so
-  // Playwright doesn't treat page/lib modules as test files.
-  testMatch: ['**/*.ts', '!tests/pages/**', '!tests/libs/**', '**/*.py'],
+  // Only run test files that live directly under the `tests/` folder
+  // (avoids treating helper modules in subfolders as test files).
+  testMatch: ['tests/*.ts', 'tests/*.py'],
   reporter: [['html', { outputFolder: `playwright-report/report_${dateStr}`, open: 'never' }]],
   // Ensure Playwright writes traces/screenshots into a CI-uploadable folder
   outputDir: `test-results/report_${dateStr}`,
