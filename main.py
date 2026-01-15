@@ -65,7 +65,7 @@ def run(timeout: int = 10, headless: bool = False):
 if __name__ == "__main__":
     results = run()
     print("title:", results["title"])
-    print("redirector_heading: ", results["redirector_heading"])
+    print("redirector_heading:", results["redirector_heading"])
     print("codes:", results["codes"])
     print("text:", results["text"])
 
