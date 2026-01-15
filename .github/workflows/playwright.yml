@@ -53,6 +53,10 @@ jobs:
         run: |
           python -m playwright install --with-deps || true
 
+      - name: Run Python tests
+        run: |
+          python -m pytest -q --maxfail=1 --disable-warnings
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
