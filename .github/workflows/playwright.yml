@@ -5,10 +5,12 @@ on:
     paths:
       - 'main.py'
       - 'main.ts'
+      - 'tests/main.spec.ts'
   pull_request:
     paths:
       - 'main.py'
       - 'main.ts'
+      - 'tests/main.spec.ts'
 
 jobs:
   test:
