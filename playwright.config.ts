@@ -9,6 +9,9 @@ const dateStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate
 const isHeaded = process.argv.includes('--headed');
 
 export default defineConfig({
+  // Include TypeScript and Python tests, but exclude files ending with .spec.ts
+  // Note: negative glob patterns are supported to omit *.spec.ts files.
+  testMatch: ['**/*.ts', '!**/*.spec.ts', '**/*.py'],
   reporter: [['html', { outputFolder: `playwright-report/report_${dateStr}`, open: 'never' }]],
   // Ensure Playwright writes traces/screenshots into a CI-uploadable folder
   outputDir: `test-results/report_${dateStr}`,
