@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 
 export class ChatPage {
   readonly page: Page;
@@ -12,11 +12,12 @@ export class ChatPage {
 
   async waitForChatLoaded(timeout = 15000) {
     await this.page.waitForLoadState('domcontentloaded');
-    await expect(this.header).toBeVisible({ timeout });
+    await this.header.waitFor({ state: 'visible', timeout });
   }
 
   async assertAgentName(expected: string, timeout = 15000) {
     await this.waitForChatLoaded(timeout);
-    await expect(this.header).toContainText(expected, { timeout });
+    const txt = await this.header.textContent();
+    if (!txt || !txt.includes(expected)) throw new Error(`expected agent name ${expected}`);
   }
 }
