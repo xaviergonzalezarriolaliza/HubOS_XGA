@@ -1,4 +1,4 @@
-import type { Page, Locator, BrowserContext } from '@playwright/test';
+import type { Page, Locator, BrowserContext } from 'playwright';
 import { ChatPage } from './ChatPage';
 import { waitForLocatorVisible } from '../libs/waits';
 

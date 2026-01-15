@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright';
 
 export class ChatPage {
   readonly page: Page;
