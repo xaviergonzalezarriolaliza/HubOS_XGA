@@ -6,11 +6,13 @@ on:
       - 'main.py'
       - 'main.ts'
       - 'tests/main.spec.ts'
+      - 'tests/main.spec.py'
   pull_request:
     paths:
       - 'main.py'
       - 'main.ts'
       - 'tests/main.spec.ts'
+      - 'tests/main.spec.py'
 
 jobs:
   test:
@@ -36,6 +38,20 @@ jobs:
           echo 'BASE_URL="https://dev.hub-buildings.com/guest/index/login/eyJpZF9idWlsZGluZyI6IjgiLCJndWVzdF9uYW1lIjoiIiwiZ3Vlc3Rfcm9vbSI6IiIsImlkX2xhbmciOiIxIiwibGFuZ3VhZ2UiOiJFUyIsImdpdF9oZWFkZXJfaW1hZ2UiOiJodHRwczovL2Rldi5odWItYnVpbGRpbmdzLmNvbS9maWxlcy9ocHMvYnVpbGRpbmc4L2ltYWdlcy84XzIwMjIxMjAxMTAxMTAzXzYzODg3ZGI3ZWIwODMuanBlZyJ9"' >> .env
           echo 'PARTIAL_LOGIN="Daf"' >> .env
           echo 'PARTIAL_LOGIN2="Wil"' >> .env
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright Browsers (Python)
+        run: |
+          python -m playwright install --with-deps || true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
