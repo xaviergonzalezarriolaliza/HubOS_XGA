@@ -501,8 +501,7 @@ If you want, I can:
 
 
 ## Project Structure
-- `tests/` — Contains all test cases
-- `playwright.config.ts` — Playwright configuration
 
----
 **Note:** Use `--headed` to observe browser actions during test execution.
+<!-- ci-trigger: noop commit to start workflow -->
+<!-- timestamp: 2026-01-15T00:00:00Z -->
