@@ -1,4 +1,4 @@
-import { Page, Locator, expect, BrowserContext } from '@playwright/test';
+import type { Page, Locator, BrowserContext } from '@playwright/test';
 import { ChatPage } from './ChatPage';
 import { waitForLocatorVisible } from '../libs/waits';
 
@@ -90,17 +90,17 @@ export class LoginPage {
   // Centralized F&B login implementation used by both `login` (mode='fandb')
   // and the backward-compatible `loginWithFandbInputs` wrapper.
   private async _doFandbLogin(room: string, name: string, assertRoom = false) {
-    await expect(this.fandbInputs.first()).toBeVisible();
-    await expect(this.fandbInputs.last()).toBeVisible();
-    await expect(this.fandbInputs).toHaveCount(2);
+    await this.fandbInputs.first().waitFor({ state: 'visible' });
+    await this.fandbInputs.last().waitFor({ state: 'visible' });
+    if (await this.fandbInputs.count() !== 2) throw new Error('expected 2 F&B inputs');
     await this.fandbInputs.first().fill(room);                                         // nth(0)
-    await expect(this.fandbInputs.first()).toHaveId('guest_room')                      // id
-    await expect(this.fandbInputs.first()).toHaveValue(room);                          // verify value room
-    await expect(this.page.locator('#guest_room')).toHaveValue(room);                  // with direct locator
+    if ((await this.fandbInputs.first().getAttribute('id')) !== 'guest_room') throw new Error('expected first F&B input to have id guest_room');
+    if ((await this.fandbInputs.first().inputValue()) !== room) throw new Error('expected room value to match');
+    if ((await this.page.locator('#guest_room').inputValue()) !== room) throw new Error('expected #guest_room value to match');
     await this.fandbInputs.last().fill(name);                                          // nth(1)
-    await expect(this.fandbInputs.last()).toHaveId('guest_name');                      // id
-    await expect(this.fandbInputs.last()).toHaveValue(name);                           // verify value name 
-    await expect(this.page.locator('#guest_name')).toHaveValue(name);                  // with direct locator
+    if ((await this.fandbInputs.last().getAttribute('id')) !== 'guest_name') throw new Error('expected last F&B input to have id guest_name');
+    if ((await this.fandbInputs.last().inputValue()) !== name) throw new Error('expected guest_name value to match');
+    if ((await this.page.locator('#guest_name').inputValue()) !== name) throw new Error('expected #guest_name value to match');
     await this.loginButton.click();
     // When `assertRoom` is true the following `waitForRoom` covers
     // waiting for the F&B form to appear; skip the explicit load
@@ -123,7 +123,7 @@ export class LoginPage {
    */
   async waitForRoom(room: string, timeout = 15000) {
     const roomHeading = this.fandbForm.locator('h4.client-room', { hasText: room }).first();
-    await expect(roomHeading).toBeVisible({ timeout });
+    await roomHeading.waitFor({ state: 'visible', timeout });
     return roomHeading;
   }
 
@@ -166,21 +166,25 @@ export class LoginPage {
   ) {
     if (mode === 'fandb') {
       await this.waitForRoom(room, timeout);
-      await expect(this.hotelName).toBeVisible({ timeout });
+      await this.hotelName.waitFor({ state: 'visible', timeout });
       if (name) {
-        await expect(this.fandbForm).toContainText(name, { timeout });
+        const text = await this.fandbForm.textContent();
+        if (!text || !text.includes(name)) throw new Error(`expected F&B form to contain ${name}`);
       }
-      await expect(this.fandbForm).toContainText(room, { timeout });
+      {
+        const text = await this.fandbForm.textContent();
+        if (!text || !text.includes(room)) throw new Error(`expected F&B form to contain ${room}`);
+      }
       return;
     }
 
     // Standard view: use global locators instead of the F&B scoped form.
     const roomLocator = this.page.locator('h4.client-room', { hasText: room }).first();
     const nameLocator = this.page.locator('h4.client-name', { hasText: name || '' }).first();
-    await expect(roomLocator).toBeVisible({ timeout });
-    await expect(this.hotelName).toBeVisible({ timeout });
+    await roomLocator.waitFor({ state: 'visible', timeout });
+    await this.hotelName.waitFor({ state: 'visible', timeout });
     if (name) {
-      await expect(nameLocator).toBeVisible({ timeout });
+      await nameLocator.waitFor({ state: 'visible', timeout });
     }
   }
 
@@ -189,7 +193,7 @@ export class LoginPage {
    * Wait for the global notyf announcer to become visible and return its locator.
    */
   async waitForNotification(timeout = 5000) {
-    await expect(this.notyfAnnouncer).toBeVisible({ timeout });
+    await this.notyfAnnouncer.waitFor({ state: 'visible', timeout });
     return this.notyfAnnouncer;
   }
 
@@ -198,14 +202,20 @@ export class LoginPage {
    */
   async assertNotificationContains(expected: string | RegExp, timeout = 5000) {
     await this.waitForNotification(timeout);
-    await expect(this.notyfAnnouncer).toContainText(expected, { timeout });
+    const txt = await this.notyfAnnouncer.textContent();
+    if (!txt) throw new Error('notification empty');
+    if (typeof expected === 'string') {
+      if (!txt.includes(expected)) throw new Error(`expected notification to contain ${expected}`);
+    } else {
+      if (!expected.test(txt)) throw new Error(`expected notification to match ${expected}`);
+    }
   }
 
   /**
    * Assert the notyf announcer is visible.
    */
   async assertNotificationVisible(timeout = 5000) {
-    await expect(this.notyfAnnouncer).toBeVisible({ timeout });
+    await this.notyfAnnouncer.waitFor({ state: 'visible', timeout });
   }
 
   /**
@@ -214,8 +224,14 @@ export class LoginPage {
    */
   async assertNotificationContainsAll(expected: Array<string | RegExp>, timeout = 5000) {
     await this.waitForNotification(timeout);
+    const txt = await this.notyfAnnouncer.textContent();
+    if (!txt) throw new Error('notification empty');
     for (const e of expected) {
-      await expect(this.notyfAnnouncer).toContainText(e, { timeout });
+      if (typeof e === 'string') {
+        if (!txt.includes(e)) throw new Error(`expected notification to contain ${e}`);
+      } else {
+        if (!e.test(txt)) throw new Error(`expected notification to match ${e}`);
+      }
     }
   }
 }

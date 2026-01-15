@@ -1,4 +1,4 @@
-import { Locator } from '@playwright/test';
+import type { Locator } from '@playwright/test';
 
 export const DEFAULT_TIMEOUT = 10000;
 
