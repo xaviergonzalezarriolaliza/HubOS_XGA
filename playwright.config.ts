@@ -9,8 +9,8 @@ const dateStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate
 const isHeaded = process.argv.includes('--headed');
 
 export default defineConfig({
-  // Only run the main spec to keep other suites excluded from discovery/listing.
-  testMatch: ['tests/main.spec.*'],
+  // Run all spec files under `tests/` so CI includes every suite.
+  testMatch: ['tests/**/*.spec.*'],
   reporter: [['html', { outputFolder: `playwright-report/report_${dateStr}`, open: 'never' }]],
   // Ensure Playwright writes traces/screenshots into a CI-uploadable folder
   outputDir: `test-results/report_${dateStr}`,
