@@ -59,4 +59,5 @@ export default defineConfig({
       use: { ...devices['iPhone SE'] },
     },
   ],
+    // ci-trigger: harmless comment to force workflow run
 });
