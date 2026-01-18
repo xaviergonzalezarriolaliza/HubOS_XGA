@@ -197,22 +197,39 @@ export class LoginPage {
    */
   async waitForNotification(timeout = 5000) {
     // Wait for any common notyf selector to become visible in the DOM.
-    await this.page.waitForSelector('.notyf__toast, .notyf-announcer, .notyf', { state: 'visible', timeout });
-    return this.notyfAnnouncer.first();
+    await this.page.waitForSelector('.notyf__toast, .notyf-announcer, .notyf, .notyf__toast-message', { state: 'visible', timeout });
+    // Return a locator that resolves to the first visible toast/message container.
+    const visible = this.page.locator('.notyf__toast:visible, .notyf-announcer:visible, .notyf:visible, .notyf__toast-message:visible');
+    return visible.first();
   }
 
   /**
    * Assert that the notyf announcer contains the provided text or regex.
    */
   async assertNotificationContains(expected: string | RegExp, timeout = 5000) {
-    const locator = await this.waitForNotification(timeout);
-    // Use innerText to get rendered text (safer across containers).
-    const txt = await locator.innerText().catch(() => null);
-    if (!txt) throw new Error('notification empty');
-    if (typeof expected === 'string') {
-      if (!txt.includes(expected)) throw new Error(`expected notification to contain ${expected}`);
-    } else {
-      if (!expected.test(txt)) throw new Error(`expected notification to match ${expected}`);
+    // If we have a concrete expected value, wait for a toast that contains it.
+    const sel = '.notyf__toast, .notyf-announcer, .notyf, .notyf__toast-message';
+    try {
+      const byText = this.page.locator(sel, { hasText: expected });
+      await byText.first().waitFor({ state: 'visible', timeout });
+      const txt = await byText.first().innerText();
+      if (!txt) throw new Error('notification empty');
+      if (typeof expected === 'string') {
+        if (!txt.includes(expected)) throw new Error(`expected notification to contain ${expected}`);
+      } else {
+        if (!expected.test(txt)) throw new Error(`expected notification to match ${expected}`);
+      }
+      return;
+    } catch (err) {
+      // Fallback: wait for any visible toast and read its text for diagnostic failure message.
+      const locator = await this.waitForNotification(timeout);
+      const txt = await locator.innerText().catch(() => null);
+      if (!txt) throw new Error('notification empty (fallback)');
+      if (typeof expected === 'string') {
+        if (!txt.includes(expected)) throw new Error(`expected notification to contain ${expected}; actual: ${txt}`);
+      } else {
+        if (!expected.test(txt)) throw new Error(`expected notification to match ${expected}; actual: ${txt}`);
+      }
     }
   }
 
