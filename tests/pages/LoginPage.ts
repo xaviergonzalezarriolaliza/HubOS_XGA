@@ -20,7 +20,10 @@ export class LoginPage {
     this.fandbInputs = page.locator('.fandb-form-control-login');
     this.fandbForm = page.locator('.fandb-form');
     this.hotelName = page.locator('.hotel-name').first();
-    this.notyfAnnouncer = page.locator('.notyf-announcer');
+    // notyf may render notifications using several container/class names
+    // depending on version or app markup. Match common variants and take
+    // the first visible toast/container.
+    this.notyfAnnouncer = page.locator('.notyf__toast, .notyf-announcer, .notyf');
     
   }
 
@@ -193,16 +196,18 @@ export class LoginPage {
    * Wait for the global notyf announcer to become visible and return its locator.
    */
   async waitForNotification(timeout = 5000) {
-    await this.notyfAnnouncer.waitFor({ state: 'visible', timeout });
-    return this.notyfAnnouncer;
+    // Wait for any common notyf selector to become visible in the DOM.
+    await this.page.waitForSelector('.notyf__toast, .notyf-announcer, .notyf', { state: 'visible', timeout });
+    return this.notyfAnnouncer.first();
   }
 
   /**
    * Assert that the notyf announcer contains the provided text or regex.
    */
   async assertNotificationContains(expected: string | RegExp, timeout = 5000) {
-    await this.waitForNotification(timeout);
-    const txt = await this.notyfAnnouncer.textContent();
+    const locator = await this.waitForNotification(timeout);
+    // Use innerText to get rendered text (safer across containers).
+    const txt = await locator.innerText().catch(() => null);
     if (!txt) throw new Error('notification empty');
     if (typeof expected === 'string') {
       if (!txt.includes(expected)) throw new Error(`expected notification to contain ${expected}`);
@@ -215,7 +220,7 @@ export class LoginPage {
    * Assert the notyf announcer is visible.
    */
   async assertNotificationVisible(timeout = 5000) {
-    await this.notyfAnnouncer.waitFor({ state: 'visible', timeout });
+    await this.page.waitForSelector('.notyf__toast, .notyf-announcer, .notyf', { state: 'visible', timeout });
   }
 
   /**
@@ -223,8 +228,8 @@ export class LoginPage {
    * Waits once for visibility, then checks each expected value.
    */
   async assertNotificationContainsAll(expected: Array<string | RegExp>, timeout = 5000) {
-    await this.waitForNotification(timeout);
-    const txt = await this.notyfAnnouncer.textContent();
+    const locator = await this.waitForNotification(timeout);
+    const txt = await locator.innerText().catch(() => null);
     if (!txt) throw new Error('notification empty');
     for (const e of expected) {
       if (typeof e === 'string') {
