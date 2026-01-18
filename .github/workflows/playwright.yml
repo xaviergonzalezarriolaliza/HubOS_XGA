@@ -5,10 +5,12 @@ on:
     paths:
       - 'main.ts'
       - 'tests/**'
+      - 'playwright.config.ts'
   pull_request:
     paths:
       - 'main.ts'
       - 'tests/**'
+      - 'playwright.config.ts'
 
 jobs:
   test:
