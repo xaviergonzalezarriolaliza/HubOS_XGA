@@ -11,6 +11,7 @@ on:
       - 'main.ts'
       - 'tests/**'
       - 'playwright.config.ts'
+  workflow_dispatch: {}
 
 jobs:
   test:
