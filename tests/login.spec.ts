@@ -60,25 +60,25 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.goto(url);
   });
 
-  test.skip("should login with correct room and surname (A)", async ({ page }) => {
+  test("should login with correct room and surname (A)", async ({ page }) => {
     await loginPage.login({ room: ROOM, name: CORRECT_LOGIN, mode: 'standard' });
     await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN, 15000);
   });
 
-  test.skip("should login with correct room and surname (B)", async ({ page }) => {
+  test("should login with correct room and surname (B)", async ({ page }) => {
     await loginPage.login({ room: ROOM, name: CORRECT_LOGIN, mode: 'fandb' });
     await expect(page).not.toHaveURL(url);
     await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN, 15000, 'fandb');
   });
 
-  test.skip("should login and open chat (A)", async ({ page, context }) => {
+  test("should login and open chat (A)", async ({ page, context }) => {
     await loginPage.login({ room: ROOM, name: CORRECT_LOGIN, mode: 'standard' });
     await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN, 15000);
     const chatPage = await loginPage.openChat(context);
     await chatPage.assertAgentName("Alex Hub OS");
   });
 
-  test.skip("should login and open chat (B)", async ({ page, context }) => {
+  test("should login and open chat (B)", async ({ page, context }) => {
     await loginPage.login({ room: ROOM, name: CORRECT_LOGIN, mode: 'fandb', assertRoom: true });
     await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN, 15000, 'fandb');
     const [chatPage] = await Promise.all([
@@ -89,34 +89,34 @@ test.describe("Guest in Touch Login", () => {
     await expect(chatPage.locator("h3._9vd5._9scb._9scr")).toContainText("Alex Hub OS");
   });
 
-  test.skip("should login with room number without leading zero (A)", async ({ page }) => {
+  test("should login with room number without leading zero (A)", async ({ page }) => {
     await loginPage.login({ room: ROOM2, name: CORRECT_LOGIN, mode: 'standard' });
     await expect(page).not.toHaveURL(url);
     await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN, 15000);
   });
 
-  test.skip("should login with room number without leading zero (B)", async ({ page }) => {
+  test("should login with room number without leading zero (B)", async ({ page }) => {
     await loginPage.login({ room: ROOM2, name: CORRECT_LOGIN, mode: 'fandb', assertRoom: true });
     await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN, 15000, 'fandb');
   });
 
-  test.skip("should not login with incorrect room number (A)", async ({ page }) => {
+  test("should not login with incorrect room number (A)", async ({ page }) => {
     await loginPage.login({ room: WRONG_ROOM2, name: CORRECT_LOGIN, mode: 'standard' });
     await expect(page).toHaveURL(url);
   });
 
-  test.skip("should not login with incorrect room number (B)", async ({ page }) => {
+  test("should not login with incorrect room number (B)", async ({ page }) => {
     await loginPage.login({ room: WRONG_ROOM2, name: CORRECT_LOGIN, mode: 'fandb' });
     await loginPage.assertNotificationContains(/no.*res.*:/i);
     await expect(page).toHaveURL(url);
   });
 
-  test.skip("should not login with incorrect surname (A)", async ({ page }) => {
+  test("should not login with incorrect surname (A)", async ({ page }) => {
     await loginPage.login({ room: ROOM, name: INCORRECT_LOGIN2, mode: 'standard' });
     await loginPage.assertNotificationContains(/no.*res.*:/i);
   });
 
-  test.skip("should not login with incorrect surname (B)", async ({ page }) => {
+  test("should not login with incorrect surname (B)", async ({ page }) => {
     await loginPage.login({ room: ROOM, name: INCORRECT_LOGIN, mode: 'fandb' });
     await loginPage.assertNotificationContains(/no.*res.*:/i);
   });
