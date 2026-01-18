@@ -69,6 +69,20 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test --reporter=list,html --workers=2
 
+      - name: Create stable report copy (latest)
+        if: always()
+        run: |
+          if [ -d playwright-report ]; then
+            rm -rf playwright-report/latest || true
+            mkdir -p playwright-report/latest
+            cp -r playwright-report/* playwright-report/latest/ || true
+            rm -f playwright-report-latest.zip || true
+            zip -r playwright-report-latest.zip playwright-report/latest || true
+            echo "LATEST_REPORT=playwright-report-latest.zip" >> $GITHUB_ENV
+            echo "Created playwright-report/latest and zipped to playwright-report-latest.zip"
+          else
+            echo "No playwright-report folder to copy"
+          fi
       - name: Show Playwright report files
         if: always()
         run: |
@@ -91,6 +105,16 @@ jobs:
             echo "No playwright-report folder to zip"
           fi
 
+      - name: Upload latest Playwright report artifact (zip)
+        if: ${{ env.SKIP_ARTIFACTS != 'true' }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-latest
+          path: playwright-report-latest.zip
+          retention-days: 7
+          if-no-files-found: warn
+
       - name: Check report size
         if: always()
         run: |
@@ -110,6 +134,7 @@ jobs:
         with:
           name: playwright-report
           path: report.zip
+          retention-days: 7
           if-no-files-found: warn
 
       - name: Upload Playwright test-results artifact
@@ -119,5 +144,6 @@ jobs:
         with:
           name: playwright-test-results
           path: test-results
+          retention-days: 7
           if-no-files-found: warn
           
