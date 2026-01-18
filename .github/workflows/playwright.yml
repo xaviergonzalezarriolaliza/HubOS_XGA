@@ -3,12 +3,10 @@ name: Playwright Tests
 on:
   push:
     paths:
-      - 'main.py'
       - 'main.ts'
       - 'tests/**'
   pull_request:
     paths:
-      - 'main.py'
       - 'main.ts'
       - 'tests/**'
 
