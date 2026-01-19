@@ -43,4 +43,31 @@ jobs:
         run: dotnet build tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj --configuration Release --no-restore
 
       - name: Run tests
-        run: dotnet test tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj --configuration Release --no-build --verbosity normal
+        run: |
+          dotnet test tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj \
+            --configuration Release \
+            --no-build \
+            --verbosity normal \
+            --logger "trx;LogFileName=results.trx" \
+            --results-directory ./TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: dotnet-test-results
+          path: tests/dotnet-playwright-tests/TestResults/**/*.trx
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: tests/dotnet-playwright-tests/playwright-report/**
+
+      - name: Upload Playwright traces (zip)
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-traces
+          path: tests/dotnet-playwright-tests/**/*.zip
