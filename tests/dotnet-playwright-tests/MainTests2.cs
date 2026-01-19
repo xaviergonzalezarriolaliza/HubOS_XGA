@@ -42,12 +42,12 @@ namespace HubOS_XGA.Tests
             await page.ClickAsync("text=Redirect Link");
             await page.WaitForSelectorAsync("#redirect", new PageWaitForSelectorOptions { State = WaitForSelectorState.Visible });
 
-            string redirectorHeading = null;
+            string redirectorHeading = string.Empty;
             try
             {
-                redirectorHeading = await page.TextContentAsync("h3");
+                redirectorHeading = (await page.TextContentAsync("h3")) ?? string.Empty;
             }
-            catch { redirectorHeading = null; }
+            catch { redirectorHeading = string.Empty; }
             Console.WriteLine($"redirector_heading: {redirectorHeading}");
 
             await page.ClickAsync("#redirect");
