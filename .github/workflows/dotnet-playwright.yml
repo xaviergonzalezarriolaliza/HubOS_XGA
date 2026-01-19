@@ -26,17 +26,15 @@ jobs:
           restore-keys: |
             nuget-${{ runner.os }}-
 
-      - name: Install Playwright CLI (dotnet tool)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Playwright browsers (Node)
         run: |
-          # try installing latest available Playwright CLI tool from NuGet
-          dotnet tool install --global Microsoft.Playwright.CLI || \
-          dotnet tool update --global Microsoft.Playwright.CLI || true
-
-      - name: Add dotnet tools to PATH
-        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-
-      - name: Install Playwright browsers
-        run: playwright install --with-deps
+          # Use npx to run Playwright installer and fetch browsers
+          npx playwright install --with-deps
 
       - name: Restore
         run: dotnet restore tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj
