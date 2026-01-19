@@ -28,7 +28,9 @@ jobs:
 
       - name: Install Playwright CLI (dotnet tool)
         run: |
-          dotnet tool install --global Microsoft.Playwright.CLI --version 1.57.0
+          # try installing latest available Playwright CLI tool from NuGet
+          dotnet tool install --global Microsoft.Playwright.CLI || \
+          dotnet tool update --global Microsoft.Playwright.CLI || true
 
       - name: Add dotnet tools to PATH
         run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
