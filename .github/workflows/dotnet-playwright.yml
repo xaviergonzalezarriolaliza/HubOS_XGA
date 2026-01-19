@@ -69,7 +69,9 @@ jobs:
       - name: Run Python tests (pytest)
         if: always()
         run: |
-          pytest -q || true
+          mkdir -p test-results
+          # run pytest, save junit xml and a plain log file for CI artifact upload
+          pytest -q --junitxml=test-results/pytest-results.xml 2>&1 | tee test-results/pytest-run.log || true
 
       - name: Upload dotnet test results
         if: always()
@@ -100,4 +102,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pytest-logs
-          path: '**/pytest-*.log'
+          path: |
+            '**/test-results/**'
+            '**/pytest-*.log'
+            '**/pytest-run.log'
