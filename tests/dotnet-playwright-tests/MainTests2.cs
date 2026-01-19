@@ -30,6 +30,11 @@ namespace HubOS_XGA.Tests
         public async Task NavigateRedirectAndCheckStatusCodes()
         {
             var page = await _browser.NewPageAsync();
+            // ensure report directory exists
+            var reportDir = Path.Combine("tests", "dotnet-playwright-tests", "playwright-report");
+            Directory.CreateDirectory(reportDir);
+            // start Playwright tracing for this test
+            await page.Context.Tracing.StartAsync(new TracingStartOptions { Screenshots = true, Snapshots = true, Sources = true });
             await page.GotoAsync("https://the-internet.herokuapp.com/");
             var title = await page.TitleAsync();
             Console.WriteLine($"title: {title}");
@@ -63,6 +68,10 @@ namespace HubOS_XGA.Tests
             Console.WriteLine($"content length: {contentText.Length}");
 
             Assert.That(contentText, Does.Contain("Status Codes"));
+
+            // stop tracing and save trace zip
+            var traceFile = Path.Combine(reportDir, $"trace-{DateTime.UtcNow:yyyyMMddHHmmss}.zip");
+            await page.Context.Tracing.StopAsync(new TracingStopOptions { Path = traceFile });
 
             await page.CloseAsync();
         }
