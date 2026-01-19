@@ -5,7 +5,13 @@
   "scripts": {
     "start:ts": "ts-node main.ts",
     "build": "tsc",
-    "install-playwright": "npx playwright install"
+    "install-playwright": "npx playwright install",
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:headed:chromium": "npx playwright test --headed --browser=chromium",
+    "test:headed:firefox": "npx playwright test --headed --browser=firefox",
+    "test:headed:webkit": "npx playwright test --headed --browser=webkit",
+    "test:headed:file": "npx playwright test --headed"
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",

@@ -1,0 +1,46 @@
+name: .NET Playwright tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-$(hashFiles('**/*.csproj'))
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Install Playwright CLI (dotnet tool)
+        run: |
+          dotnet tool install --global Microsoft.Playwright.CLI --version 1.57.0
+
+      - name: Add dotnet tools to PATH
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: Install Playwright browsers
+        run: playwright install --with-deps
+
+      - name: Restore
+        run: dotnet restore tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj
+
+      - name: Build
+        run: dotnet build tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj --configuration Release --no-build --verbosity normal

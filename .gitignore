@@ -1,3 +1,26 @@
+## Visual Studio / .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Playwright / browsers / node artifacts
+.playwright/
+**/.playwright/
+playwright-report/
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# OS files
+Thumbs.db
+ehthumbs.db
+.DS_Store
 
 node_modules/
 
