@@ -158,6 +158,7 @@ jobs:
             **/*.zip
             playwright-report/**
             **/playwright-report/**
+          if-no-files-found: ignore
 
       - name: Upload pytest results (logs)
         if: always()
@@ -165,10 +166,11 @@ jobs:
         with:
           name: pytest-logs
           path: |
-            '**/test-results/**'
+            'test-results/pytest-results.xml'
+            'test-results/pytest-run.log'
             '**/pytest-*.log'
             '**/pytest-run.log'
-          if-no-files-found: warn
+          if-no-files-found: ignore
 
       - name: Upload TRX summary
         if: always()
