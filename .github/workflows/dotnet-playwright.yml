@@ -22,6 +22,14 @@ jobs:
       - name: Build dotnet
         run: dotnet build tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj --configuration Release --no-restore
 
+      - name: Install Node and Playwright browsers
+        run: |
+          apt-get update
+          apt-get install -y nodejs npm curl ca-certificates --no-install-recommends
+          # Ensure npm's npx is available and install browsers for Playwright
+          npx --version || npm i -g npm@latest
+          npx playwright install --with-deps || true
+
       - name: Run dotnet tests
         run: |
           dotnet test tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj \
