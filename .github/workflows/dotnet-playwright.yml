@@ -7,6 +7,41 @@ on:
     branches: [ main ]
 
 jobs:
+  dotnet-container-test:
+    name: DotNet tests (container)
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:8.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore dotnet
+        run: dotnet restore tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj
+
+      - name: Build dotnet
+        run: dotnet build tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj --configuration Release --no-restore
+
+      - name: Run dotnet tests
+        run: |
+          dotnet test tests/dotnet-playwright-tests/dotnet-playwright-tests.csproj \
+            --configuration Release \
+            --no-build \
+            --verbosity normal \
+            --logger "trx;LogFileName=results.trx" \
+            --results-directory ./TestResults
+
+      - name: Upload dotnet test results (TRX)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-test-results
+          path: |
+            TestResults/results.trx
+            '**/TestResults/**/*.trx'
+            '**/TestResults/**'
+          if-no-files-found: warn
+
   build-and-test:
     runs-on: ubuntu-latest
     steps:
@@ -98,8 +133,10 @@ jobs:
         with:
           name: dotnet-test-results
           path: |
+            'TestResults/results.trx'
             '**/TestResults/**/*.trx'
             '**/TestResults/**'
+          if-no-files-found: warn
 
       - name: Upload Playwright HTML report
         if: always()
