@@ -73,6 +73,15 @@ jobs:
           # run pytest, save junit xml and a plain log file for CI artifact upload
           pytest -q --junitxml=test-results/pytest-results.xml 2>&1 | tee test-results/pytest-run.log || true
 
+      - name: Ensure pytest artifact exists
+        if: always()
+        run: |
+          mkdir -p test-results
+          # If pytest didn't write any files, create a small placeholder so artifact upload finds something
+          if [ -z "$(ls -A test-results 2>/dev/null)" ]; then
+            echo "No pytest output" > test-results/pytest-run.log
+          fi
+
       - name: Upload dotnet test results
         if: always()
         uses: actions/upload-artifact@v4
@@ -106,3 +115,4 @@ jobs:
             '**/test-results/**'
             '**/pytest-*.log'
             '**/pytest-run.log'
+          if-no-files-found: warn
