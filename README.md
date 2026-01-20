@@ -198,6 +198,8 @@ All Playwright login tests passed successfully after this refactor, confirming t
 
 216 tests passed on all browsers/devices (2025-12-12, 21:40 UTC)
 
+<!-- ci-trigger: 2026-01-20 - minor whitespace update to trigger CI -->
+
 To view the detailed HTML report for this run, open:
 
 playwright-report/report_2025-12-12_21-40-52/index.html
