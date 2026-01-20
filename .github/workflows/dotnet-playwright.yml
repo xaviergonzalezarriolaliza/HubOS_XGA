@@ -82,19 +82,33 @@ jobs:
             echo "No pytest output" > test-results/pytest-run.log
           fi
 
+      - name: Generate TRX summary
+        if: always()
+        run: |
+          # If dotnet produced a TRX, render a human-readable summary
+          if [ -f ./TestResults/results.trx ]; then
+            python scripts/generate_trx_summary.py ./TestResults/results.trx dotnet-trx/trx-summary.html || true
+          else
+            echo "No TRX file found to summarize" > dotnet-trx/trx-summary.html
+          fi
+
       - name: Upload dotnet test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: dotnet-test-results
-          path: '**/TestResults/**/*.trx'
+          path: |
+            '**/TestResults/**/*.trx'
+            '**/TestResults/**'
 
       - name: Upload Playwright HTML report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: 'playwright-report/**'
+          path: |
+            'playwright-report/**'
+            '**/playwright-report/**'
 
       - name: Upload Playwright output and traces
         if: always()
@@ -103,8 +117,10 @@ jobs:
           name: playwright-artifacts
           path: |
             test-results/**
+            **/TestResults/**
             **/*.zip
             playwright-report/**
+            **/playwright-report/**
 
       - name: Upload pytest results (logs)
         if: always()
@@ -115,4 +131,12 @@ jobs:
             '**/test-results/**'
             '**/pytest-*.log'
             '**/pytest-run.log'
+          if-no-files-found: warn
+
+      - name: Upload TRX summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trx-summary
+          path: 'dotnet-trx/trx-summary.html'
           if-no-files-found: warn
