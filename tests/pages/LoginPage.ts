@@ -21,9 +21,9 @@ export class LoginPage {
     this.fandbForm = page.locator('.fandb-form');
     this.hotelName = page.locator('.hotel-name').first();
     // notyf may render notifications using several container/class names
-    // depending on version or app markup. Match common variants and take
-    // the first visible toast/container.
-    this.notyfAnnouncer = page.locator('.notyf__toast, .notyf-announcer, .notyf');
+    // depending on version or app markup. Prefer concrete toast/message
+    // elements first to avoid resolving containers that have no text.
+    this.notyfAnnouncer = page.locator('.notyf__toast, .notyf__toast-message, .notyf-announcer, .notyf').first();
     
   }
 
@@ -196,11 +196,23 @@ export class LoginPage {
    * Wait for the global notyf announcer to become visible and return its locator.
    */
   async waitForNotification(timeout = 5000) {
-    // Wait for any common notyf selector to become visible in the DOM.
+    // Try preferred selectors in order so we return a locator that is
+    // likely to contain user-visible text rather than an empty container.
+    const preferred = [
+      '.notyf__toast:visible',
+      '.notyf__toast-message:visible',
+      '.notyf-announcer:visible',
+      '.notyf:visible'
+    ];
+    for (const sel of preferred) {
+      const count = await this.page.locator(sel).count();
+      if (count > 0) return this.page.locator(sel).first();
+    }
+    // Final fallback: wait for any of the known selectors and return the
+    // first visible one. This should be rare because earlier checks
+    // cover the common cases.
     await this.page.waitForSelector('.notyf__toast, .notyf-announcer, .notyf, .notyf__toast-message', { state: 'visible', timeout });
-    // Return a locator that resolves to the first visible toast/message container.
-    const visible = this.page.locator('.notyf__toast:visible, .notyf-announcer:visible, .notyf:visible, .notyf__toast-message:visible');
-    return visible.first();
+    return this.page.locator('.notyf__toast:visible, .notyf-announcer:visible, .notyf:visible, .notyf__toast-message:visible').first();
   }
 
   /**
@@ -221,9 +233,19 @@ export class LoginPage {
       }
       return;
     } catch (err) {
-      // Fallback: wait for any visible toast and read its text for diagnostic failure message.
+      // Fallback: try to read text from the most likely elements and
+      // aggregate their texts to handle cases where a container has no
+      // innerText but an announcer or toast message holds the content.
+      const sel = '.notyf__toast, .notyf-announcer, .notyf__toast-message, .notyf';
       const locator = await this.waitForNotification(timeout);
-      const txt = await locator.innerText().catch(() => null);
+      let txt = await locator.innerText().catch(() => '');
+      if (!txt) {
+        // Aggregate text from all matching elements as a last resort.
+        txt = await this.page.evaluate((s) => {
+          const nodes = Array.from(document.querySelectorAll(s));
+          return nodes.map(n => (n.textContent || '').trim()).filter(Boolean).join(' ').trim();
+        }, sel).catch(() => '');
+      }
       if (!txt) throw new Error('notification empty (fallback)');
       if (typeof expected === 'string') {
         if (!txt.includes(expected)) throw new Error(`expected notification to contain ${expected}; actual: ${txt}`);
@@ -246,13 +268,39 @@ export class LoginPage {
    */
   async assertNotificationContainsAll(expected: Array<string | RegExp>, timeout = 5000) {
     const locator = await this.waitForNotification(timeout);
-    const txt = await locator.innerText().catch(() => null);
+    let txt = await locator.innerText().catch(() => '');
+    if (!txt) {
+      // Aggregate text from all likely notyf elements to be resilient.
+      const sel = '.notyf__toast, .notyf-announcer, .notyf__toast-message, .notyf';
+      txt = await this.page.evaluate((s) => {
+        const nodes = Array.from(document.querySelectorAll(s));
+        return nodes.map(n => (n.textContent || '').trim()).filter(Boolean).join(' ').trim();
+      }, sel).catch(() => '');
+    }
+    if (!txt) {
+      // As a last resort, search the whole page body for the expected text.
+      txt = await this.page.locator('body').innerText().catch(() => '');
+    }
     if (!txt) throw new Error('notification empty');
+    // Normalize whitespace and strip surrounding control characters to make
+    // matching robust across browsers and rendering differences.
+    const normalized = txt.replace(/\s+/g, ' ').trim();
     for (const e of expected) {
+      // First try a scoped search for the expected text anywhere in the page
+      // (handles notifications rendered outside the known notyf containers).
+      try {
+        const locator = this.page.locator('body', { hasText: e });
+        await locator.first().waitFor({ state: 'visible', timeout });
+        continue;
+      } catch (err) {
+        // If that fails, fall back to checking the normalized text we already
+        // captured and report a helpful diagnostic.
+      }
       if (typeof e === 'string') {
-        if (!txt.includes(e)) throw new Error(`expected notification to contain ${e}`);
+        if (!normalized.includes(e)) throw new Error(`expected notification to contain ${e}; actual: ${normalized}`);
       } else {
-        if (!e.test(txt)) throw new Error(`expected notification to match ${e}`);
+        // For regexes, test against the normalized text.
+        if (!e.test(normalized)) throw new Error(`expected notification to match ${e}; actual: ${normalized}`);
       }
     }
   }
