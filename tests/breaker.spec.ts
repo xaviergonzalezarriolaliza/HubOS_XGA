@@ -11,7 +11,7 @@ test.describe('Breaker tests — try to break the app', () => {
     if (!BASE_URL) test.skip(true, 'BASE_URL not set in environment — skipping breaker tests');
   });
 
-  test.skip('XSS payload in name should not execute', async ({ page }) => {
+  test('XSS payload in name should not execute', async ({ page }) => {
     const lp = new LoginPage(page);
     await lp.goto(BASE_URL!);
     await lp.fillRoom(ROOM);
@@ -24,7 +24,7 @@ test.describe('Breaker tests — try to break the app', () => {
     await expect(page.locator('body')).toBeVisible();
   });
 
-  test.skip('SQL injection-like payload should not bypass auth', async ({ page }) => {
+  test('SQL injection-like payload should not bypass auth', async ({ page }) => {
     const lp = new LoginPage(page);
     await lp.goto(BASE_URL!);
     await lp.fillRoom("' OR '1'='1");
@@ -35,7 +35,7 @@ test.describe('Breaker tests — try to break the app', () => {
     await expect(lp.notyfAnnouncer).toBeVisible();
   });
 
-  test.skip('very long inputs do not crash the app', async ({ page }) => {
+  test('very long inputs do not crash the app', async ({ page }) => {
     const lp = new LoginPage(page);
     await lp.goto(BASE_URL!);
     const long = 'A'.repeat(20000);
@@ -46,7 +46,7 @@ test.describe('Breaker tests — try to break the app', () => {
     await expect(lp.notyfAnnouncer).toBeVisible();
   });
 
-  test.skip('unicode & emoji input handled safely', async ({ page }) => {
+  test('unicode & emoji input handled safely', async ({ page }) => {
     const lp = new LoginPage(page);
     await lp.goto(BASE_URL!);
     const unicode = '𠜎 😀 漢字 — тест — prueba';
@@ -57,7 +57,7 @@ test.describe('Breaker tests — try to break the app', () => {
     await expect(lp.notyfAnnouncer).toBeVisible();
   });
 
-  test.skip('null / control characters do not crash the app', async ({ page }) => {
+  test('null / control characters do not crash the app', async ({ page }) => {
     const lp = new LoginPage(page);
     await lp.goto(BASE_URL!);
     const ctrl = 'abc\u0000\u0001\u0002';
@@ -68,7 +68,7 @@ test.describe('Breaker tests — try to break the app', () => {
     await expect(lp.notyfAnnouncer).toBeVisible();
   });
 
-  test.skip('rapid repeated submits should not crash or hang', async ({ page }) => {
+  test('rapid repeated submits should not crash or hang', async ({ page }) => {
     const lp = new LoginPage(page);
     await lp.goto(BASE_URL!);
     await lp.fillRoom(ROOM);
