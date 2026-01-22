@@ -306,7 +306,9 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.login({ room: ROOM2, name: CORRECT_LOGIN4, mode: 'standard' });
     await expect(page).not.toHaveURL(url);
     // Recheck that login is successful and the correct room, name, and hotel are displayed
-    await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN4, 15000);
+    await  loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN4, 15000);
   });
 
-});
+
+
+});  
