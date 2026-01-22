@@ -121,34 +121,34 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.assertNotificationContains(/no.*res.*:/i);
   });
 
-  test.skip("should show error for empty fields (A)", async ({ page }) => {
+  test("should show error for empty fields (A)", async ({ page }) => {
     await loginPage.loginButton.click();
     await expect(page).toHaveURL(url); // Assert that URL remains unchanged if fields are empty
     await loginPage.assertNotificationVisible();
     await loginPage.assertNotificationContains(/intro/i); // Assert error message: missing input
   });
 
-  test.skip("should show error for empty fields (B)", async ({ page }) => {
+  test("should show error for empty fields (B)", async ({ page }) => {
     await loginPage.loginButton.click();
     await loginPage.assertNotificationContains(/intro/i); // Assert error message: missing input
   });
 
-  test.skip("should show error for special characters in room (A)", async ({ page }) => {
+  test("should show error for special characters in room (A)", async ({ page }) => {
     await loginPage.login({ room: "@#!", name: CORRECT_LOGIN4, mode: 'standard' });
     await loginPage.assertNotificationVisible();
   });
 
-  test.skip("should show error for special characters in room (B)", async ({ page }) => {
+  test("should show error for special characters in room (B)", async ({ page }) => {
     await loginPage.login({ room: "@#!", name: CORRECT_LOGIN4, mode: 'fandb' });
     await loginPage.assertNotificationContains(/no.*res.*:/i);
   });
 
-  test.skip("should show error for special characters in surname (A)", async ({ page }) => {
+  test("should show error for special characters in surname (A)", async ({ page }) => {
     await loginPage.login({ room: ROOM, name: "D@foe", mode: 'standard' });
     await loginPage.assertNotificationVisible();
   });
 
-  test.skip("should show error for special characters in surname (B)", async ({ page }) => {
+  test("should show error for special characters in surname (B)", async ({ page }) => {
     await loginPage.login({ room: ROOM, name: "D@foe", mode: 'fandb' });
     await loginPage.assertNotificationContains(/no.*res.*:/i);
   });
@@ -156,19 +156,19 @@ test.describe("Guest in Touch Login", () => {
   
 
   // --- migrated to POM helpers ---
-  test.skip("should show error for very long room number (A)", async ({ page }) => {
+  test("should show error for very long room number (A)", async ({ page }) => {
     await loginPage.login({ room: "0".repeat(50), name: CORRECT_LOGIN4, mode: 'standard' });
     await expect(page).toHaveURL(url);
     await loginPage.assertNotificationVisible();
     await loginPage.assertNotificationContains(/no.*res.*:/i);
   });
 
-  test.skip("should show error for very long room number (B)", async ({ page }) => {
+  test("should show error for very long room number (B)", async ({ page }) => {
     await loginPage.login({ room: "0".repeat(50), name: CORRECT_LOGIN4, mode: 'fandb' });
     await loginPage.assertNotificationContains(/no.*res.*:/i);
   });
 
-  test.skip("should show error for very long surname (A)", async ({ page }) => {
+  test("should show error for very long surname (A)", async ({ page }) => {
     const longName = (CORRECT_LOGIN4).repeat(100);
     await loginPage.login({ room: ROOM, name: longName, mode: 'standard' });
     await expect(page).toHaveURL(url); // Assert that URL remains unchanged for very long surname
@@ -176,7 +176,7 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.assertNotificationContains(/no.*res.*:/i); // Assert error message: no reservation for very long surname
   });
 
-  test.skip("should show error for very long surname (B)", async ({ page }) => {
+  test("should show error for very long surname (B)", async ({ page }) => {
     const veryLong = (CORRECT_LOGIN4).repeat(1000);
     await loginPage.login({ room: ROOM, name: veryLong, mode: 'fandb' });
     await expect(page).toHaveURL(url);
@@ -185,38 +185,38 @@ test.describe("Guest in Touch Login", () => {
   });
 
 
-  test.skip("should show error for whitespace in room and surname (A)", async ({
+  test("should show error for whitespace in room and surname (A)", async ({
     page,
   }) => {
     await loginPage.login({ room: ` ${ROOM} `, name: ` ${CORRECT_LOGIN4} `, mode: 'standard' });
     await loginPage.assertNotificationVisible(); // Assert error message: no reservation for room and surname with whitespace
   });
 
-  test.skip("should show error for whitespace in room and surname (B)", async ({
+  test("should show error for whitespace in room and surname (B)", async ({
     page,
   }) => {
     await loginPage.login({ room: ` ${ROOM} `, name: ` ${CORRECT_LOGIN4} `, mode: 'fandb' });
     await loginPage.assertNotificationContains(/no.*res.*:/i);
   });
 
-  test.skip("should show error when only room is filled (A)", async ({ page }) => {
+  test("should show error when only room is filled (A)", async ({ page }) => {
     await loginPage.login({ room: ROOM, name: "", mode: 'standard' });
     await loginPage.assertNotificationVisible(); // Assert error message: missing surname
   });
 
-  test.skip("should show error when only room is filled (B)", async ({ page }) => {
+  test("should show error when only room is filled (B)", async ({ page }) => {
     await loginPage.login({ room: ROOM, name: "", mode: 'fandb' });
     await loginPage.assertNotificationContains(/intro/i); // Assert error message: missing surname
   });
 
-  test.skip("should show error when only surname is filled (A)", async ({
+  test("should show error when only surname is filled (A)", async ({
     page,
   }) => {
     await loginPage.login({ room: "", name: CORRECT_LOGIN4, mode: 'standard' });
     await expect(page).toHaveURL(url); // Assert that URL remains unchanged if only surname is filled
   });
 
-  test.skip("should show error when only surname is filled (B)", async ({
+  test("should show error when only surname is filled (B)", async ({
     page,
   }) => {
     await loginPage.login({ room: "", name: CORRECT_LOGIN4, mode: 'fandb' });
@@ -224,14 +224,14 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.assertNotificationContains(/intro/i); // Assert error message: missing room number
   });
 
-  test.skip("should not login with extra trailing zero in room number (A)", async ({
+  test("should not login with extra trailing zero in room number (A)", async ({
     page,
   }) => {
     await loginPage.login({ room: ROOM + "0", name: CORRECT_LOGIN4, mode: 'standard' });
     await loginPage.assertNotificationContainsAll([/no.*res.*:/i, CORRECT_LOGIN4, ROOM + "0"]); // Assert error message: no reservation for room with extra trailing zero
   });
 
-  test.skip("should not login with extra trailing zero in room number (B)", async ({
+  test("should not login with extra trailing zero in room number (B)", async ({
     page,
   }) => {
     const loginPage = new LoginPage(page);
@@ -240,7 +240,7 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.assertNotificationContainsAll([/no.*res.*:/i, CORRECT_LOGIN4, ROOM + "0"]); // Assert error message: no reservation for room with extra trailing zero
   });
 
-  test.skip("should not login with double leading zero in room number (A)", async ({
+  test("should not login with double leading zero in room number (A)", async ({
     page,
   }) => {
     await loginPage.login({ room: WRONG_ROOM, name: CORRECT_LOGIN4, mode: 'standard' });
@@ -248,7 +248,7 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.assertNotificationContainsAll([/no.*res.*:/i, CORRECT_LOGIN4, WRONG_ROOM]); // Assert error message: no reservation for room with double leading zero
   });
 
-  test.skip("should not login with double leading zero in room number (B)", async ({
+  test("should not login with double leading zero in room number (B)", async ({
     page,
   }) => {
     const loginPage = new LoginPage(page);
@@ -258,7 +258,7 @@ test.describe("Guest in Touch Login", () => {
   });
 
   // --- SECURITY PROOF TESTS
-  test.skip("should (not) allow login with partial name for room 440 (security proof)", async ({
+  test("should (not) allow login with partial name for room 440 (security proof)", async ({
     page,
   }) => {
     // Security proof: This test currently passes due to a vulnerability. If it fails in the future, the vulnerability has been fixed (expected behavior).
@@ -266,7 +266,7 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.assertLoggedIn(ROOM2, PARTIAL_LOGIN, 15000, 'fandb');
   });
 
-  test.skip("should (not) allow login with partial name for room 0440 (security proof)", async ({
+  test("should (not) allow login with partial name for room 0440 (security proof)", async ({
     page,
   }) => {
     // Security proof: This test currently passes due to a vulnerability. If it fails in the future, the vulnerability has been fixed (expected behavior).
@@ -274,35 +274,35 @@ test.describe("Guest in Touch Login", () => {
     await loginPage.assertLoggedIn(ROOM, PARTIAL_LOGIN3, 15000, 'fandb');
   });
 
-  test.skip('should login with full name Willem Dafoe (0440) (A)', async ({ page }) => {
+  test('should login with full name Willem Dafoe (0440) (A)', async ({ page }) => {
     await loginPage.login({ room: ROOM, name: CORRECT_LOGIN4, mode: 'standard' });
     await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN4, 15000);
   });
 
-  test.skip('should login with full name Willem Dafoe (0440) (B)', async ({ page }) => {
+  test('should login with full name Willem Dafoe (0440) (B)', async ({ page }) => {
     await loginPage.login({ room: ROOM, name: CORRECT_LOGIN4, mode: 'fandb' });
     await expect(page).not.toHaveURL(url);
     // Recheck that login is successful and the correct room, name, and hotel are displayed
     await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN4, 15000, 'fandb');
   });
 
-  test.skip('should login with full name Willem Dafoe (440) (A)', async ({ page }) => {
+  test('should login with full name Willem Dafoe (440) (A)', async ({ page }) => {
     await loginPage.login({ room: ROOM2, name: CORRECT_LOGIN4, mode: 'standard' });
     await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN4, 15000);
   });
 
-  test.skip('should login with full name Willem Dafoe (440) (B)', async ({ page }) => {
+  test('should login with full name Willem Dafoe (440) (B)', async ({ page }) => {
     await loginPage.login({ room: ROOM2, name: CORRECT_LOGIN4, mode: 'fandb', assertRoom: true });
     await loginPage.assertLoggedIn(ROOM2, CORRECT_LOGIN, 15000, 'fandb');
   });
 
-  test.skip('should login with full name Willem Dafoe (0440)', async ({ page }) => {
+  test('should login with full name Willem Dafoe (0440)', async ({ page }) => {
     await loginPage.login({ room: ROOM, name: CORRECT_LOGIN4, mode: 'fandb' });
     // Recheck that login is successful and the correct room, name, and hotel are displayed
     await loginPage.assertLoggedIn(ROOM, CORRECT_LOGIN4, 15000, 'fandb');
   });
 
-  test.skip('should login with full name Willem Dafoe (440)', async ({ page }) => {
+  test('should login with full name Willem Dafoe (440)', async ({ page }) => {
     await loginPage.login({ room: ROOM2, name: CORRECT_LOGIN4, mode: 'standard' });
     await expect(page).not.toHaveURL(url);
     // Recheck that login is successful and the correct room, name, and hotel are displayed
