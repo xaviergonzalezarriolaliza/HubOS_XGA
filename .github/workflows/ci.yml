@@ -2,11 +2,17 @@ name: CI - Tests
 
 on:
   push:
-    branches: [ main ]
+    paths:
+      - '**/*.ts'
+      - 'tests/**/*.ts'
+      - 'playwright.config.ts'
     paths-ignore:
       - 'tests/legacy_disabled/**'
   pull_request:
-    branches: [ main ]
+    paths:
+      - '**/*.ts'
+      - 'tests/**/*.ts'
+      - 'playwright.config.ts'
     paths-ignore:
       - 'tests/legacy_disabled/**'
 
