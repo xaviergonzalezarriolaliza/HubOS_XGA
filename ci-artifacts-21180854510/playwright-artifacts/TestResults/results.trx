@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="f271c8b6-ef1e-47da-88cb-1667806b2c92" name="@runnervmmtnos 2026-01-20 17:22:09" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-01-20T17:22:09.8925400+00:00" queuing="2026-01-20T17:22:09.8925401+00:00" start="2026-01-20T17:22:07.9756665+00:00" finish="2026-01-20T17:22:11.8088367+00:00" />
+  <TestSettings name="default" id="bd83e50f-217f-4b9d-99ce-c9c20f39a65e">
+    <Deployment runDeploymentRoot="_runnervmmtnos_2026-01-20_17_22_09" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="6ebfce7a-e17a-420c-a512-2f956947e0ae" testId="a20c1064-66f0-b6fd-5eb0-31b66b2af688" testName="Test1" computerName="runnervmmtnos" duration="00:00:00.0207840" startTime="2026-01-20T17:22:08.5088198+00:00" endTime="2026-01-20T17:22:08.5295551+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6ebfce7a-e17a-420c-a512-2f956947e0ae" />
+    <UnitTestResult executionId="0ddb6f3e-fd0d-4fb2-9557-ceb0d88178df" testId="a0b1f244-deaa-3f77-5611-f7013e7d1211" testName="NavigateRedirectAndCheckStatusCodes" computerName="runnervmmtnos" duration="00:00:01.0790709" startTime="2026-01-20T17:22:10.6345445+00:00" endTime="2026-01-20T17:22:11.7136154+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0ddb6f3e-fd0d-4fb2-9557-ceb0d88178df">
+      <Output>
+        <StdOut>title: The Internet
+redirector_heading: Redirection
+codes: 200,301,404,500
+content length: 153</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="NavigateRedirectAndCheckStatusCodes" storage="/home/runner/work/hubos_xga/hubos_xga/tests/dotnet-playwright-tests/bin/release/net8.0/dotnet-playwright-tests.dll" id="a0b1f244-deaa-3f77-5611-f7013e7d1211">
+      <Execution id="0ddb6f3e-fd0d-4fb2-9557-ceb0d88178df" />
+      <TestMethod codeBase="/home/runner/work/HubOS_XGA/HubOS_XGA/tests/dotnet-playwright-tests/bin/Release/net8.0/dotnet-playwright-tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="HubOS_XGA.Tests.MainTests2" name="NavigateRedirectAndCheckStatusCodes" />
+    </UnitTest>
+    <UnitTest name="Test1" storage="/home/runner/work/hubos_xga/hubos_xga/tests/dotnet-playwright-tests/bin/release/net8.0/dotnet-playwright-tests.dll" id="a20c1064-66f0-b6fd-5eb0-31b66b2af688">
+      <Execution id="6ebfce7a-e17a-420c-a512-2f956947e0ae" />
+      <TestMethod codeBase="/home/runner/work/HubOS_XGA/HubOS_XGA/tests/dotnet-playwright-tests/bin/Release/net8.0/dotnet-playwright-tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="dotnet_playwright_tests.Tests" name="Test1" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="a20c1064-66f0-b6fd-5eb0-31b66b2af688" executionId="6ebfce7a-e17a-420c-a512-2f956947e0ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a0b1f244-deaa-3f77-5611-f7013e7d1211" executionId="0ddb6f3e-fd0d-4fb2-9557-ceb0d88178df" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="2" executed="2" passed="2" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>NUnit Adapter 5.0.0.0: Test execution started
+Running all tests in /home/runner/work/HubOS_XGA/HubOS_XGA/tests/dotnet-playwright-tests/bin/Release/net8.0/dotnet-playwright-tests.dll
+   NUnit3TestExecutor discovered 2 of 2 NUnit test cases using Current Discovery mode, Non-Explicit run
+title: The Internet
+redirector_heading: Redirection
+codes: 200,301,404,500
+content length: 153
+
+NUnit Adapter 5.0.0.0: Test execution complete
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>
