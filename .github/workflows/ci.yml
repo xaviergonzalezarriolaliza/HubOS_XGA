@@ -6,15 +6,13 @@ on:
       - '**/*.ts'
       - 'tests/**/*.ts'
       - 'playwright.config.ts'
-    paths-ignore:
-      - 'tests/legacy_disabled/**'
+      - '!tests/legacy_disabled/**'
   pull_request:
     paths:
       - '**/*.ts'
       - 'tests/**/*.ts'
       - 'playwright.config.ts'
-    paths-ignore:
-      - 'tests/legacy_disabled/**'
+      - '!tests/legacy_disabled/**'
 
 jobs:
   ts-tests:
