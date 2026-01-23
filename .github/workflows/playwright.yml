@@ -6,15 +6,13 @@ on:
       - '**/*.ts'
       - 'tests/**/*.ts'
       - 'playwright.config.ts'
-    paths-ignore:
-      - 'tests/legacy_disabled/**'
+      - '!tests/legacy_disabled/**'
   pull_request:
     paths:
       - '**/*.ts'
       - 'tests/**/*.ts'
       - 'playwright.config.ts'
-    paths-ignore:
-      - 'tests/legacy_disabled/**'
+      - '!tests/legacy_disabled/**'
   workflow_dispatch: {}
 
 jobs:
@@ -95,7 +93,7 @@ jobs:
           fi
 
       - name: Upload latest Playwright report artifact (zip)
-        if: ${{ env.SKIP_ARTIFACTS != 'true' }}
+        if: always()
         continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
@@ -117,7 +115,7 @@ jobs:
           fi
 
       - name: Upload Playwright report artifact (zip)
-        if: ${{ env.SKIP_ARTIFACTS != 'true' }}
+        if: ${{ always() && env.SKIP_ARTIFACTS != 'true' }}
         continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
