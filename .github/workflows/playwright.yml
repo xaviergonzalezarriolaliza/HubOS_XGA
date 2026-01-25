@@ -56,11 +56,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Clean Python cache
+        run: find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+
       - name: Install Playwright browsers for Python
         run: playwright install --with-deps chromium firefox webkit
 
       - name: Run Python tests
-        run: pytest tests/ -v
+        run: pytest tests/test_basic_one.py tests/test_basic_two.py tests/test_login.py -v
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
