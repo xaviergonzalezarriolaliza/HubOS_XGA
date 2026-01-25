@@ -4,14 +4,20 @@ on:
   push:
     paths:
       - '**/*.ts'
+      - '**/*.py'
       - 'tests/**/*.ts'
+      - 'tests/**/*.py'
       - 'playwright.config.ts'
+      - 'requirements.txt'
       - '!tests/legacy_disabled/**'
   pull_request:
     paths:
       - '**/*.ts'
+      - '**/*.py'
       - 'tests/**/*.ts'
+      - 'tests/**/*.py'
       - 'playwright.config.ts'
+      - 'requirements.txt'
       - '!tests/legacy_disabled/**'
   workflow_dispatch: {}
 
@@ -40,7 +46,18 @@ jobs:
           echo 'PARTIAL_LOGIN="Daf"' >> .env
           echo 'PARTIAL_LOGIN2="Wil"' >> .env
 
-      # Python tests removed: we only run Playwright TypeScript tests in CI
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Python tests
+        run: pytest tests/ -v
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

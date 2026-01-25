@@ -1,4 +1,3 @@
-import pytest
-
-pytest.skip("moved to tests/legacy_disabled/test_basic_two.py", allow_module_level=True)
+def test_substring():
+    assert "Hub" in "HubOS_XGA"
 

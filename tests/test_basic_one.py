@@ -1,4 +1,3 @@
-import pytest
-
-pytest.skip("moved to tests/legacy_disabled/test_basic_one.py", allow_module_level=True)
+def test_addition():
+    assert 1 + 1 == 2
 
