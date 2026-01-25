@@ -9,6 +9,7 @@ on:
       - 'tests/**/*.py'
       - 'playwright.config.ts'
       - 'requirements.txt'
+      - '.github/workflows/playwright.yml'
       - '!tests/legacy_disabled/**'
   pull_request:
     paths:
@@ -18,6 +19,7 @@ on:
       - 'tests/**/*.py'
       - 'playwright.config.ts'
       - 'requirements.txt'
+      - '.github/workflows/playwright.yml'
       - '!tests/legacy_disabled/**'
   workflow_dispatch: {}
 
