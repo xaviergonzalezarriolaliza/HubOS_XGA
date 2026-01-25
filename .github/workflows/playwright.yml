@@ -65,7 +65,16 @@ jobs:
         run: playwright install --with-deps chromium firefox webkit
 
       - name: Run Python tests
-        run: pytest tests/test_basic_one.py tests/test_basic_two.py tests/test_login.py -v
+        run: pytest tests/test_basic_one.py tests/test_basic_two.py tests/test_login.py -v --html=pytest-report/report.html --self-contained-html
+
+      - name: Upload pytest HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-html-report
+          path: pytest-report/
+          retention-days: 7
+          if-no-files-found: warn
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

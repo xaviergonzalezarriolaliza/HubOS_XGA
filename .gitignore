@@ -29,6 +29,7 @@ wheels/
 .installed.cfg
 *.egg
 .pytest_cache/
+pytest-report/
 
 ## Playwright / browsers / node artifacts
 .playwright/
